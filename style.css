@@ -112,11 +112,11 @@ footer {
 
 .band-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  justify-content: center; /* center last row if only 2 images */
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 2rem;
   max-width: 1000px;
   margin: 0 auto;
-  justify-content: center; /* center last row if only 2 images */
 }
 
 /* Responsive grid: 3 on desktop, 2 on tablet, 1 on phone */
@@ -136,7 +136,6 @@ footer {
   }
 }
 
-/* ==== MEMBER CARDS ==== */
 .member-card {
   text-align: center;
   background: #222;
@@ -147,7 +146,7 @@ footer {
 
 .member-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 25px #FF0000;
+  box-shadow: 0 10px 25px rgba(255, 77, 77, 0.2);
 }
 
 /* ==== BAND PHOTOS: RESPONSIVE & CIRCULAR ==== */
@@ -157,7 +156,7 @@ footer {
   aspect-ratio: 1 / 1;     /* keep square */
   object-fit: cover;
   border-radius: 50%;
-  border: 3px solid #111;
+  border: 3px solid #ff4d4d;
   margin: 0 auto 1rem;
   display: block;
 }
@@ -171,7 +170,7 @@ footer {
 .member-card h3 {
   font-family: 'Roboto Slab', serif;
   font-size: 1.5rem;
-  color: #ccc;
+  color: #ff4d4d;
   margin-bottom: 0.5rem;
 }
 
