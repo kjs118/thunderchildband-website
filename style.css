@@ -146,7 +146,7 @@ footer {
 
 .member-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(255, 77, 77, 0.2);
+  box-shadow: 0 10px 25px #ff0000;
 }
 
 /* ==== BAND PHOTOS: RESPONSIVE & CIRCULAR ==== */
@@ -156,7 +156,7 @@ footer {
   aspect-ratio: 1 / 1;     /* keep square */
   object-fit: cover;
   border-radius: 50%;
-  border: 3px solid #ff4d4d;
+  border: 3px solid #000;
   margin: 0 auto 1rem;
   display: block;
 }
@@ -170,7 +170,7 @@ footer {
 .member-card h3 {
   font-family: 'Roboto Slab', serif;
   font-size: 1.5rem;
-  color: #ff4d4d;
+  color: #ccc;
   margin-bottom: 0.5rem;
 }
 
