@@ -19,7 +19,7 @@ header {
 header img.logo {
   width: auto;
   height: 100px;
-  max-width: 90%;
+  max-width: 500px;
 }
 
 #shows {
