@@ -118,6 +118,18 @@ footer {
   margin: 0 auto;
   justify-content: center; /* center last row if only 2 images */
 }
+/* 2 columns on tablet */
+@media (min-width: 481px) and (max-width: 768px) {
+  .band-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* 1 column on mobile */
+@media (max-width: 480px) {
+  .band-grid {
+    grid-template-columns: 1fr;
+  }
 
 /* Responsive grid: 3 on desktop, 2 on tablet, 1 on phone */
 @media (max-width: 480px) {
