@@ -112,11 +112,11 @@ footer {
 
 .band-grid {
   display: grid;
-  justify-content: center; /* center last row if only 2 images */
-  grid-template-columns: repeat(auto-fill, minmax(250px, max-content));
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 2rem;
   max-width: 1000px;
   margin: 0 auto;
+  justify-content: center; /* center last row if only 2 images */
 }
 
 /* Responsive grid: 3 on desktop, 2 on tablet, 1 on phone */
