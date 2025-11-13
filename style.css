@@ -110,7 +110,7 @@ footer {
   padding: 3rem 1rem;
 }
 
-/* .band-grid {
+ .band-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 2rem;
@@ -146,47 +146,8 @@ footer {
   transition: transform 0.3s ease;
   width: max-content; /* shrink-wrap to content */
   max-width: 180px;   /* match photo width */
-}*/
-.band-row {
-  display: flex;
-  justify-content: center;   /* centers the row horizontally */
-  gap: 2rem;                 /* spacing between cards */
-  flex-wrap: wrap;           /* allows wrapping on smaller screens */
-  margin-bottom: 2rem;
 }
 
-.member-card {
-  background: #222;
-  border-radius: 8px;
-  padding: 1.5rem;
-  text-align: center;
-  width: 180px;             /* fixed width to match photo */
-  box-sizing: border-box;
-}
-
-.member-photo {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-  border-radius: 50%;
-  border: 3px solid #111;
-  margin-bottom: 1rem;
-  display: block;
-}
-
-/* Tablet: 2 per row */
-@media (max-width: 768px) {
-  .member-card {
-    width: 45%; /* two per row */
-  }
-}
-
-/* Mobile: 1 per row */
-@media (max-width: 480px) {
-  .member-card {
-    width: 80%; /* single column */
-  }
-}
 
 
 .member-card {
