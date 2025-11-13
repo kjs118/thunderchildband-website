@@ -169,4 +169,30 @@ footer {
   transform: translateY(-5px);
   box-shadow: 0 10px 25px rgba(255, 77, 77, 0.2);
 }
+  /* ———————————————————————————————
+   FIX: RESPONSIVE BAND PHOTOS
+   ——————————————————————————————— */
+.member-photo {
+  width: 100% !important;           /* Fill card width */
+  max-width: 180px !important;      /* Never grow beyond 180px */
+  height: 180px !important;         /* Fixed height */
+  object-fit: cover;                /* Crop cleanly */
+  border-radius: 50%;
+  border: 3px solid #ff4d4d;
+  margin: 0 auto 1rem;
+  display: block;
+}
+
+/* Prevent any image from breaking layout */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Stop horizontal scroll on mobile */
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+}
 }
