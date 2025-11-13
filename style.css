@@ -81,5 +81,54 @@ footer {
   .flex-row { flex-direction: column; }
   .col { max-width: 100%; }
 }
+/* ==== MEET THE BAND ==== */
+#band { background: #1a1a1a; } /* Subtle dark bg for contrast */
+.band-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.member-card {
+  text-align: center;
+  background: #222;
+  border-radius: 8px;
+  padding: 1.5rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.member-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(255, 77, 77, 0.2); /* Subtle red glow on hover */
+}
+.member-card img {
+  width: 100%;
+  max-width: 200px;
+  height: auto;
+  border-radius: 50%; /* Circular crop for headshots */
+  margin-bottom: 1rem;
+  border: 3px solid #ff4d4d; /* Red border to match your theme */
+}
+.member-card h3 {
+  font-family: 'Roboto Slab', serif;
+  font-size: 1.5rem;
+  color: #ff4d4d;
+  margin-bottom: 0.5rem;
+}
+.member-card p {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #ccc;
+}
 
+/* Responsive: 1 col on tiny screens, 2 on mobile, 3+ on larger */
+@media (max-width: 480px) {
+  .band-grid { grid-template-columns: 1fr; }
+}
+@media (min-width: 481px) and (max-width: 768px) {
+  .band-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 769px) {
+  .band-grid { grid-template-columns: repeat(3, 1fr); }
+}
 }
