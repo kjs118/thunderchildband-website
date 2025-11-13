@@ -17,8 +17,9 @@ header {
 }
 
 header img.logo {
-  max-width: 80%;
-  height: auto;
+  width: auto;
+  height: 100px;
+  max-width: 90%;
 }
 
 #shows {
