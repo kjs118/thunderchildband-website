@@ -5,105 +5,112 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Thunder Child Band</title>
   <link rel="stylesheet" href="style.css">
-  <style>
-    /* Removes bullets and centers upcoming shows */
-    #shows ul {
-      list-style-type: none;  /* removes bullets */
-      padding: 0;             /* removes default left padding */
-      margin: 0 auto;         /* centers the list container */
-      text-align: center;     /* centers text of each item */
-    }
-
-    #shows li {
-      margin-bottom: 1em;     /* space between shows */
-      font-size: 1.2em;       /* slightly larger text */
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto+Slab&display=swap" rel="stylesheet">
 </head>
 <body>
- <header>
-  <img src="images/thunderchild2.png" alt="Thunder Child Band logo" class="logo">
 
-</header>
+  <!-- ====================== HEADER ====================== -->
+  <header class="hero">
+    <img src="images/thunderchild2.png" alt="Thunder Child Band logo" class="logo">
+    <h1>Thunder Child</h1>
+    <p>Hard-hitting classic rock – Lafayette, LA</p>
+  </header>
 
-<!-- ====================== SHOWS + INSTAGRAM (side-by-side) ====================== -->
-<section class="flex-row">
-  <!-- UPCOMING SHOWS -->
-  <div class="col" id="shows">
-    <h2>Upcoming Shows</h2>
-    <ul class="show-list">
-      <li>January 18, 2026 – Gloria's, Lafayette, LA</li>
-      <li>May 2, 2026 – Legends Pub, Lafayette, LA</li>
+  <!-- ====================== NAV ====================== -->
+  <nav class="sticky">
+    <ul>
+      <li><a href="#shows">Shows</a></li>
+      <li><a href="#photos">Instagram</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#band">Band</a></li>
+      <li><a href="#contact">Contact</a></li>
     </ul>
-  </div>
+  </nav>
 
-  <!-- INSTAGRAM FEED -->
-  <div class="col" id="photos">
-    <h2>Instagram Feed</h2>
-    <div class="insta-embed">
-      <iframe src="https://www.instagram.com/thunderchildband/embed/"
-              width="400" height="480" frameborder="0"></iframe>
+  <!-- ====================== SHOWS + INSTAGRAM ====================== -->
+  <section class="flex-row section">
+    <!-- UPCOMING SHOWS -->
+    <div class="col" id="shows">
+      <h2>Upcoming Shows</h2>
+      <ul class="show-list">
+        <li>January 18, 2026 – Gloria's, Lafayette, LA</li>
+        <li>May 2, 2026 –ominator Legends Pub, Lafayette, LA</li>
+      </ul>
     </div>
-  </div>
-</section>
 
-<section id="about">
-    <h2>About</h2>
-   <p>Thunder Child is taking Lafayatte by storm with hard-hitting classic rock. </p>
-    <p></p>
+    <!-- INSTAGRAM FEED -->
+    <div class="col" id="photos">
+      <h2>Instagram Feed</h2>
+      <div class="insta-embed">
+        <iframe src="https+://www.instagram.com/thunderchildband/embed/"
+                width="400" height="480" frameborder="0"></iframe>
+      </div>
+    </div>
   </section>
+
+  <!-- ====================== ABOUT ====================== -->
+  <section id="about" class="section">
+    <h2>About</h2>
+    <p>Thunder Child is taking Lafayette by storm with hard-hitting classic rock.</p>
+  </section>
+
   <!-- ====================== MEET THE BAND ====================== -->
-<section id="band" class="section">
-  <h2>Meet the Band</h2>
-  <div class="band-grid">
-    <!-- Member 1 -->
-    <div class="member-card">
-      <img src="images/abi.JPEG" alt="Abi Clair - Vocals">
-      <h3>Abi Clair</h3>
-      <p>Lead vocals</p>
-    </div>
+  <section id="band" class="section">
+    <h2>Meet the Band</h2>
+    <div class="band-grid">
+      <!-- Member 1 -->
+      <div class="member-card">
+        <img src="images/abi.JPEG" alt="Abi Clair - Vocals" class="member-photo">
+        <h3>Abi Clair</h3>
+        <p>Vocals</p>
+      </div>
 
-    <!-- Member 2 -->
-    <div class="member-card">
-      <img src="images/keith.jpg" alt="Keith Stewart - Guitar">
-      <h3>Keith Stewart</h3>
-      <p>Guitar</p>
-    </div>
+      <!-- Member 2 -->
+      <div class="member-card">
+        <img src="images/keith.jpg" alt="Keith Stewart - Guitar" class="member-photo">
+        <h3>Keith Stewart</h3>
+        <p>Guitar</p>
+      </div>
 
-    <!-- Member 3 -->
-    <div class="member-card">
-      <img src="images/member3.jpg" alt="Jared Crenshaw - Guitar">
-      <h3>Jared Crenshaw</h3>
-      <p>Guitar</p>
-    </div>
+      <!-- Member 3 -->
+      <div class="member-card">
+        <img src="images/member3.jpg" alt="Jared Crenshaw - Guitar" class="member-photo">
+        <h3>Jared Crenshaw</h3>
+        <p>Guitar</p>
+      </div>
 
-    <!-- Member 4 -->
-    <div class="member-card">
-      <img src="images/member4.jpg" alt="Alex Pipkins - Bass">
-      <h3>Alex Pipkins</h3>
-      <p>Bass</p>
-    </div>
+      <!-- Member 4 -->
+      <div class="member-card">
+        <img src="images/member4.jpg" alt="Alex Pipkins - Bass" class="member-photo">
+        <h3>Alex Pipkins</h3>
+        <p>Bass</p>
+      </div>
 
-    <!-- Member 5 -->
-    <div class="member-card">
-      <img src="images/member5.jpg" alt="Austin Pierre - Drums">
-      <h3>Austin Pierre</h3>
-      <p>Drums</p>
+      <!-- Member 5 -->
+      <div class="member-card">
+        <img src="images/member5.jpg" alt="Austin Pierre - Drums" class="member-photo">
+        <h3>Austin Pierre</h3>
+        <p>Drums</p>
+      </div>
     </div>
-  </div>
-</section>
-  <section id="contact">
+  </section>
+
+  <!-- ====================== CONTACT ====================== -->
+  <section id="contact" class="section">
     <h2>Contact & Booking</h2>
-   <!-- <p>Email: <a href="mailto:bandemail@example.com">bandemail@example.com</a></p>
-    -->
-    <p>Follow us on 
-      <a href="https://instagram.com/thunderchildband">Instagram</a> and 
-      <a href="https://facebook.com/thunderchildbandLA">Facebook</a>
+    <p>Follow us on
+      <a href="https://instagram.com/thunderchildband" target="_blank">Instagram</a> and
+      <a href="https://facebook.com/thunderchildbandLA" target="_blank">Facebook</a>
     </p>
   </section>
 
+  <!-- ====================== FOOTER ====================== -->
   <footer>
-    <p>© 2025 Thunder Child Band</p>
+    <p>© <span id="year"></span> Thunder Child Band – All Rights Reserved</p>
   </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
