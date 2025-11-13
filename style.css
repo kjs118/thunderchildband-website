@@ -156,7 +156,7 @@ footer {
   aspect-ratio: 1 / 1;     /* keep square */
   object-fit: cover;
   border-radius: 50%;
-  border: 3px solid #ff4d4d;
+  border: 3px solid #111;
   margin: 0 auto 1rem;
   display: block;
 }
