@@ -138,26 +138,38 @@ footer {
 }*/
 .band-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 columns on desktop */
+  grid-template-columns: repeat(3, auto); /* columns shrink to fit content */
   gap: 2rem;
   max-width: 1000px;
   margin: 0 auto;
-  justify-items: center; /* centers each card in its column */
+  justify-content: center; /* centers the whole grid */
+  justify-items: center;   /* centers each item in its column */
 }
 
 /* Tablet: 2 columns */
 @media (min-width: 481px) and (max-width: 768px) {
   .band-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, auto);
   }
 }
 
 /* Mobile: 1 column */
 @media (max-width: 480px) {
   .band-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr; /* full width on mobile */
   }
 }
+
+.member-card {
+  text-align: center;
+  background: #222;
+  border-radius: 8px;
+  padding: 1.5rem;
+  transition: transform 0.3s ease;
+  width: auto;           /* shrink-wrap to content */
+  max-width: 180px;      /* match photo width */
+}
+
 
 .member-card {
   text-align: center;
