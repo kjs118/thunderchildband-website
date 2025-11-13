@@ -148,7 +148,7 @@ footer {
 
 .member-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(255, 77, 77, 0.2);
+  box-shadow: 0 10px 25px #FF0000;
 }
 
 /* ==== BAND PHOTOS: RESPONSIVE & CIRCULAR ==== */
