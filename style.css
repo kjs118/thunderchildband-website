@@ -112,6 +112,7 @@ footer {
 
 .band-grid {
   display: grid;
+  justify-content: center; /* center last row if only 2 images */
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 2rem;
   max-width: 1000px;
@@ -148,16 +149,22 @@ footer {
   box-shadow: 0 10px 25px rgba(255, 77, 77, 0.2);
 }
 
-/* ==== BAND PHOTOS: FIXED 180×180px, NO OVERFLOW ==== */
+/* ==== BAND PHOTOS: RESPONSIVE & CIRCULAR ==== */
 .member-photo {
-  width: 180px !important;
-  height: 180px !important;
+  width: 100%;
+  max-width: 180px;        /* cap size on large screens */
+  aspect-ratio: 1 / 1;     /* keep square */
   object-fit: cover;
   border-radius: 50%;
   border: 3px solid #ff4d4d;
   margin: 0 auto 1rem;
   display: block;
-  flex-shrink: 0;
+}
+
+@media (max-width: 480px) {
+  .member-photo {
+    max-width: 140px; /* smaller on mobile */
+  }
 }
 
 .member-card h3 {
