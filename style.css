@@ -11,6 +11,23 @@ header {
   padding: 2em 0;
 }
 
+#shows {
+  padding: 2em 1em;
+  background-color: #fff;
+}
+
+#shows ul {
+  list-style-type: none;  /* removes bullets */
+  padding: 0;             /* removes default left padding */
+  margin: 0 auto;         /* centers the list container */
+  text-align: center;     /* centers text of each item */
+}
+
+#shows li {
+  margin-bottom: 1em;     /* space between shows */
+  font-size: 1.2em;       /* slightly larger text */
+}
+
 h1 {
   font-size: 2.5em;
 }
@@ -30,10 +47,6 @@ footer {
   padding: 1em;
   font-size: 0.8em;
 
-  #shows ul {
-  list-style-type: none;  /* removes bullets */
-  padding: 0;             /* removes default left padding */
-  margin: 0;              /* optional: removes default top/bottom margin */
-}
+  
 
 }
