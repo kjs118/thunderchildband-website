@@ -1,9 +1,19 @@
+/* ==== BASIC STYLES ==== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 body {
   font-family: Arial, sans-serif;
   background-color: #111;
   color: #eee;
   text-align: center;
   margin: 0;
+  overflow-x: hidden;
 }
 
 header {
@@ -13,8 +23,6 @@ header {
   justify-content: center;
   align-items: center;
   padding: 2em 1em;
-  max-height: 1000px;
-  box-sizing: border-box;
   text-align: center;
 }
 
@@ -24,27 +32,29 @@ header img.logo {
   max-width: 500px;
 }
 
+h1 {
+  font-size: 2.5em;
+}
+
+/* ==== SHOWS ==== */
 #shows {
   padding: 2em 1em;
   background-color: #111;
 }
 
 #shows ul {
-  list-style-type: none;  /* removes bullets */
-  padding: 0;             /* removes default left padding */
-  margin: 0 auto;         /* centers the list container */
-  text-align: center;     /* centers text of each item */
+  list-style-type: none;
+  padding: 0;
+  margin: 0 auto;
+  text-align: center;
 }
 
 #shows li {
-  margin-bottom: 1em;     /* space between shows */
-  font-size: 1.2em;       /* slightly larger text */
+  margin-bottom: 1em;
+  font-size: 1.2em;
 }
 
-h1 {
-  font-size: 2.5em;
-}
-
+/* ==== GENERAL SECTIONS ==== */
 section {
   padding: 2em 0;
   border-bottom: 1px solid #333;
@@ -59,8 +69,9 @@ footer {
   background: #111;
   padding: 1em;
   font-size: 0.8em;
+}
 
-  /* ==== SIDE-BY-SIDE COLUMNS ==== */
+/* ==== SIDE-BY-SIDE COLUMNS (Shows + Instagram) ==== */
 .flex-row {
   display: flex;
   flex-wrap: wrap;
@@ -70,129 +81,69 @@ footer {
   max-width: 1200px;
   margin: 0 auto;
 }
+
 .col {
   flex: 1;
-  min-width: 280px;            /* prevents columns from getting too narrow */
+  min-width: 280px;
 }
-.col h2 { text-align: center; margin-bottom: 1rem; }
 
-/* Stack on small screens */
-@media (max-width: 768px) {
-  .flex-row { flex-direction: column; }
-  .col { max-width: 100%; }
+.col h2 {
+  text-align: center;
+  margin-bottom: 1rem;
 }
+
+/* Stack on mobile */
+@media (max-width: 768px) {
+  .flex-row {
+    flex-direction: column;
+  }
+  .col {
+    max-width: 100%;
+  }
+}
+
 /* ==== MEET THE BAND ==== */
-#band { background: #1a1a1a; } /* Subtle dark bg for contrast */
+#band {
+  background: #1a1a1a;
+  padding: 3rem 1rem;
+}
+
 .band-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2rem;
+  gap:262rem;
   max-width: 1000px;
   margin: 0 auto;
 }
+
+/* Responsive layout: 3 on desktop, 2 on tablet, 1 on phone */
+@media (max-width: 480px) {
+  .band-grid {
+    grid-template-columns: 1fr;
+  }
+}
+@media (min-width: 481px) and (max-width: 768px) {
+  .band-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 769px) {
+  .band-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
 .member-card {
   text-align: center;
   background: #222;
   border-radius: 8px;
   padding: 1.5rem;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.member-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(255, 77, 77, 0.2); /* Subtle red glow on hover */
-}
-.member-card img {
-  width: 100%;
-  max-width: 200px;
-  height: auto;
-  border-radius: 50%; /* Circular crop for headshots */
-  margin-bottom: 1rem;
-  border: 3px solid #ff4d4d; /* Red border to match your theme */
-}
-.member-card h3 {
-  font-family: 'Roboto Slab', serif;
-  font-size: 1.5rem;
-  color: #ff4d4d;
-  margin-bottom: 0.5rem;
-}
-.member-card p {
-  font-size: 0.95rem;
-  line-height: 1.5;
-  color: #ccc;
+  transition: transform 0.3s ease;
 }
 
-/* Responsive: 1 col on tiny screens, 2 on mobile, 3+ on larger */
-@media (max-width: 480px) {
-  .band-grid { grid-template-columns: 1fr; }
-}
-@media (min-width: 481px) and (max-width: 768px) {
-  .band-grid { grid-template-columns: repeat(2, 1fr); }
-}
-@media (min-width: 769px) {
-  .band-grid { grid-template-columns: repeat(3, 1fr); }
-}
-  /* ==== SIDE-BY-SIDE COLUMNS (Shows + Instagram) ==== */
-.flex-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2rem;
-  justify-content: center;
-  padding: 4rem 1rem;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-.col {
-  flex: 1;
-  min-width: 280px;
-}
-.col h2 { text-align: center; margin-bottom: 1rem; }
-
-/* Stack on phones */
-@media (max-width: 768px) {
-  .flex-row { flex-direction: column; }
-  .col { max-width: 100%; }
-}
-
-/* ==== MEET THE BAND – PHOTO FIX ==== */
-.member-photo {
-  width: 180px !important;      /* fixed size */
-  height: 180px !important;
-  object-fit: cover;            /* crop nicely */
-  border-radius: 50%;
-  border: 3px solid #ff4d4d;
-  margin: 0 auto 1rem;
-  display: block;
-}
-
-/* Keep the hover card effect */
 .member-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 10px 25px rgba(255, 77, 77, 0.2);
 }
-  /* ———————————————————————————————
-   FIX: RESPONSIVE BAND PHOTOS
-   ——————————————————————————————— */
-.member-photo {
-  width: 100% !important;           /* Fill card width */
-  max-width: 180px !important;      /* Never grow beyond 180px */
-  height: 180px !important;         /* Fixed height */
-  object-fit: cover;                /* Crop cleanly */
-  border-radius: 50%;
-  border: 3px solid #ff4d4d;
-  margin: 0 auto 1rem;
-  display: block;
-}
 
-/* Prevent any image from breaking layout */
-img {
-  max-width: 180px;
-  height: auto;
-  display: block;
-}
-
-/* Stop horizontal scroll on mobile */
-html, body {
-  overflow-x: hidden;
-  width: 100%;
-}
-}
+/* === BAND PHOTOS:
