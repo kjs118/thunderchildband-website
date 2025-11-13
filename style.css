@@ -1,10 +1,13 @@
-/* ==== BASIC STYLES ==== */
-*,
-*::before,
-*::after {
+/* ==== BASIC RESET & LAYOUT ==== */
+*, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+html, body {
+  width: 100%;
+  overflow-x: hidden;
 }
 
 body {
@@ -13,7 +16,6 @@ body {
   color: #eee;
   text-align: center;
   margin: 0;
-  overflow-x: hidden;
 }
 
 header {
@@ -36,7 +38,7 @@ h1 {
   font-size: 2.5em;
 }
 
-/* ==== SHOWS ==== */
+/* ==== SHOWS SECTION ==== */
 #shows {
   padding: 2em 1em;
   background-color: #111;
@@ -71,7 +73,7 @@ footer {
   font-size: 0.8em;
 }
 
-/* ==== SIDE-BY-SIDE COLUMNS (Shows + Instagram) ==== */
+/* ==== SIDE-BY-SIDE COLUMNS: SHOWS + INSTAGRAM ==== */
 .flex-row {
   display: flex;
   flex-wrap: wrap;
@@ -92,7 +94,7 @@ footer {
   margin-bottom: 1rem;
 }
 
-/* Stack on mobile */
+/* Stack vertically on mobile */
 @media (max-width: 768px) {
   .flex-row {
     flex-direction: column;
@@ -102,7 +104,7 @@ footer {
   }
 }
 
-/* ==== MEET THE BAND ==== */
+/* ==== MEET THE BAND SECTION ==== */
 #band {
   background: #1a1a1a;
   padding: 3rem 1rem;
@@ -111,12 +113,12 @@ footer {
 .band-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap:262rem;
+  gap: 2rem;
   max-width: 1000px;
   margin: 0 auto;
 }
 
-/* Responsive layout: 3 on desktop, 2 on tablet, 1 on phone */
+/* Responsive grid: 3 on desktop, 2 on tablet, 1 on phone */
 @media (max-width: 480px) {
   .band-grid {
     grid-template-columns: 1fr;
@@ -146,4 +148,34 @@ footer {
   box-shadow: 0 10px 25px rgba(255, 77, 77, 0.2);
 }
 
-/* === BAND PHOTOS:
+/* ==== BAND PHOTOS: FIXED 180×180px, NO OVERFLOW ==== */
+.member-photo {
+  width: 180px !important;
+  height: 180px !important;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid #ff4d4d;
+  margin: 0 auto 1rem;
+  display: block;
+  flex-shrink: 0;
+}
+
+.member-card h3 {
+  font-family: 'Roboto Slab', serif;
+  font-size: 1.5rem;
+  color: #ff4d4d;
+  margin-bottom: 0.5rem;
+}
+
+.member-card p {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #ccc;
+}
+
+/* Safety net for all images */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
