@@ -147,41 +147,47 @@ footer {
   width: max-content; /* shrink-wrap to content */
   max-width: 180px;   /* match photo width */
 }*/
-.band-grid {
-  display: grid;
-  gap: 2rem;
-  max-width: 1000px;
-  margin: 0 auto;
-  justify-content: center; /* centers the entire grid */
+.band-row {
+  display: flex;
+  justify-content: center;   /* centers the row horizontally */
+  gap: 2rem;                 /* spacing between cards */
+  flex-wrap: wrap;           /* allows wrapping on smaller screens */
+  margin-bottom: 2rem;
 }
 
-/* Top row: 3 equally spaced */
-.band-grid.top-row {
-  grid-template-columns: repeat(3, 1fr);
+.member-card {
+  background: #222;
+  border-radius: 8px;
+  padding: 1.5rem;
+  text-align: center;
+  width: 180px;             /* fixed width to match photo */
+  box-sizing: border-box;
 }
 
-/* Bottom row: 2 equally spaced */
-.band-grid.bottom-row {
-  grid-template-columns: repeat(2, 1fr);
+.member-photo {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid #111;
+  margin-bottom: 1rem;
+  display: block;
 }
 
-/* Responsive: tablet */
+/* Tablet: 2 per row */
 @media (max-width: 768px) {
-  .band-grid.top-row {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .band-grid.bottom-row {
-    grid-template-columns: repeat(2, 1fr);
+  .member-card {
+    width: 45%; /* two per row */
   }
 }
 
-/* Responsive: mobile */
+/* Mobile: 1 per row */
 @media (max-width: 480px) {
-  .band-grid.top-row,
-  .band-grid.bottom-row {
-    grid-template-columns: 1fr;
+  .member-card {
+    width: 80%; /* single column */
   }
 }
+
 
 .member-card {
   text-align: center;
