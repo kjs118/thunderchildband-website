@@ -131,4 +131,42 @@ footer {
 @media (min-width: 769px) {
   .band-grid { grid-template-columns: repeat(3, 1fr); }
 }
+  /* ==== SIDE-BY-SIDE COLUMNS (Shows + Instagram) ==== */
+.flex-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+  padding: 4rem 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.col {
+  flex: 1;
+  min-width: 280px;
+}
+.col h2 { text-align: center; margin-bottom: 1rem; }
+
+/* Stack on phones */
+@media (max-width: 768px) {
+  .flex-row { flex-direction: column; }
+  .col { max-width: 100%; }
+}
+
+/* ==== MEET THE BAND – PHOTO FIX ==== */
+.member-photo {
+  width: 180px !important;      /* fixed size */
+  height: 180px !important;
+  object-fit: cover;            /* crop nicely */
+  border-radius: 50%;
+  border: 3px solid #ff4d4d;
+  margin: 0 auto 1rem;
+  display: block;
+}
+
+/* Keep the hover card effect */
+.member-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(255, 77, 77, 0.2);
+}
 }
