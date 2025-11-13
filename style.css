@@ -110,19 +110,18 @@ footer {
   padding: 3rem 1rem;
 }
 
-.band-grid {
+/* .band-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 2rem;
   max-width: 1000px;
   margin: 0 auto;
   justify-content: center; /* center last row if only 2 images */
-}
-
+}*/
 
 
 /* Responsive grid: 3 on desktop, 2 on tablet, 1 on phone */
-@media (max-width: 480px) {
+/*@media (max-width: 480px) {
   .band-grid {
     grid-template-columns: 1fr;
   }
@@ -135,6 +134,28 @@ footer {
 @media (min-width: 769px) {
   .band-grid {
     grid-template-columns: repeat(3, 1fr);
+  }
+}*/
+.band-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 columns on desktop */
+  gap: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+  justify-items: center; /* centers each card in its column */
+}
+
+/* Tablet: 2 columns */
+@media (min-width: 481px) and (max-width: 768px) {
+  .band-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile: 1 column */
+@media (max-width: 480px) {
+  .band-grid {
+    grid-template-columns: 1fr;
   }
 }
 
