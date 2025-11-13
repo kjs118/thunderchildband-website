@@ -126,6 +126,10 @@ footer {
   max-width: 1000px;
   margin: 0 auto;
 }
+.member-card {
+  flex: 1 1 250px;
+  max-width: 300px;
+}
 
 
 /* Responsive grid: 3 on desktop, 2 on tablet, 1 on phone */
