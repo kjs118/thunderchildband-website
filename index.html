@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Thunder Child Band</title>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto+Slab&display=swap" rel="stylesheet">
@@ -9,93 +9,94 @@
 </head>
 <body>
 
-  <!-- ====================== HEADER ====================== -->
-  <header class="hero">
-    <img src="images/thunderchild2.png" alt="Thunder Child Band logo" class="logo">
-  </header>
+<!-- HERO / LOGO -->
+<header class="hero">
+  <img src="images/thunderchild2.png" alt="Thunder Child Band logo" class="logo">
+</header>
 
-  <!-- ====================== NAV ====================== -->
-  <nav class="sticky">
-    <div class="nav-container">
-      <button class="nav-toggle">
-        <span class="hamburger">☰</span>
-      </button>
-      <ul class="nav-list">
-        <li><a href="#shows">Shows</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#meet">Meet the Band</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
+<!-- NAVIGATION -->
+<nav class="sticky">
+  <div class="nav-container">
+    <button class="nav-toggle">
+      <span class="hamburger">☰</span>
+    </button>
+    <ul class="nav-list">
+      <li><a href="#shows">Shows</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#meet">Meet the Band</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- UPCOMING SHOWS -->
+<section id="shows" class="section">
+  <h2>Upcoming Shows</h2>
+  <div>January 17, 2026 – Gloria's, Lafayette, LA</div>
+  <div>February 21, 2026 – TBD</div>
+  <div>May 2, 2026 – Legends Pub, Lafayette, LA</div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="section">
+  <h2>About</h2>
+  <p>Thunder Child is taking Lafayette by storm with hard-hitting classic rock.</p>
+</section>
+
+<!-- MEET THE BAND -->
+<section id="meet" class="section">
+  <h2>Meet the Band</h2>
+  <div class="band-members">
+    <div class="member">
+      <img src="images/member1.jpg" alt="Band member 1">
+      <p>John Doe – Guitar</p>
     </div>
-  </nav>
-
-  <!-- ====================== SHOWS ====================== -->
-  <section id="shows" class="section">
-    <h2>Upcoming Shows</h2>
-    <div>January 17, 2026 – Gloria's, Lafayette, LA</div>
-    <div>February 21, 2026 - TBD</div>
-    <div>May 2, 2026 - Legends Pub, Lafayette, LA</div>
-  </section>
-
-  <!-- ====================== ABOUT ====================== -->
-  <section id="about" class="section">
-    <h2>About</h2>
-    <p>Thunder Child is taking Lafayette by storm with hard-hitting classic rock.</p>
-  </section>
-
-  <!-- ====================== MEET THE BAND ====================== -->
-  <section id="meet" class="section">
-    <h2>Meet the Band</h2>
-    <div class="band-members">
-      <div class="member">
-        <img src="images/member1.jpg" alt="Band member 1">
-        <p>John Doe – Guitar</p>
-      </div>
-      <div class="member">
-        <img src="images/member2.jpg" alt="Band member 2">
-        <p>Jane Smith – Drums</p>
-      </div>
-      <div class="member">
-        <img src="images/member3.jpg" alt="Band member 3">
-        <p>Bob Brown – Bass</p>
-      </div>
+    <div class="member">
+      <img src="images/member2.jpg" alt="Band member 2">
+      <p>Jane Smith – Drums</p>
     </div>
-  </section>
-
-  <!-- ====================== CONTACT & SOCIAL ====================== -->
-  <section id="contact" class="section">
-    <h2>Contact & Booking</h2>
-    <p>Email: booking@thunderchildband.com</p>
-    <div class="social-buttons">
-      <a href="#" class="social">Facebook</a>
-      <a href="#" class="social">Instagram</a>
-      <a href="#" class="social">Twitter</a>
+    <div class="member">
+      <img src="images/member3.jpg" alt="Band member 3">
+      <p>Bob Brown – Bass</p>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- ====================== FOOTER ====================== -->
-  <footer>
-    <p>© <span id="year"></span> Thunder Child Band – All Rights Reserved</p>
-  </footer>
+<!-- CONTACT & SOCIAL -->
+<section id="contact" class="section">
+  <h2>Contact & Booking</h2>
+  <p>Email: booking@thunderchildband.com</p>
+  <div class="social-buttons">
+    <a href="https://www.facebook.com" class="social">Facebook</a>
+    <a href="https://www.instagram.com" class="social">Instagram</a>
+    <a href="https://www.twitter.com" class="social">Twitter</a>
+  </div>
+</section>
 
-  <!-- ====================== SCRIPTS ====================== -->
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
+<!-- FOOTER -->
+<footer>
+  <p>© <span id="year"></span> Thunder Child Band – All Rights Reserved</p>
+</footer>
 
-    const navToggle = document.querySelector('.nav-toggle');
-    const navList = document.querySelector('.nav-list');
+<!-- SCRIPTS -->
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
 
-    navToggle.addEventListener('click', () => {
-      navList.classList.toggle('open');
+  const navToggle = document.querySelector('.nav-toggle');
+  const navList = document.querySelector('.nav-list');
+
+  navToggle.addEventListener('click', () => {
+    navList.classList.toggle('open');
+  });
+
+  navList.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      if (navList.classList.contains('open')) {
+        navList.classList.remove('open');
+      }
     });
+  });
+</script>
 
-    navList.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        if (navList.classList.contains('open')) {
-          navList.classList.remove('open');
-        }
-      });
-    });
-  </script>
 </body>
 </html>
