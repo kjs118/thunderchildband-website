@@ -9,16 +9,18 @@
 </head>
 <body>
 
-<!-- ====================== HEADER (logo + mobile menu button) ====================== -->
+<!-- ====================== HEADER ====================== -->
 <header class="hero">
-  <img src="images/thunderchild2.png" alt="Thunder Child Band" class="logo">
-  <button class="mobile-toggle">
-    <span class="menu-icon">Menu</span>
-    <span class="menu-text">Menu</span>
-  </button>
+  <div class="header-inner">
+    <img src="images/thunderchild2.png" alt="Thunder Child Band" class="logo">
+    <button class="mobile-toggle" aria-label="Menu">
+      <span class="menu-icon">☰</span>
+      <span class="menu-text">Menu</span>
+    </button>
+  </div>
 </header>
 
-<!-- ====================== DESKTOP NAV ONLY (hidden on mobile) ====================== -->
+<!-- ====================== DESKTOP NAV (ONLY) ====================== -->
 <nav class="desktop-nav">
   <ul class="nav-list">
     <li><a href="#shows">Shows</a></li>
@@ -27,12 +29,14 @@
   </ul>
 </nav>
 
-<!-- ====================== MOBILE MENU DROPDOWN (hidden until opened) ====================== -->
-<ul class="mobile-menu">
-  <li><a href="#shows">Shows</a></li>
-  <li><a href="#about">About</a></li>
-  <li><a href="#contact">Contact</a></li>
-</ul>
+<!-- ====================== MOBILE MENU (HIDDEN UNTIL OPENED) ====================== -->
+<nav class="mobile-nav" aria-hidden="true">
+  <ul class="mobile-menu">
+    <li><a href="#shows">Shows</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
 
 <!-- ====================== SHOWS + INSTAGRAM ====================== -->
 <section class="flex-row">
