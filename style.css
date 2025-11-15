@@ -5,13 +5,13 @@ html, body {
   background:#000;
   color:#eee;
   text-align:center;
-  padding-top: 70px !important;
-  overflow-x: hidden;
+  padding-top: 70px !important; /* ALWAYS RESERVE SPACE */
+  overflow-x: hidden; /* LOCK HORIZONTAL SCROLL */
   width: 100%;
 }
 * { max-width: 100%; }
 img, iframe, video { max-width: 100%; height: auto; }
-html { scroll-padding-top: 80px; }
+html { scroll-padding-top: 80px; } /* avoids header overlap */
 
 /* ==== HEADER (FULL HEIGHT UNTIL FIXED) ==== */
 .hero {
@@ -70,6 +70,8 @@ html { scroll-padding-top: 80px; }
   display: flex;
   justify-content: center;
   gap: 2rem;
+  margin: 0;
+  padding: 0;
 }
 .desktop-nav a {
   color: #eee;
@@ -79,7 +81,12 @@ html { scroll-padding-top: 80px; }
   display: block;
   transition: background 0.3s;
 }
-.desktop-nav a:hover { background: #ff0000; color: #fff; border-radius: 4px; }
+.desktop-nav a:hover {
+  background: #ff0000;
+  color: #fff;
+  border-radius: 4px;
+}
+#shows, #about, #band, #contact { scroll-margin-top: 250px; }
 
 /* ==== MOBILE NAV ==== */
 .mobile-nav {
@@ -109,9 +116,16 @@ html { scroll-padding-top: 80px; }
   .menu-btn { display: flex !important; width: 100% !important; border-radius: 0 !important; }
   .desktop-nav { display: none !important; }
 
-  .social-links { font-size: 0; }
-  .social-links a { display: inline-block; font-size: 0; margin: 0 6px; }
+  .social-links {
+    font-size: 0; /* removes whitespace between inline-block children */
+  }
+  .social-links a {
+    display: inline-block;
+    font-size: 0;
+    margin: 0 6px;
+  }
 
+  /* FIXED HEADER — SHRINKS SMOOTHLY */
   body.scrolled .hero {
     position: fixed !important;
     top: 0 !important;
@@ -125,15 +139,26 @@ html { scroll-padding-top: 80px; }
     margin-top: 0 !important;
     transition: padding 0.3s ease !important;
   }
+
   body.scrolled .header-content {
     flex-direction: row !important;
     justify-content: space-between !important;
     align-items: center !important;
   }
-  body.scrolled .logo { height: 50px !important; max-width: 40% !important; }
-  body.scrolled .menu-btn { width: auto !important; padding: 0.4rem 0.8rem !important; font-size: 1rem !important; border-radius: 4px !important; }
+  body.scrolled .logo {
+    height: 50px !important;
+    max-width: 40% !important;
+  }
+  body.scrolled .menu-btn {
+    width: auto !important;
+    padding: 0.4rem 0.8rem !important;
+    font-size: 1rem !important;
+    border-radius: 4px !important;
+  }
   body.scrolled .menu-btn .text { display: none !important; }
   body.scrolled .menu-btn .icon { font-size: 1.4rem !important; }
+
+  /* MOBILE NAV STAYS UNDER FIXED HEADER */
   body.scrolled .mobile-nav {
     position: fixed !important;
     top: 70px !important;
@@ -147,7 +172,17 @@ html { scroll-padding-top: 80px; }
 @media (min-width: 769px) {
   .menu-btn, .mobile-nav { display: none !important; }
   .desktop-nav { display: block !important; }
-  .social-links a { display: inline-block; margin: 0 12px; text-decoration: none !important; position: relative; transition: transform 0.3s ease; }
+}
+
+/* ==== SOCIAL ICONS: RED GLOW ON HOVER (DESKTOP) ==== */
+@media (min-width: 769px) {
+  .social-links a {
+    display: inline-block;
+    margin: 0 12px;
+    text-decoration: none !important;
+    position: relative;
+    transition: transform 0.3s ease;
+  }
   .social-links a:hover { transform: scale(1.1); }
   .social-links a::after {
     content: '';
@@ -180,17 +215,20 @@ html { scroll-padding-top: 80px; }
 .social-links { text-align:center; margin-top:15px; }
 footer { background:#000; padding:1em; font-size:.8em; }
 
-/* ==== INSTAGRAM FIX ==== */
-.instagram-wrapper {
+/* ==== RESPONSIVE INSTAGRAM IFRAME ==== */
+#photos {
+  position: relative;
   width: 100%;
-  max-height: 600px;  /* constrain height for desktop */
-  overflow: hidden;
+  max-width: 400px;
+  margin: 0 auto;
+  padding-top: 120%; /* height proportional to width */
 }
-.instagram-wrapper iframe {
+
+#photos iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  border: none;
-}
-@media (max-width: 768px) {
-  .instagram-wrapper { max-height: 480px; }
+  border: 0;
 }
