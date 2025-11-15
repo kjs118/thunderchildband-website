@@ -190,13 +190,15 @@ img {
   height: 1.5rem; /* adjust for desired space */
 }
 .social-links {
-  text-align: center;       /* Center everything */
-  margin-top: 10px;
+  text-align: center;
+  margin-top: 15px;
 }
 
-.social-links a img {
-  height: 32px;             /* Control icon size */
-  width: auto;
-  margin: 0 10px;           /* Space between icons */
+.social-links a svg {
+  width: 48px;
+  height: 48px;
+  margin: 0 10px;
   vertical-align: middle;
+  cursor: pointer;
 }
+
