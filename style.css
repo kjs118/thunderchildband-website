@@ -181,6 +181,19 @@ body.scrolled .hero {
   .menu-btn, .mobile-nav { display: none !important; }
   .desktop-nav { display: block !important; }
 }
+/* === SOCIAL ICONS: RED HOVER (DESKTOP ONLY) === */
+@media (min-width: 769px) {
+  .social-links a:hover svg {
+    filter: brightness(0) saturate(100%) invert(15%) sepia(99%) saturate(7498%) hue-rotate(0deg) brightness(99%) contrast(115%);
+    /* ↑ This is #ff0000 (pure red) */
+    transform: scale(1.1);
+    transition: all 0.3s ease;
+  }
+
+  .social-links a:hover {
+    transform: scale(1.1);
+  }
+}
 
 /* ==== CONTENT ==== */
 #shows .show-item { margin-bottom:1.2em; font-size:1.2em; line-height:1.5; }
