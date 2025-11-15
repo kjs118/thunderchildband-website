@@ -189,3 +189,14 @@ img {
 .spacer {
   height: 1.5rem; /* adjust for desired space */
 }
+.social-links {
+  text-align: center;       /* Center everything */
+  margin-top: 10px;
+}
+
+.social-links a img {
+  height: 32px;             /* Control icon size */
+  width: auto;
+  margin: 0 10px;           /* Space between icons */
+  vertical-align: middle;
+}
