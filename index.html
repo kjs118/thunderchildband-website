@@ -15,22 +15,29 @@
 </head>
 <body>
 
-  <!-- ====================== HEADER ====================== -->
-  <header class="hero">
-    <img src="images/thunderchild2.png" alt="Thunder Child Band logo" class="logo">
+  <!-- ====================== HEADER + NAV ====================== -->
+  <header class="site-header">
+    <div class="header-container">
+      <!-- Logo -->
+      <div class="logo">
+        <a href="/"><img src="images/thunderchild2.png" alt="Thunder Child Band logo" class="logo-img"></a>
+      </div>
 
+      <!-- Hamburger toggle for mobile -->
+      <button class="nav-toggle" aria-label="Toggle menu">
+        &#9776;
+      </button>
+
+      <!-- Navigation -->
+      <nav class="main-nav">
+        <ul class="nav-list">
+          <li><a href="#shows">Tour</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
   </header>
-
-  <!-- ====================== NAV ====================== -->
- <!-- <nav class="sticky">
-    <ul>
-      <li><a href="#shows">Shows</a></li>
-      <li><a href="#photos">Instagram</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#band">Band</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </nav>-->
 
   <!-- ====================== SHOWS + INSTAGRAM ====================== -->
   <section class="flex-row section">
@@ -39,14 +46,13 @@
       <h2>Upcoming Shows</h2>
       <ul class="show-list">
         <li>January 17, 2026 – Gloria's, Lafayette, LA</li>
-        <li>February 21, 2026 - TBD
+        <li>February 21, 2026 - TBD</li>
         <li>May 2, 2026 Legends Pub, Lafayette, LA</li>
       </ul>
     </div>
 
     <!-- INSTAGRAM FEED -->
     <div class="col" id="photos">
-     <!-- <h2>Instagram Feed</h2> -->
       <div class="insta-embed">
         <iframe src="https://www.instagram.com/thunderchildband/embed/"
                 width="400" height="480" frameborder="0"></iframe>
@@ -63,12 +69,8 @@
   <!-- ====================== MEET THE BAND ====================== -->
   <section id="band" class="section">
     <h2>Meet the Band</h2>
-<div class="spacer"></div>
-<div class="band-grid">
-  <!-- member cards -->
-</div>
-    
-      <div class="band-grid">
+    <div class="spacer"></div>
+    <div class="band-grid">
       <!-- Member 1 -->
       <div class="member-card">
         <img src="images/abiclair.jpg" alt="Abi Clair - Vocals" class="member-photo">
@@ -107,52 +109,59 @@
   </section>
 
   <!-- ====================== CONTACT ====================== -->
-<section id="contact" class="section">
-  <h2>Contact & Booking</h2>
+  <section id="contact" class="section">
+    <h2>Contact & Booking</h2>
 
-  <div class="social-links">
-    <a href="https://instagram.com/thunderchildband" target="_blank">
-      <!-- Instagram SVG -->
-<svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="24" cy="24" r="23" fill="white"/>
-  <circle cx="24" cy="24" r="20" fill="black"/>
-  <rect x="16" y="16" width="16" height="16" rx="4.5" stroke="white" stroke-width="2" fill="none"/>
-  <circle cx="24" cy="24" r="4.5" stroke="white" stroke-width="2" fill="none"/>
-  <circle cx="29" cy="19" r="1.8" fill="white"/>
-</svg>
+    <div class="social-links">
+      <a href="https://instagram.com/thunderchildband" target="_blank">
+        <!-- Instagram SVG -->
+        <svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="24" cy="24" r="23" fill="white"/>
+          <circle cx="24" cy="24" r="20" fill="black"/>
+          <rect x="16" y="16" width="16" height="16" rx="4.5" stroke="white" stroke-width="2" fill="none"/>
+          <circle cx="24" cy="24" r="4.5" stroke="white" stroke-width="2" fill="none"/>
+          <circle cx="29" cy="19" r="1.8" fill="white"/>
+        </svg>
+      </a>
 
-    </a>
+      <a href="https://facebook.com/thunderchildbandLA" target="_blank">
+        <!-- Facebook SVG -->
+        <svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="24" cy="24" r="23" fill="white"/>
+          <circle cx="24" cy="24" r="20" fill="black"/>
+          <path d="M25.2 17h3.2v-3.2h-3.2c-2.7 0-4.8 2.1-4.8 4.8v3.2H17v3.2h3.4v8.8h3.4v-8.8h3l0.8-3.2h-3.8v-3.2c0-0.9 0.7-1.6 1.6-1.6z"
+                fill="white"/>
+        </svg>
+      </a>
 
-    <a href="https://facebook.com/thunderchildbandLA" target="_blank">
-      <!-- Facebook SVG -->
-<svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="24" cy="24" r="23" fill="white"/>
-  <circle cx="24" cy="24" r="20" fill="black"/>
-  <path d="M25.2 17h3.2v-3.2h-3.2c-2.7 0-4.8 2.1-4.8 4.8v3.2H17v3.2h3.4v8.8h3.4v-8.8h3l0.8-3.2h-3.8v-3.2c0-0.9 0.7-1.6 1.6-1.6z"
-        fill="white"/>
-</svg>
-    </a>
-
-    <a href="mailto:keith@thunderchildband.com" target="_blank">
-  <!-- Email SVG -->
-  <svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="24" cy="24" r="23" fill="white"/>
-    <circle cx="24" cy="24" r="20" fill="black"/>
-    <rect x="15" y="17" width="18" height="14" rx="2" stroke="white" stroke-width="2" fill="none"/>
-    <polyline points="15,17 24,26 33,17" fill="none" stroke="white" stroke-width="2"/>
-  </svg>
-</a>
-  </div>
-</section>
-
+      <a href="mailto:keith@thunderchildband.com" target="_blank">
+        <!-- Email SVG -->
+        <svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="24" cy="24" r="23" fill="white"/>
+          <circle cx="24" cy="24" r="20" fill="black"/>
+          <rect x="15" y="17" width="18" height="14" rx="2" stroke="white" stroke-width="2" fill="none"/>
+          <polyline points="15,17 24,26 33,17" fill="none" stroke="white" stroke-width="2"/>
+        </svg>
+      </a>
+    </div>
+  </section>
 
   <!-- ====================== FOOTER ====================== -->
   <footer>
     <p>© <span id="year"></span> Thunder Child Band – All Rights Reserved</p>
   </footer>
 
+  <!-- ====================== SCRIPTS ====================== -->
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Mobile nav toggle
+    const navToggle = document.querySelector('.nav-toggle');
+    const mainNav = document.querySelector('.main-nav');
+
+    navToggle.addEventListener('click', () => {
+      mainNav.classList.toggle('open');
+    });
   </script>
 </body>
 </html>
