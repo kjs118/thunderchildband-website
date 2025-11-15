@@ -3,7 +3,7 @@
 html, body { width: 100%; overflow-x: hidden; }
 body { font-family: Arial, sans-serif; background:#000; color:#eee; text-align:center; }
 
-/* ==== HEADER (default: column) ==== */
+/* ==== HEADER ==== */
 header.hero {
   background:#000;
   padding:2rem 1rem;
@@ -21,7 +21,7 @@ header.hero img.logo {
   transition: all 0.3s ease;
 }
 
-/* Mobile toggle button */
+/* Mobile toggle */
 .mobile-toggle {
   display:none;
   background:#000;
@@ -42,8 +42,8 @@ header.hero img.logo {
 .mobile-toggle .menu-icon { font-size:1.5rem; }
 .mobile-toggle .menu-text { }
 
-/* ==== DESKTOP NAV ==== */
-.desktop-nav {
+/* ==== MAIN NAV (single source) ==== */
+.main-nav {
   background:#000;
   border-top:1px solid #222;
   border-bottom:1px solid #222;
@@ -66,7 +66,7 @@ header.hero img.logo {
   font-weight:bold;
   padding:0.5rem 1rem;
   display:block;
-  transition:background 0.3s, color 0.3s;
+  transition:0.3s;
 }
 .nav-list li a:hover {
   background:#ff0000;
@@ -74,47 +74,46 @@ header.hero img.logo {
   border-radius:4px;
 }
 
-/* ==== MOBILE MENU DROPDOWN ==== */
-.mobile-menu {
-  display:none;
-  position:absolute;
-  left:0; right:0;
-  background:#000;
-  z-index:1500;
-  border-bottom:1px solid #222;
-}
-.mobile-menu.open { display:block; }
-.mobile-menu li a {
-  display:block;
-  padding:1rem;
-  color:#fff;
-  text-align:center;
-  border-bottom:1px solid #222;
-}
-.mobile-menu li a:hover { background:#222; }
-
-/* ==== MOBILE BEHAVIOR (≤768px) ==== */
+/* ==== MOBILE: TRANSFORM NAV INTO DROPDOWN ==== */
 @media (max-width: 768px) {
-  /* Show mobile toggle */
   .mobile-toggle { display:flex; }
 
-  /* COMPLETELY HIDE DESKTOP NAV — NO RENDER AT ALL */
-  .desktop-nav {
-    display:none !important;
-    visibility:hidden !important;
-    height:0 !important;
-    overflow:hidden !important;
-    padding:0 !important;
-    margin:0 !important;
+  .main-nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background:#000;
+    border-bottom:1px solid #222;
+    z-index:1500;
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.3s ease;
+  }
+  .main-nav.open {
+    max-height: 500px;
   }
 
-  /* When scrolled: freeze header, switch to ROW */
+  .nav-list {
+    flex-direction: column;
+    gap:0;
+  }
+  .nav-list li a {
+    padding:1rem;
+    text-align:center;
+    border-bottom:1px solid #222;
+  }
+  .nav-list li a:hover {
+    background:#222;
+  }
+
+  /* === SCROLL: FREEZE HEADER === */
   body.scrolled header.hero {
     position:fixed;
     top:0; left:0; right:0;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction:row;
+    justify-content:space-between;
+    align-items:center;
     padding:0.4rem 0.8rem;
     background:#000;
     z-index:2000;
@@ -135,18 +134,20 @@ header.hero img.logo {
     border-radius:4px;
   }
 
-  /* Hide "Menu" text, show only hamburger */
   body.scrolled .mobile-toggle .menu-text { display:none; }
   body.scrolled .mobile-toggle .menu-icon { font-size:1.4rem; }
 
-  /* Push content down */
+  body.scrolled .main-nav {
+    top: 60px; /* below fixed header */
+  }
+
   body.scrolled .flex-row,
   body.scrolled section { margin-top:70px; }
 }
 
-/* ==== DESKTOP: NO MOBILE ELEMENTS ==== */
+/* ==== DESKTOP: HIDE MOBILE TOGGLE ==== */
 @media (min-width: 769px) {
-  .mobile-toggle, .mobile-menu { display:none !important; }
+  .mobile-toggle { display:none !important; }
 }
 
 /* ==== SHOWS SPACING ==== */
