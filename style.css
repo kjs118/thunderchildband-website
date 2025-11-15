@@ -63,6 +63,38 @@ nav.sticky {
 /* ==== SECTIONS ==== */
 .section { padding: 2em 1em; border-bottom: 1px solid #000; }
 
+.band-members {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+.band-members .member img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.social-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.social-buttons a {
+  text-decoration: none;
+  color: #eee;
+  border: 1px solid #eee;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+}
+
+.social-buttons a:hover { background: #eee; color: #000; }
+
 /* ==== FOOTER ==== */
 footer { background: #000; padding: 1em; font-size: 0.8em; }
 
@@ -94,6 +126,6 @@ footer { background: #000; padding: 1em; font-size: 0.8em; }
 
   .nav-toggle { display: block; }
 
-  /* Hide original desktop nav items container */
+  /* Adjust container for hamburger */
   nav.sticky .nav-container { justify-content: flex-end; }
 }
