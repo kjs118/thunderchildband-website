@@ -1,147 +1,191 @@
-/* Global */
-body {
+/* ====================== BASE STYLES ====================== */
+* {
   margin: 0;
-  font-family: Arial, sans-serif;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-header.hero {
+body {
+  font-family: 'Montserrat', sans-serif;
+  color: #333;
+  line-height: 1.6;
+  background-color: #fff;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.section {
+  padding: 60px 20px;
+}
+
+.flex-row {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.col {
+  flex: 1;
+  min-width: 280px;
+  margin: 10px;
+}
+
+/* ====================== HEADER ====================== */
+.hero {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.logo {
+  width: 250px;
+  transition: all 0.3s ease;
+}
+
+/* ====================== NAV ====================== */
+nav {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 2rem 1rem;
-  transition: padding 0.3s ease;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  padding: 10px 0;
+  background-color: white;
+  position: relative;
 }
 
-header.hero img.logo {
-  height: 120px;
-  transition: height 0.3s ease;
-}
-
-/* Desktop navigation */
 nav.sticky {
-  display: flex;
-  justify-content: center;
-  background: #000;
-  border-bottom: 1px solid #222;
+  position: relative;
 }
 
-nav.sticky ul {
+.nav-list {
+  display: flex;
+  gap: 30px;
   list-style: none;
-  display: flex;
-  gap: 2rem;
-  margin: 0;
-  padding: 0;
 }
 
-nav.sticky li a {
-  color: #fff;
-  text-decoration: none;
+.nav-list li a {
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.hamburger {
+  font-size: 1.5rem;
+}
+
+.menu-text {
+  margin-left: 10px;
   font-weight: bold;
 }
 
-/* Mobile styles */
-@media (max-width: 768px) {
-  nav.sticky {
+/* ====================== MOBILE ====================== */
+@media screen and (max-width: 768px) {
+  nav {
     flex-direction: column;
-    align-items: center;
-    position: relative;
-    padding: 0;
-    width: 100%;
-  }
-
-  .nav-toggle {
-    width: 100%;
-    background: #fff;
-    color: #000;
+    align-items: flex-start;
     border: none;
-    font-size: 1.5rem;
-    padding: 0.75rem;
-    cursor: pointer;
+    padding: 0;
   }
 
   .nav-list {
-    display: none;
     flex-direction: column;
     width: 100%;
-    background: #fff;
-    margin: 0;
-    padding: 0;
-  }
-
-  .nav-list.open {
-    display: flex;
+    display: none;
+    background-color: white;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
   }
 
   .nav-list li {
     text-align: center;
-    border-bottom: 1px solid #ccc;
+    padding: 15px 0;
   }
 
-  .nav-list li a {
-    display: block;
-    padding: 1rem;
-    color: #000;
-    text-decoration: none;
-  }
-
-  /* Shrinking logo + sticky nav */
-  header.shrink {
-    padding: 0.5rem 1rem;
-  }
-
-  header.shrink img.logo {
-    height: 50px;
-  }
-
-  header.shrink + nav.sticky {
-    position: fixed;
-    top: 0;
-    left: 0;
-    flex-direction: row;
+  .nav-toggle {
+    display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 1rem;
-    z-index: 1000;
+    width: 100%;
+    padding: 15px;
+    background-color: white;
+    border: none;
+    font-size: 1.5rem;
+  }
+
+  .nav-toggle .menu-text {
+    display: inline;
+  }
+
+  .nav-list.show {
+    display: flex;
+  }
+
+  /* Logo shrink and vertical alignment with menu */
+  .logo {
+    width: 200px;
+    transition: all 0.3s ease;
+  }
+
+  .logo.shrink {
+    width: 120px;
+    margin-right: 10px;
   }
 }
 
-/* Social buttons */
-.social {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  margin: 2rem 0;
+/* ====================== SHOWS & PHOTOS ====================== */
+#shows, #photos {
+  margin-bottom: 40px;
 }
 
-.social img {
-  width: 40px;
-  height: 40px;
+.insta-embed iframe {
+  max-width: 100%;
 }
 
-/* Meet the band */
-.meet-the-band {
+/* ====================== BAND ====================== */
+.band-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.member-card {
   text-align: center;
-  margin: 2rem 1rem;
 }
 
-.meet-the-band .band-member {
-  display: inline-block;
-  margin: 1rem;
-}
-
-.meet-the-band img {
-  width: 120px;
+.member-photo {
+  width: 100%;
   height: auto;
   border-radius: 8px;
 }
 
-/* Upcoming Shows */
-.upcoming-shows {
-  text-align: center;
-  margin: 2rem 1rem;
+/* ====================== CONTACT / SOCIAL ====================== */
+.social-links {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 20px;
 }
 
-.upcoming-shows ul {
-  list-style: none;
-  padding: 0;
+.social-links a svg {
+  width: 48px;
+  height: 48px;
+}
+
+/* ====================== FOOTER ====================== */
+footer {
+  text-align: center;
+  padding: 20px;
+  border-top: 1px solid #ccc;
+  margin-top: 40px;
+  font-size: 0.9rem;
 }
