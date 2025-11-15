@@ -181,14 +181,36 @@ body.scrolled .hero {
   .menu-btn, .mobile-nav { display: none !important; }
   .desktop-nav { display: block !important; }
 }
-/* === SOCIAL ICONS: RED HOVER (DESKTOP ONLY) === */
+/* === SOCIAL ICONS: RED HOVER WITH VISIBLE LOGOS (DESKTOP ONLY) === */
 @media (min-width: 769px) {
-  .social-links a:hover svg {
-    filter: brightness(0) saturate(100%) invert(15%) sepia(99%) saturate(7498%) hue-rotate(0deg) brightness(99%) contrast(115%);
-    /* ↑ This is #ff0000 (pure red) */
-    transform: scale(1.1);
-    transition: all 0.3s ease;
+  .social-links a {
+    display: inline-block;
+    margin: 0 12px;
+    text-decoration: none !important;
+    transition: transform 0.3s ease;
   }
+
+  .social-links a:hover {
+    transform: scale(1.1);
+  }
+
+  /* CHANGE FILL COLOR TO RED ON HOVER */
+  .social-links a:hover svg * {
+    fill: #ff0000 !important;
+    stroke: #ff0000 !important;
+    filter: none !important;
+  }
+
+  /* KEEP WHITE OUTER RING */
+  .social-links a:hover svg circle:first-child {
+    fill: white !important;
+  }
+
+  /* KEEP BLACK INNER CIRCLE */
+  .social-links a:hover svg circle:nth-child(2) {
+    fill: black !important;
+  }
+}
 
   .social-links a:hover {
     transform: scale(1.1);
