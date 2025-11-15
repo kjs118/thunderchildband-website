@@ -140,5 +140,25 @@
       navList.classList.toggle('open');
     });
   </script>
+
+  <script>
+  // Select the hamburger button and nav list
+  const navToggle = document.querySelector('.nav-toggle');
+  const navList = document.querySelector('.nav-list');
+
+  // Toggle 'open' class on click
+  navToggle.addEventListener('click', () => {
+    navList.classList.toggle('open');
+  });
+
+  // Optional: close menu when a link is clicked (mobile only)
+  navList.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      if (navList.classList.contains('open')) {
+        navList.classList.remove('open');
+      }
+    });
+  });
+</script>
 </body>
 </html>
