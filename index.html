@@ -122,24 +122,36 @@
     <p>© <span id="year"></span> Thunder Child Band – All Rights Reserved</p>
   </footer>
 
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
+ <script>
+  document.getElementById('year').textContent = new Date().getFullYear();
 
-    const navToggle = document.querySelector('.nav-toggle');
-    const navList = document.querySelector('.nav-list');
+  const navToggle = document.querySelector('.nav-toggle');
+  const navList = document.querySelector('.nav-list');
 
-    navToggle.addEventListener('click', () => {
-      navList.classList.toggle('open');
+  navToggle.addEventListener('click', () => {
+    navList.classList.toggle('open');
+  });
+
+  navList.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      if (navList.classList.contains('open')) {
+        navList.classList.remove('open');
+      }
     });
+  });
 
-    navList.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        if (navList.classList.contains('open')) {
-          navList.classList.remove('open');
-        }
-      });
-    });
-  </script>
+  // Scroll behavior for mobile only
+  window.addEventListener('scroll', () => {
+    if (window.innerWidth <= 768) {
+      if (window.scrollY > 50) {
+        document.body.classList.add('scrolled');
+      } else {
+        document.body.classList.remove('scrolled');
+      }
+    }
+  });
+</script>
+
 
 </body>
 </html>
