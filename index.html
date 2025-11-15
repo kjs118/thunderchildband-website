@@ -1,11 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta property="og:title" content="Thunder Child Band">
-<meta property="og:description" content="Official website for Thunder Child Band">
-<meta property="og:image" content="https://www.thunderchildband.com/images/thunderchild.png">
-<meta property="og:url" content="https://www.thunderchildband.com">
-
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Thunder Child Band</title>
@@ -17,14 +12,15 @@
   <!-- ====================== HEADER ====================== -->
   <header class="hero">
     <img src="images/thunderchild2.png" alt="Thunder Child Band logo" class="logo">
+    <!-- Mobile Hamburger/Menu -->
+    <button class="nav-toggle" id="mobile-menu">
+      <span class="hamburger">☰</span>
+      <span class="menu-text">Menu</span>
+    </button>
   </header>
 
 <!-- ====================== NAV ====================== -->
 <nav class="sticky">
-  <button class="nav-toggle" id="mobile-menu">
-    <span class="hamburger">☰</span>
-    <span class="menu-text">Menu</span>
-  </button>
   <ul class="nav-list">
     <li><a href="#shows">Shows</a></li>
     <li><a href="#about">About</a></li>
@@ -94,6 +90,7 @@
 <section id="contact" class="section">
   <h2>Contact & Booking</h2>
   <div class="social-links">
+    <!-- Instagram -->
     <a href="https://instagram.com/thunderchildband" target="_blank">
       <svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
         <circle cx="24" cy="24" r="23" fill="white"/>
@@ -103,6 +100,7 @@
         <circle cx="29" cy="19" r="1.8" fill="white"/>
       </svg>
     </a>
+    <!-- Facebook -->
     <a href="https://facebook.com/thunderchildbandLA" target="_blank">
       <svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
         <circle cx="24" cy="24" r="23" fill="white"/>
@@ -111,6 +109,7 @@
               fill="white"/>
       </svg>
     </a>
+    <!-- Email -->
     <a href="mailto:keith@thunderchildband.com" target="_blank">
       <svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
         <circle cx="24" cy="24" r="23" fill="white"/>
@@ -127,25 +126,7 @@
   <p>© <span id="year"></span> Thunder Child Band – All Rights Reserved</p>
 </footer>
 
-<!-- ====================== SCRIPTS ====================== -->
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
 
-  const toggle = document.querySelector('.nav-toggle');
-  const navList = document.querySelector('.nav-list');
-
-  toggle.addEventListener('click', () => {
-    navList.classList.toggle('open');
-  });
-
-  navList.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
-      if (navList.classList.contains('open')) {
-        navList.classList.remove('open');
-      }
-    });
-  });
-</script>
-
-</body>
-</html>
+  const toggle = docum
