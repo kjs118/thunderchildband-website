@@ -5,39 +5,33 @@
 <meta property="og:description" content="Official website for Thunder Child Band">
 <meta property="og:image" content="https://www.thunderchildband.com/images/thunderchild.png">
 <meta property="og:url" content="https://www.thunderchildband.com">
-<!--<meta name="twitter:card" content="summary_large_image"> -->
 
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Thunder Child Band</title>
-  <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto+Slab&display=swap" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thunder Child Band</title>
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto+Slab&display=swap" rel="stylesheet">
 </head>
 <body>
 
-  <!-- ====================== HEADER + NAV ====================== -->
-  <header class="site-header">
-    <div class="header-container">
-      <!-- Logo -->
-      <div class="logo">
-        <a href="/"><img src="images/thunderchild2.png" alt="Thunder Child Band logo" class="logo-img"></a>
-      </div>
-
-      <!-- Hamburger toggle for mobile -->
-      <button class="nav-toggle" aria-label="Toggle menu">
-        &#9776;
-      </button>
-
-      <!-- Navigation -->
-      <nav class="main-nav">
-        <ul class="nav-list">
-          <li><a href="#shows">Tour</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
-      </nav>
-    </div>
+  <!-- ====================== HEADER ====================== -->
+  <header class="hero">
+    <img src="images/thunderchild2.png" alt="Thunder Child Band logo" class="logo">
   </header>
+
+  <!-- ====================== NAV ====================== -->
+  <nav class="sticky">
+    <div class="nav-container">
+      <button class="nav-toggle">&#9776;</button>
+      <ul class="nav-list">
+        <li><a href="#shows">Shows</a></li>
+        <li><a href="#photos">Instagram</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#band">Band</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
 
   <!-- ====================== SHOWS + INSTAGRAM ====================== -->
   <section class="flex-row section">
@@ -71,35 +65,26 @@
     <h2>Meet the Band</h2>
     <div class="spacer"></div>
     <div class="band-grid">
-      <!-- Member 1 -->
       <div class="member-card">
         <img src="images/abiclair.jpg" alt="Abi Clair - Vocals" class="member-photo">
         <h3>Abi Clair</h3>
         <p>Vocals</p>
       </div>
-
-      <!-- Member 2 -->
       <div class="member-card">
         <img src="images/keith.jpg" alt="Keith Stewart - Guitar" class="member-photo">
         <h3>Keith Stewart</h3>
         <p>Guitar</p>
       </div>
-
-      <!-- Member 3 -->
       <div class="member-card">
         <img src="images/jared.jpg" alt="Jared Crenshaw - Guitar" class="member-photo">
         <h3>Jared Crenshaw</h3>
         <p>Guitar</p>
       </div>
-
-      <!-- Member 4 -->
       <div class="member-card">
         <img src="images/alex.jpeg" alt="Alex Pipkins - Bass" class="member-photo">
         <h3>Alex Pipkins</h3>
         <p>Bass</p>
       </div>
-
-      <!-- Member 5 -->
       <div class="member-card">
         <img src="images/austin1.jpg" alt="Austin Pierre - Drums" class="member-photo">
         <h3>Austin Pierre</h3>
@@ -111,7 +96,6 @@
   <!-- ====================== CONTACT ====================== -->
   <section id="contact" class="section">
     <h2>Contact & Booking</h2>
-
     <div class="social-links">
       <a href="https://instagram.com/thunderchildband" target="_blank">
         <!-- Instagram SVG -->
@@ -123,7 +107,6 @@
           <circle cx="29" cy="19" r="1.8" fill="white"/>
         </svg>
       </a>
-
       <a href="https://facebook.com/thunderchildbandLA" target="_blank">
         <!-- Facebook SVG -->
         <svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
@@ -133,7 +116,6 @@
                 fill="white"/>
         </svg>
       </a>
-
       <a href="mailto:keith@thunderchildband.com" target="_blank">
         <!-- Email SVG -->
         <svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
@@ -151,16 +133,15 @@
     <p>© <span id="year"></span> Thunder Child Band – All Rights Reserved</p>
   </footer>
 
-  <!-- ====================== SCRIPTS ====================== -->
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
 
     // Mobile nav toggle
-    const navToggle = document.querySelector('.nav-toggle');
-    const mainNav = document.querySelector('.main-nav');
+    const toggle = document.querySelector('.nav-toggle');
+    const navList = document.querySelector('.nav-list');
 
-    navToggle.addEventListener('click', () => {
-      mainNav.classList.toggle('open');
+    toggle.addEventListener('click', () => {
+      navList.classList.toggle('open');
     });
   </script>
 </body>
