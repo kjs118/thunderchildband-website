@@ -117,6 +117,15 @@ html, body {
   }
   .desktop-nav { display: none !important; }
 
+/* FIX JUMP: MOBILE NAV BECOMES FIXED */
+body.scrolled .mobile-nav {
+  position: fixed !important;
+  top: 70px !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 2999 !important;
+}
+  
   /* RESERVE SPACE FOR FIXED HEADER */
   
 
@@ -230,6 +239,18 @@ body.scrolled .hero {
 
 .social-links { text-align: center; margin-top: 15px; }
 .social-links a svg { width: 48px; height: 48px; margin: 0 10px; cursor: pointer; }
+/* === SOCIAL LINKS: TIGHT SPACING + NO UNDERLINE === */
+.social-links a {
+  display: inline-block;
+  margin: 0 8px; /* Tight, consistent gap */
+  line-height: 0;
+  text-decoration: none !important;
+}
+
+.social-links a:hover {
+  opacity: 0.8;
+  text-decoration: none !important;
+}
 
 footer { 
   background: #000; 
