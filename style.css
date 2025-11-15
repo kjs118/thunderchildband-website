@@ -26,7 +26,7 @@ nav.sticky {
   max-width: 1200px;
   margin: 0 auto;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   padding: 0.5em 1em;
   position: relative;
@@ -56,9 +56,8 @@ nav.sticky {
   cursor: pointer;
   padding: 0.5em 1em;
   border-radius: 5px;
-  display: flex;
-  align-items: center;
-  gap: 0.5em;
+  position: absolute;
+  right: 1rem;
 }
 
 /* ==== SECTIONS ==== */
@@ -69,16 +68,17 @@ footer { background: #000; padding: 1em; font-size: 0.8em; }
 
 /* ==== MOBILE STYLES ==== */
 @media (max-width: 768px) {
-  .nav-toggle { display: flex; }
 
+  /* Hide desktop nav items, show hamburger */
   .nav-list {
+    display: flex;
+    flex-direction: column;
     position: fixed;
-    top: 60px; /* below nav */
+    top: 120px; /* Below logo */
     left: 0;
     width: 100%;
-    height: calc(100% - 60px);
+    height: calc(100% - 120px);
     background: #fff;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 2rem;
@@ -91,4 +91,9 @@ footer { background: #000; padding: 1em; font-size: 0.8em; }
 
   .nav-list li a { font-size: 1.5rem; color: #000; }
   .nav-list li a:hover { color: #ff0000; }
+
+  .nav-toggle { display: block; }
+
+  /* Hide original desktop nav items container */
+  nav.sticky .nav-container { justify-content: flex-end; }
 }
