@@ -1,35 +1,28 @@
-/* ==== CURRENT YEAR ==== */
+// Current year
 document.getElementById('year').textContent = new Date().getFullYear();
 
-/* ==== MOBILE MENU TOGGLE ==== */
-const navToggle = document.querySelector('.nav-toggle');
-const navList   = document.querySelector('.nav-list');
+// Mobile menu toggle
+const toggle = document.querySelector('.mobile-toggle');
+const menu   = document.querySelector('.mobile-menu');
 
-navToggle.addEventListener('click', () => {
-  navList.classList.toggle('open');
+toggle.addEventListener('click', () => {
+  menu.classList.toggle('open');
 });
 
-/* Close menu when a link is clicked */
-navList.querySelectorAll('a').forEach(link => {
-  link.addEventListener('click', () => navList.classList.remove('open'));
+// Close menu when link is clicked
+menu.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => menu.classList.remove('open'));
 });
 
-/* ==== SHRINK + FIX HEADER ON SCROLL (mobile only) ==== */
-const header = document.querySelector('header.hero');
-
+// Scroll behavior: shrink + freeze header (mobile only)
 function handleScroll() {
   if (window.innerWidth > 768) {
     document.body.classList.remove('scrolled');
     return;
   }
-
-  if (window.scrollY > 80) {
-    document.body.classList.add('scrolled');
-  } else {
-    document.body.classList.remove('scrolled');
-  }
+  document.body.classList.toggle('scrolled', window.scrollY > 80);
 }
 
 window.addEventListener('scroll', handleScroll);
 window.addEventListener('resize', handleScroll);
-handleScroll();   // initial check
+handleScroll(); // initial check
