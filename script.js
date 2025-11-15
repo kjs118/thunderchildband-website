@@ -1,25 +1,28 @@
 // Year
 document.getElementById('year').textContent = new Date().getFullYear();
 
-// Mobile menu
-const toggle = document.querySelector('.mobile-toggle');
-const menu   = document.querySelector('.mobile-menu');
+// Mobile menu toggle
+const btn = document.querySelector('.menu-btn');
+const mobileNav = document.querySelector('.mobile-nav');
 
-toggle.addEventListener('click', () => {
-  menu.classList.toggle('open');
+btn.addEventListener('click', () => {
+  mobileNav.classList.toggle('open');
 });
 
-menu.querySelectorAll('a').forEach(link => {
-  link.addEventListener('click', () => menu.classList.remove('open'));
+// Close on link click
+mobileNav.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => {
+    mobileNav.classList.remove('open');
+  });
 });
 
-// Scroll: shrink + freeze
+// Scroll behavior — lower threshold for faster shrink
 function handleScroll() {
   if (window.innerWidth > 768) {
     document.body.classList.remove('scrolled');
     return;
   }
-  document.body.classList.toggle('scrolled', window.scrollY > 80);
+  document.body.classList.toggle('scrolled', window.scrollY > 50);
 }
 
 window.addEventListener('scroll', handleScroll);
