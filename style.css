@@ -7,6 +7,17 @@ html, body {
   text-align:center;
   padding-top: 70px !important; /* ALWAYS RESERVE SPACE */
 }
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+}
+* {
+  max-width: 100%;
+}
+img, iframe, video {
+  max-width: 100%;
+  height: auto;
+}
 html {
   scroll-padding-top: 80px; /* avoids header overlap */
 }
