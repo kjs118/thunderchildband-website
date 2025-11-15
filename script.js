@@ -16,13 +16,13 @@ mobileNav.querySelectorAll('a').forEach(link => {
   });
 });
 
-// Scroll behavior — lower threshold for faster shrink
+// Scroll behavior — EARLY trigger for ZERO JUMP
 function handleScroll() {
   if (window.innerWidth > 768) {
     document.body.classList.remove('scrolled');
     return;
   }
-  document.body.classList.toggle('scrolled', window.scrollY > 50);
+  document.body.classList.toggle('scrolled', window.scrollY > 20); // ← EARLY
 }
 
 window.addEventListener('scroll', handleScroll);
