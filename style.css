@@ -251,6 +251,23 @@ body.scrolled .hero {
   opacity: 0.8;
   text-decoration: none !important;
 }
+/* === SOCIAL ICONS: NO UNDERLINE, NO GAP, NO JANK === */
+.social-links a {
+  display: inline-block;
+  margin: 0 12px; /* Consistent tight spacing */
+  line-height: 0;
+  text-decoration: none !important;
+  border: none !important;
+  outline: none !important;
+}
+
+.social-links a:hover,
+.social-links a:focus {
+  text-decoration: none !important;
+  opacity: 0.8;
+  transform: scale(1.05);
+  transition: all 0.2s ease;
+}
 
 footer { 
   background: #000; 
