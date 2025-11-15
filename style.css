@@ -34,6 +34,8 @@ nav.sticky {
   align-items:center;
   padding:.5rem 1rem;
 }
+
+/* Desktop menu */
 .nav-list {
   list-style:none;
   display:flex;
@@ -53,7 +55,7 @@ nav.sticky {
   border-radius:4px;
 }
 
-/* Hamburger – hidden on desktop */
+/* Hamburger button - hidden by default */
 .nav-toggle {
   display:none;
   background:none;
@@ -62,25 +64,28 @@ nav.sticky {
   cursor:pointer;
   border-radius:5px;
   font-size:1.2rem;
-  padding:.6rem 1rem;
+  padding:.6rem 1.2rem;
   align-items:center;
-  gap:.5rem;
   transition:all .3s ease;
 }
 .nav-toggle .hamburger { font-size:1.5rem; }
-.nav-toggle .menu-text { font-weight:bold; }
 
-/* ==== MOBILE LAYOUT (≤768px) ==== */
+/* ==== MOBILE (≤768px) ==== */
 @media (max-width: 768px) {
-  .nav-toggle { display:flex; width:100%; justify-content:center; }
-  .nav-list { display:none; }
+  /* Show hamburger, hide desktop nav */
+  .nav-toggle { display:flex; width:100%; justify-content:center; margin:0; }
+  .nav-list { display:none; } /* Hide desktop menu completely */
 
+  /* Mobile dropdown menu - under header */
   .nav-list {
     position:absolute;
-    top:100%; left:0; right:0;
+    top:100%;
+    left:0;
+    right:0;
     background:#000;
     flex-direction:column;
     z-index:1500;
+    border-bottom:1px solid #222;
   }
   .nav-list.open { display:flex; }
   .nav-list li a {
@@ -91,7 +96,7 @@ nav.sticky {
   }
   .nav-list li a:hover { background:#222; }
 
-  /* ---- Fixed compact header when scrolled ---- */
+  /* === SCROLL: Fixed compact header === */
   body.scrolled header.hero {
     position:fixed;
     top:0; left:0; right:0;
@@ -112,21 +117,30 @@ nav.sticky {
     position:static;
     width:auto;
     padding:.4rem .8rem;
+    font-size:1rem;
   }
-  body.scrolled nav.sticky { display:none; }
+  body.scrolled nav.sticky { display:none; } /* Hide original nav */
 }
 
-/* ==== SECTIONS ==== */
-#shows { padding:2rem 1rem; }
+/* ==== SHOWS SECTION - RESTORED SPACING ==== */
+#shows { padding:2em 1em; background-color:#000; }
+#shows .show-item {
+  margin-bottom:1.2em;
+  font-size:1.2em;
+  line-height:1.5;
+}
+
+/* ==== FLEX ROW ==== */
 .flex-row {
   display:flex; flex-wrap:wrap; gap:2rem;
   justify-content:center; padding:4rem 1rem;
-  max-width:1200px; margin:auto;
+  max-width:1200px; margin:0 auto;
 }
 .col { flex:1; min-width:280px; }
 .col h2 { text-align:center; margin-bottom:1rem; }
 
-#band { padding:3rem 1rem; }
+/* ==== BAND GRID ==== */
+#band { background:#000; padding:3rem 1rem; }
 .band-grid {
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
@@ -149,9 +163,9 @@ nav.sticky {
 .social-links { text-align:center; margin-top:15px; }
 .social-links a svg { width:48px; height:48px; margin:0 10px; cursor:pointer; }
 
-footer { background:#000; padding:1rem; font-size:.8rem; }
+footer { background:#000; padding:1em; font-size:.8em; }
 
-/* Extra safety – never show hamburger on desktop */
+/* ==== DESKTOP: NEVER SHOW HAMBURGER ==== */
 @media (min-width: 769px) {
   .nav-toggle { display:none !important; }
 }
