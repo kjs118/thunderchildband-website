@@ -88,6 +88,7 @@ nav.sticky {
   display: flex;
   align-items: center;
   gap: 0.5em;
+  z-index: 2000;
 }
 
 .nav-toggle .hamburger {
@@ -146,51 +147,6 @@ footer {
 .col h2 {
   text-align: center;
   margin-bottom: 1rem;
-}
-
-/* Stack vertically on mobile */
-@media (max-width: 768px) {
-  .flex-row {
-    flex-direction: column;
-  }
-  .col {
-    max-width: 100%;
-  }
-
-  .nav-toggle {
-    display: flex;
-    margin: 0.5em auto;
-    order: -1;
-  }
-
-  .nav-list {
-    flex-direction: column;
-    gap: 0;
-    width: 100%;
-    background: #000;
-    display: none; /* HIDDEN by default */
-    position: relative;
-    margin: 0;
-    border-top: 1px solid #222;
-    border-bottom: 1px solid #222;
-  }
-
-  .nav-list.open {
-    display: flex; /* show menu when open */
-  }
-
-  .nav-list li a {
-    padding: 1rem;
-    border-bottom: 1px solid #222;
-    text-align: center;
-    background: #000;
-    color: #fff;
-  }
-
-  .nav-list li a:hover {
-    background: #222;
-    color: #fff;
-  }
 }
 
 /* ==== MEET THE BAND SECTION ==== */
@@ -290,4 +246,67 @@ img {
   margin: 0 10px;
   vertical-align: middle;
   cursor: pointer;
+}
+
+/* ==== RESPONSIVE NAVIGATION ==== */
+@media (max-width: 768px) {
+  .nav-toggle {
+    display: flex;
+    justify-content: center;
+    margin: 0.5em auto;
+  }
+
+  .nav-list {
+    display: none; /* hidden by default */
+    flex-direction: column;
+    gap: 0;
+    position: absolute;
+    top: 100%; /* below nav border */
+    left: 0;
+    right: 0;
+    width: 100vw; /* full width */
+    background: #000;
+    border-top: 1px solid #222;
+    border-bottom: 1px solid #222;
+    z-index: 1000;
+  }
+
+  .nav-list.open {
+    display: flex; /* show when toggled */
+  }
+
+  .nav-list li a {
+    padding: 1rem;
+    border-bottom: 1px solid #222;
+    text-align: center;
+    background: #000;
+    color: #fff;
+  }
+
+  .nav-list li a:hover {
+    background: #222;
+    color: #fff;
+  }
+}
+
+/* HIDE MENU BUTTON ON DESKTOP AND CENTER DESKTOP NAV */
+@media (min-width: 769px) {
+  .nav-toggle {
+    display: none;
+  }
+
+  .nav-list {
+    display: flex !important;
+    flex-direction: row;
+    justify-content: center;
+    width: auto;
+    background: none;
+    border: none;
+  }
+
+  .nav-list li a {
+    border: none;
+    padding: 0.5rem 1rem;
+    background: none;
+  }
 }
