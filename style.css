@@ -7,6 +7,9 @@ html, body {
   text-align:center;
   padding-top: 70px !important; /* ALWAYS RESERVE SPACE */
 }
+html {
+  scroll-padding-top: 80px; /* avoids header overlap */
+}
 
 /* ==== HEADER (FULL HEIGHT UNTIL FIXED) ==== */
 .hero {
