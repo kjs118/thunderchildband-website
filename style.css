@@ -253,9 +253,23 @@ img {
   .nav-toggle {
     display: flex;
     justify-content: center;
-    margin: 0.5em auto;
+    align-items: center;
+    margin: 0;             /* remove auto margin */
+    width: 100vw;           /* full screen width */
+    box-sizing: border-box; /* include padding in width */
+    padding: 1rem;          /* bigger click/tap area */
+    font-size: 1.2rem;      /* slightly larger text */
+  }
+  .nav-toggle .hamburger {
+    font-size: 1.5rem;      /* keep hamburger icon bigger */
   }
 
+  .nav-toggle .menu-text {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-left: 0.5rem;
+  }
+}
   .nav-list {
     display: none; /* hidden by default */
     flex-direction: column;
