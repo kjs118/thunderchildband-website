@@ -52,18 +52,17 @@ nav .nav-container {
   max-width: 1200px;
   margin: 0 auto;
   display: flex;
-  justify-content: flex-end; /* aligns hamburger/menu to right on desktop */
+  justify-content: space-between;
   align-items: center;
   padding: 0.5em 1em;
   position: relative;
 }
 
+/* Navigation list (desktop) */
 .nav-list {
   list-style: none;
   display: flex;
   gap: 2rem;
-  margin: 0;
-  padding: 0;
 }
 
 .nav-list li a {
@@ -107,21 +106,12 @@ nav .nav-container {
 
 /* ==== MOBILE NAVIGATION ==== */
 @media (max-width: 768px) {
-  nav.sticky {
-    border-top: 1px solid #222;
-    border-bottom: 1px solid #222;
-  }
-
-  .nav-toggle {
-    display: flex;
-  }
-
   .nav-list {
     position: fixed;
     top: 60px; /* below nav bar */
     left: 0;
     width: 100%;
-    height: calc(100% - 60px); /* full screen minus nav */
+    height: calc(100% - 60px);
     background: #fff;
     flex-direction: column;
     justify-content: center;
@@ -132,8 +122,6 @@ nav .nav-container {
     z-index: 1500;
     transform: translateY(-100%);
     transition: transform 0.3s ease;
-    border-top: none;
-    border-bottom: none;
   }
 
   .nav-list.open {
@@ -147,6 +135,16 @@ nav .nav-container {
 
   .nav-list li a:hover {
     color: #ff0000;
+  }
+
+  /* Hamburger button visible only on mobile */
+  .nav-toggle {
+    display: flex;
+  }
+
+  /* Hide desktop menu items initially */
+  .nav-list {
+    display: flex;
   }
 }
 
