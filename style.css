@@ -52,6 +52,7 @@ nav.sticky {
   justify-content: center;
   align-items: center;
   padding: 0.5em 1em;
+  transition: all 0.3s ease;
 }
 
 .nav-list {
@@ -211,6 +212,14 @@ footer {
   }
 
   /* Shrinking logo + sticky nav on scroll */
+  header.hero {
+    transition: all 0.3s ease;
+  }
+
+  header.hero img.logo {
+    transition: all 0.3s ease;
+  }
+
   body.scrolled header.hero {
     flex-direction: row;
     justify-content: space-between;
