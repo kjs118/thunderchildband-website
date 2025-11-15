@@ -132,6 +132,7 @@
       navList.classList.toggle('open');
     });
 
+    // Optional: close menu after clicking link
     navList.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
         if (navList.classList.contains('open')) {
