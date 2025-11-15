@@ -76,7 +76,7 @@ header.hero img.logo {
   display:none;
   position:absolute;
   left:0; right:0;
-  background:#000; /* solid black background */
+  background:#000;
   z-index:1500;
   border-bottom:1px solid #222;
 }
@@ -92,8 +92,18 @@ header.hero img.logo {
 
 /* ==== MOBILE BEHAVIOR (≤768px) ==== */
 @media (max-width: 768px) {
+  /* Show mobile toggle */
   .mobile-toggle { display:flex; }
-  .desktop-nav { display:none; }
+
+  /* COMPLETELY HIDE DESKTOP NAV — NO FLASH, NO RENDER */
+  .desktop-nav {
+    display:none !important;
+    visibility:hidden !important;
+    height:0 !important;
+    overflow:hidden !important;
+    padding:0 !important;
+    margin:0 !important;
+  }
 
   /* When scrolled: freeze header */
   body.scrolled header.hero {
@@ -126,7 +136,7 @@ header.hero img.logo {
   body.scrolled .mobile-toggle .menu-text { display:none; }
   body.scrolled .mobile-toggle .menu-icon { font-size:1.4rem; }
 
-  /* Push content down when header is fixed */
+  /* Push content down */
   body.scrolled .flex-row,
   body.scrolled section { margin-top:70px; }
 }
