@@ -181,12 +181,13 @@ body.scrolled .hero {
   .menu-btn, .mobile-nav { display: none !important; }
   .desktop-nav { display: block !important; }
 }
-/* === SOCIAL ICONS: RED HOVER WITH VISIBLE LOGOS (DESKTOP ONLY) === */
+/* === SOCIAL ICONS: RED CIRCLE OUTLINE ON HOVER (DESKTOP ONLY) === */
 @media (min-width: 769px) {
   .social-links a {
     display: inline-block;
     margin: 0 12px;
     text-decoration: none !important;
+    position: relative;
     transition: transform 0.3s ease;
   }
 
@@ -194,21 +195,29 @@ body.scrolled .hero {
     transform: scale(1.1);
   }
 
-  /* CHANGE FILL COLOR TO RED ON HOVER */
-  .social-links a:hover svg * {
-    fill: #ff0000 !important;
-    stroke: #ff0000 !important;
-    filter: none !important;
+  /* ADD RED OUTLINE CIRCLE ON HOVER */
+  .social-links a::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 56px;
+    height: 56px;
+    border: 3px solid #ff0000;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
   }
 
-  /* KEEP WHITE OUTER RING */
-  .social-links a:hover svg circle:first-child {
-    fill: white !important;
+  .social-links a:hover::after {
+    opacity: 1;
   }
 
-  /* KEEP BLACK INNER CIRCLE */
-  .social-links a:hover svg circle:nth-child(2) {
-    fill: black !important;
+  /* ENSURE SVGs STAY CLEAN */
+  .social-links a svg * {
+    transition: none !important;
   }
 }
 
