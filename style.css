@@ -3,12 +3,15 @@
 html, body { width: 100%; overflow-x: hidden; }
 body { font-family: Arial, sans-serif; background:#000; color:#eee; text-align:center; }
 
-/* ==== HEADER ==== */
+/* ==== HEADER (default: column) ==== */
 header.hero {
   background:#000;
   padding:2rem 1rem;
   text-align:center;
   transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 header.hero img.logo {
   height:100px;
@@ -95,7 +98,7 @@ header.hero img.logo {
   /* Show mobile toggle */
   .mobile-toggle { display:flex; }
 
-  /* COMPLETELY HIDE DESKTOP NAV — NO FLASH, NO RENDER */
+  /* COMPLETELY HIDE DESKTOP NAV — NO RENDER AT ALL */
   .desktop-nav {
     display:none !important;
     visibility:hidden !important;
@@ -105,13 +108,13 @@ header.hero img.logo {
     margin:0 !important;
   }
 
-  /* When scrolled: freeze header */
+  /* When scrolled: freeze header, switch to ROW */
   body.scrolled header.hero {
     position:fixed;
     top:0; left:0; right:0;
-    flex-direction:row;
-    justify-content:space-between;
-    align-items:center;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
     padding:0.4rem 0.8rem;
     background:#000;
     z-index:2000;
