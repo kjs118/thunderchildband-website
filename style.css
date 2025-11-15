@@ -46,11 +46,6 @@ nav.sticky {
   top: 0;
   z-index: 1000;
   width: 100%;
-}
-
-nav.sticky .nav-container {
-  max-width: 1200px;
-  margin: 0 auto;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -62,23 +57,20 @@ nav.sticky .nav-container {
   list-style: none;
   display: flex;
   gap: 2rem;
-  margin: 0;
-  padding: 0;
+  justify-content: center; /* center on desktop */
 }
 
 .nav-list li a {
   color: #eee;
   text-decoration: none;
   font-weight: bold;
-  transition: color 0.3s ease, background 0.3s ease;
   padding: 0.5rem 1rem;
   display: block;
+  transition: color 0.3s ease;
 }
 
 .nav-list li a:hover {
-  background: #ff0000;
-  color: #fff;
-  border-radius: 4px;
+  color: #ff0000;
 }
 
 /* Hamburger button for mobile */
@@ -91,6 +83,44 @@ nav.sticky .nav-container {
   cursor: pointer;
   position: absolute;
   right: 1em;
+}
+
+/* ==== MOBILE NAV ==== */
+@media (max-width: 768px) {
+  .nav-toggle {
+    display: block;
+  }
+
+  .nav-list {
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    right: 0;
+    width: 200px;
+    background: #000;
+    padding: 1rem;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    border-left: 1px solid #222;
+    gap: 1rem;
+  }
+
+  .nav-list.open {
+    transform: translateX(0);
+  }
+
+  .nav-list li a {
+    padding: 0.8em 1em;
+    border-radius: 4px;
+    background: #000;
+    color: #fff;
+    text-align: center;
+  }
+
+  .nav-list li a:hover {
+    background: #222;
+    color: #ff0000;
+  }
 }
 
 /* ==== SHOWS SECTION ==== */
@@ -179,11 +209,13 @@ footer {
     grid-template-columns: 1fr;
   }
 }
+
 @media (min-width: 481px) and (max-width: 768px) {
   .band-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
 @media (min-width: 769px) {
   .band-grid {
     grid-template-columns: repeat(3, 1fr);
@@ -254,41 +286,4 @@ img {
   margin: 0 10px;
   vertical-align: middle;
   cursor: pointer;
-}
-
-/* ==== MOBILE NAV ==== */
-@media (max-width: 768px) {
-  .nav-toggle {
-    display: block;
-  }
-
-  .nav-list {
-    flex-direction: column;
-    gap: 0;
-    position: absolute;
-    top: 100%;
-    right: 0;
-    background: #000;
-    width: 100%;
-    padding: 0;
-    transform: translateY(-200%);
-    transition: transform 0.3s ease;
-  }
-
-  .nav-list.open {
-    transform: translateY(0);
-  }
-
-  .nav-list li a {
-    padding: 1rem;
-    border-bottom: 1px solid #222;
-    background: #000;
-    color: #fff;
-    text-align: center;
-  }
-
-  .nav-list li a:hover {
-    background: #222;
-    color: #fff;
-  }
 }
