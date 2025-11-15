@@ -9,23 +9,30 @@
 </head>
 <body>
 
-<!-- ====================== HEADER ====================== -->
+<!-- ====================== HEADER (logo + mobile menu button) ====================== -->
 <header class="hero">
   <img src="images/thunderchild2.png" alt="Thunder Child Band" class="logo">
-  <button class="mobile-toggle" aria-label="Menu">
+  <button class="mobile-toggle">
     <span class="menu-icon">Menu</span>
     <span class="menu-text">Menu</span>
   </button>
 </header>
 
-<!-- ====================== SINGLE NAV (used for both desktop & mobile) ====================== -->
-<nav class="main-nav">
+<!-- ====================== DESKTOP NAV ONLY (hidden on mobile) ====================== -->
+<nav class="desktop-nav">
   <ul class="nav-list">
     <li><a href="#shows">Shows</a></li>
     <li><a href="#about">About</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
 </nav>
+
+<!-- ====================== MOBILE MENU DROPDOWN (hidden until opened) ====================== -->
+<ul class="mobile-menu">
+  <li><a href="#shows">Shows</a></li>
+  <li><a href="#about">About</a></li>
+  <li><a href="#contact">Contact</a></li>
+</ul>
 
 <!-- ====================== SHOWS + INSTAGRAM ====================== -->
 <section class="flex-row">
