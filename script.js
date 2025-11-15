@@ -1,4 +1,4 @@
-// Toggle mobile menu
+// ====== MOBILE MENU TOGGLE ======
 const navToggle = document.querySelector('.nav-toggle');
 const navList = document.querySelector('.nav-list');
 
@@ -6,18 +6,26 @@ navToggle.addEventListener('click', () => {
   navList.classList.toggle('open');
 });
 
-// Shrinking logo on scroll (mobile only)
+// ====== SHRINKING LOGO ON SCROLL (MOBILE ONLY) ======
 const header = document.querySelector('header.hero');
-const nav = document.querySelector('nav.sticky');
 
-window.addEventListener('scroll', () => {
+function handleScroll() {
   if (window.innerWidth <= 768) {
     if (window.scrollY > 50) {
-      header.classList.add('shrink');
+      document.body.classList.add('scrolled');
     } else {
-      header.classList.remove('shrink');
+      document.body.classList.remove('scrolled');
     }
   } else {
-    header.classList.remove('shrink');
+    document.body.classList.remove('scrolled');
   }
-});
+}
+
+// Run on scroll
+window.addEventListener('scroll', handleScroll);
+
+// Optional: run on resize to reset if user resizes screen
+window.addEventListener('resize', handleScroll);
+
+// Run initially in case page loads scrolled
+handleScroll();
