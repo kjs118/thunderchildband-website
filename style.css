@@ -77,7 +77,7 @@ nav.sticky {
 
 /* Hamburger button for mobile */
 .nav-toggle {
-  display: none;
+  display: none; /* hide on desktop */
   font-size: 1.5rem;
   background: none;
   border: 2px solid #fff;
@@ -85,7 +85,9 @@ nav.sticky {
   cursor: pointer;
   padding: 0.5em 1em;
   border-radius: 5px;
-  z-index: 2000;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
 }
 
 .nav-toggle .hamburger {
@@ -144,6 +146,44 @@ footer {
 .col h2 {
   text-align: center;
   margin-bottom: 1rem;
+}
+
+/* ==== MOBILE NAV ==== */
+@media (max-width: 768px) {
+  .nav-toggle {
+    display: flex;
+  }
+
+  .nav-list {
+    flex-direction: column;
+    gap: 0;
+    position: absolute;
+    top: 60px; /* below nav lines */
+    left: 0;
+    width: 100%;
+    background: #000;
+    display: none; /* hidden by default */
+    z-index: 1000;
+    border-top: 1px solid #222;
+    border-bottom: 1px solid #222;
+  }
+
+  .nav-list.open {
+    display: flex;
+  }
+
+  .nav-list li a {
+    padding: 1rem;
+    border-bottom: 1px solid #222;
+    text-align: center;
+    background: #000;
+    color: #fff;
+  }
+
+  .nav-list li a:hover {
+    background: #222;
+    color: #fff;
+  }
 }
 
 /* ==== MEET THE BAND SECTION ==== */
@@ -205,7 +245,7 @@ footer {
 
 @media (max-width: 480px) {
   .member-photo {
-    max-width: 140px;
+    max-width: 120px; /* smaller for mobile */
   }
 }
 
@@ -243,51 +283,4 @@ img {
   margin: 0 10px;
   vertical-align: middle;
   cursor: pointer;
-}
-
-/* ==== MOBILE MENU ==== */
-@media (max-width: 768px) {
-
-  .nav-toggle {
-    display: flex;
-    position: relative;
-    justify-content: center;
-    margin: 0.5em auto;
-  }
-
-  .nav-list {
-    flex-direction: column;
-    gap: 0;
-    position: relative;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background: #000;
-    display: none; /* hidden by default */
-    text-align: center;
-  }
-
-  .nav-list.open {
-    display: flex; /* show when toggle clicked */
-  }
-
-  .nav-list li a {
-    padding: 1rem 0;
-    border-bottom: 1px solid #222;
-    text-align: center;
-    background: #000;
-    color: #fff;
-  }
-
-  .nav-list li a:hover {
-    background: #222;
-    color: #fff;
-  }
-}
-
-/* ==== HIDE MENU BUTTON ON DESKTOP ==== */
-@media (min-width: 769px) {
-  .nav-toggle {
-    display: none;
-  }
 }
