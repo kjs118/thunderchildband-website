@@ -77,18 +77,16 @@ nav.sticky {
 
 /* Hamburger button for mobile */
 .nav-toggle {
-  display: none;
+  display: none; /* hidden on desktop */
   font-size: 1.5rem;
   background: none;
   border: 2px solid #fff;
   color: #fff;
   cursor: pointer;
-  padding: 0.5em 1em;
   border-radius: 5px;
-  display: flex;
+  z-index: 2000;
   align-items: center;
   gap: 0.5em;
-  z-index: 2000;
 }
 
 .nav-toggle .hamburger {
@@ -149,6 +147,67 @@ footer {
   margin-bottom: 1rem;
 }
 
+/* ==== MOBILE STYLING ==== */
+@media (max-width: 768px) {
+  .flex-row {
+    flex-direction: column;
+  }
+  .col {
+    max-width: 100%;
+  }
+
+  /* Show hamburger */
+  .nav-toggle {
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    width: 100vw;
+    box-sizing: border-box;
+    padding: 1rem;
+    font-size: 1.2rem;
+  }
+
+  .nav-toggle .hamburger {
+    font-size: 1.5rem;
+  }
+
+  .nav-toggle .menu-text {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-left: 0.5rem;
+  }
+
+  /* Mobile nav list */
+  .nav-list {
+    flex-direction: column;
+    gap: 0;
+    position: absolute;
+    top: 100%; /* directly below nav bar */
+    left: 0;
+    width: 100%;
+    background: #000;
+    display: none; /* hidden by default */
+    z-index: 1000;
+  }
+
+  .nav-list.open {
+    display: flex; /* show menu when open */
+  }
+
+  .nav-list li a {
+    padding: 1rem;
+    border-bottom: 1px solid #222;
+    text-align: center;
+    background: #000;
+    color: #fff;
+  }
+
+  .nav-list li a:hover {
+    background: #222;
+    color: #fff;
+  }
+}
+
 /* ==== MEET THE BAND SECTION ==== */
 #band {
   background: #000;
@@ -167,6 +226,9 @@ footer {
 @media (max-width: 480px) {
   .band-grid {
     grid-template-columns: 1fr;
+  }
+  .member-photo {
+    max-width: 140px;
   }
 }
 
@@ -206,12 +268,6 @@ footer {
   display: block;
 }
 
-@media (max-width: 480px) {
-  .member-photo {
-    max-width: 140px;
-  }
-}
-
 .member-card h3 {
   font-family: 'Roboto Slab', serif;
   font-size: 1.5rem;
@@ -246,81 +302,4 @@ img {
   margin: 0 10px;
   vertical-align: middle;
   cursor: pointer;
-}
-
-/* ==== RESPONSIVE NAVIGATION ==== */
-@media (max-width: 768px) {
-  .nav-toggle {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0;             /* remove auto margin */
-    width: 100vw;           /* full screen width */
-    box-sizing: border-box; /* include padding in width */
-    padding: 1rem;          /* bigger click/tap area */
-    font-size: 1.2rem;      /* slightly larger text */
-  }
-  .nav-toggle .hamburger {
-    font-size: 1.5rem;      /* keep hamburger icon bigger */
-  }
-
-  .nav-toggle .menu-text {
-    font-size: 1rem;
-    font-weight: bold;
-    margin-left: 0.5rem;
-  }
-}
-  .nav-list {
-    display: none; /* hidden by default */
-    flex-direction: column;
-    gap: 0;
-    position: absolute;
-    top: 100%; /* below nav border */
-    left: 0;
-    right: 0;
-    width: 100vw; /* full width */
-    background: #000;
-    border-top: 1px solid #222;
-    border-bottom: 1px solid #222;
-    z-index: 1000;
-  }
-
-  .nav-list.open {
-    display: flex; /* show when toggled */
-  }
-
-  .nav-list li a {
-    padding: 1rem;
-    border-bottom: 1px solid #222;
-    text-align: center;
-    background: #000;
-    color: #fff;
-  }
-
-  .nav-list li a:hover {
-    background: #222;
-    color: #fff;
-  }
-}
-
-/* HIDE MENU BUTTON ON DESKTOP AND CENTER DESKTOP NAV */
-@media (min-width: 769px) {
-  .nav-toggle {
-    display: none;
-  }
-
-  .nav-list {
-    display: flex !important;
-    flex-direction: row;
-    justify-content: center;
-    width: auto;
-    background: none;
-    border: none;
-  }
-
-  .nav-list li a {
-    border: none;
-    padding: 0.5rem 1rem;
-    background: none;
-  }
 }
