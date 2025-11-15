@@ -27,6 +27,7 @@ header.hero {
   align-items: center;
   padding: 2em 1em;
   text-align: center;
+  transition: all 0.3s ease;
 }
 
 header img.logo {
@@ -35,6 +36,7 @@ header img.logo {
   max-width: 500px;
   width: auto;
   margin: 0 auto 0.5em;
+  transition: all 0.3s ease;
 }
 
 /* ==== NAVIGATION ROW ==== */
@@ -87,6 +89,7 @@ nav.sticky {
   z-index: 2000;
   align-items: center;
   gap: 0.5em;
+  transition: all 0.3s ease;
 }
 
 .nav-toggle .hamburger {
@@ -205,6 +208,24 @@ footer {
   .nav-list li a:hover {
     background: #222;
     color: #fff;
+  }
+
+  /* Shrinking logo + sticky nav on scroll */
+  body.scrolled header.hero {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0.5em 1em;
+  }
+
+  body.scrolled header.hero img.logo {
+    height: 50px;
+    margin: 0;
+  }
+
+  body.scrolled .nav-toggle {
+    position: fixed;
+    top: 0.25em;
+    right: 0.5em;
   }
 }
 
