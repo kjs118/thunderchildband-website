@@ -30,11 +30,13 @@ header.hero {
 }
 
 header img.logo {
-  width: auto;
-  height: 100px;
-  max-width: 500px;
-  margin-bottom: 0.5em;
+  display: block;
+  height: 100px;       /* fixed max height */
+  max-width: 500px;    /* prevent it from growing too wide */
+  width: auto;         /* maintain aspect ratio */
+  margin: 0 auto 0.5em; /* center and add spacing below */
 }
+
 
 /* ==== NAVIGATION ROW ==== */
 nav.sticky {
