@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta property="og:title" content="Thunder Child Band">
-  <meta property="og:description" content="Official website for Thunder Child Band">
-  <meta property="og:image" content="https://www.thunderchildband.com/images/thunderchild.png">
-  <meta property="og:url" content="https://www.thunderchildband.com">
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Thunder Child Band</title>
-  <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto+Slab&display=swap" rel="stylesheet">
+<meta property="og:title" content="Thunder Child Band">
+<meta property="og:description" content="Official website for Thunder Child Band">
+<meta property="og:image" content="https://www.thunderchildband.com/images/thunderchild.png">
+<meta property="og:url" content="https://www.thunderchildband.com">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thunder Child Band</title>
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto+Slab&display=swap" rel="stylesheet">
 </head>
 <body>
   <!-- ====================== HEADER ====================== -->
@@ -19,7 +19,10 @@
 
   <!-- ====================== NAV ====================== -->
   <nav class="sticky">
-    <button class="nav-toggle"><span class="hamburger">☰</span> <span class="menu-text">Menu</span></button>
+    <button class="nav-toggle">
+      <span class="hamburger">☰</span>
+      <span class="menu-text">Menu</span>
+    </button>
     <ul class="nav-list">
       <li><a href="#shows">Shows</a></li>
       <li><a href="#about">About</a></li>
@@ -125,6 +128,14 @@
 
     navToggle.addEventListener('click', () => {
       navList.classList.toggle('open');
+    });
+
+    navList.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        if (navList.classList.contains('open')) {
+          navList.classList.remove('open');
+        }
+      });
     });
   </script>
 </body>
