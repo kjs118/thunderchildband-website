@@ -1,7 +1,7 @@
-// Current year
+// Year
 document.getElementById('year').textContent = new Date().getFullYear();
 
-// Mobile menu toggle
+// Mobile menu
 const toggle = document.querySelector('.mobile-toggle');
 const menu   = document.querySelector('.mobile-menu');
 
@@ -9,12 +9,11 @@ toggle.addEventListener('click', () => {
   menu.classList.toggle('open');
 });
 
-// Close menu when link is clicked
 menu.querySelectorAll('a').forEach(link => {
   link.addEventListener('click', () => menu.classList.remove('open'));
 });
 
-// Scroll behavior: shrink + freeze header (mobile only)
+// Scroll: shrink + freeze
 function handleScroll() {
   if (window.innerWidth > 768) {
     document.body.classList.remove('scrolled');
@@ -25,4 +24,4 @@ function handleScroll() {
 
 window.addEventListener('scroll', handleScroll);
 window.addEventListener('resize', handleScroll);
-handleScroll(); // initial check
+handleScroll();
