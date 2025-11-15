@@ -88,7 +88,7 @@ html {
 #about,
 #band,
 #contact {
-  scroll-margin-top: 400px; /* adjust until perfect */
+  scroll-margin-top: 250px; /* adjust until perfect */
 }
 /* ==== MOBILE NAV ==== */
 .mobile-nav {
