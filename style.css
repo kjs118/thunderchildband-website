@@ -117,7 +117,17 @@ html {
 @media (max-width: 768px) {
   .menu-btn { display: flex !important; width: 100% !important; border-radius: 0 !important; }
   .desktop-nav { display: none !important; }
+@media (max-width: 768px) {
+  .social-links {
+    font-size: 0; /* removes whitespace between inline-block children */
+  }
 
+  .social-links a {
+    display: inline-block;
+    font-size: 0; /* keeps SVG icons unaffected */
+    margin: 0 6px; /* optional: control spacing explicitly */
+  }
+}
   /* FIXED HEADER — SHRINKS SMOOTHLY */
   body.scrolled .hero {
     position: fixed !important;
