@@ -18,24 +18,63 @@ body {
   margin: 0;
 }
 
-header {
+/* ==== HEADER + NAV ==== */
+.site-header {
   background: #000;
+  width: 100%;
+  border-bottom: 1px solid #222;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.header-container {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  padding: 2em 1em;
-  text-align: center;
+  padding: 1rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-header img.logo {
+.logo-img {
+  height: 60px;
   width: auto;
-  height: 100px;
-  max-width: 500px;
 }
 
-h1 {
-  font-size: 2.5em;
+/* Main nav */
+.main-nav {
+  display: flex;
+  gap: 2rem;
+}
+
+.nav-list {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-list li a {
+  color: #eee;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.nav-list li a:hover {
+  color: #ff0000;
+}
+
+/* Hamburger button (mobile) */
+.nav-toggle {
+  display: none;
+  font-size: 2rem;
+  background: none;
+  border: none;
+  color: #eee;
+  cursor: pointer;
 }
 
 /* ==== SHOWS SECTION ==== */
@@ -102,6 +141,33 @@ footer {
   .col {
     max-width: 100%;
   }
+
+  /* Mobile nav adjustments */
+  .main-nav {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: #000;
+    width: 200px;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+  }
+
+  .main-nav.open {
+    transform: translateX(0);
+  }
+
+  .nav-list {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .nav-toggle {
+    display: block;
+  }
 }
 
 /* ==== MEET THE BAND SECTION ==== */
@@ -112,7 +178,7 @@ footer {
 
 .band-grid {
   display: grid;
-  justify-content: center; /* center last row if only 2 images */
+  justify-content: center;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 2rem;
   max-width: 1000px;
@@ -152,8 +218,8 @@ footer {
 /* ==== BAND PHOTOS: RESPONSIVE & CIRCULAR ==== */
 .member-photo {
   width: 100%;
-  max-width: 180px;        /* cap size on large screens */
-  aspect-ratio: 1 / 1;     /* keep square */
+  max-width: 180px;
+  aspect-ratio: 1 / 1;
   object-fit: cover;
   border-radius: 50%;
   border: 3px solid #000;
@@ -163,7 +229,7 @@ footer {
 
 @media (max-width: 480px) {
   .member-photo {
-    max-width: 140px; /* smaller on mobile */
+    max-width: 140px;
   }
 }
 
@@ -187,8 +253,9 @@ img {
   display: block;
 }
 .spacer {
-  height: 1.5rem; /* adjust for desired space */
+  height: 1.5rem;
 }
+
 .social-links {
   text-align: center;
   margin-top: 15px;
@@ -201,4 +268,3 @@ img {
   vertical-align: middle;
   cursor: pointer;
 }
-
