@@ -23,7 +23,7 @@ body { font-family: Arial, sans-serif; background:#000; color:#eee; text-align:c
   transition: all .3s ease;
 }
 
-/* ==== MENU BUTTON (FULL WIDTH ON MOBILE) ==== */
+/* ==== MENU BUTTON (FULL WIDTH) ==== */
 .menu-btn {
   display: none;
   background:#000;
@@ -40,8 +40,13 @@ body { font-family: Arial, sans-serif; background:#000; color:#eee; text-align:c
   width: 100%;
   max-width: 100%;
 }
-.menu-btn .icon { font-size:1.5rem; }
-.menu-btn .text { }
+.menu-btn .icon { 
+  font-size:1.5rem; 
+  font-weight: bold;
+}
+.menu-btn .text { 
+  font-size:1.1rem;
+}
 
 /* ==== DESKTOP NAV ==== */
 .desktop-nav {
@@ -75,7 +80,7 @@ body { font-family: Arial, sans-serif; background:#000; color:#eee; text-align:c
   border-radius:4px;
 }
 
-/* ==== MOBILE NAV (HIDDEN BY DEFAULT) ==== */
+/* ==== MOBILE NAV (HIDDEN UNTIL OPEN) ==== */
 .mobile-nav {
   display: none !important;
   background:#000;
