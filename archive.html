@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thunder Child – Show Archive</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto+Slab&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="archive-page">
+
+<header class="archive-hero">
+  <img src="images/thunderchild2.png" alt="Thunder Child Band" class="logo">
+  <h1>Show Archive</h1>
+</header>
+
+<main class="archive-container">
+
+  <div class="archive-show">
+    <div class="archive-image">
+      <img src="images/archive-placeholder.jpg" alt="Show photo">
+    </div>
+    <div class="archive-details">
+      <h2>November 14, 2025</h2>
+      <p>Blue Moon Saloon – Lafayette, LA</p>
+      <p>Thunder Child closed out the fall run with a packed house and an encore of Highway Star that shook the walls.</p>
+    </div>
+  </div>
+
+  <div class="archive-show">
+    <div class="archive-image">
+      <img src="images/archive-placeholder.jpg" alt="Show photo">
+    </div>
+    <div class="archive-details">
+      <h2>September 5, 2025</h2>
+      <p>Legends Pub – Lafayette, LA</p>
+      <p>A high-energy late summer show featuring new originals and crowd favorites.</p>
+    </div>
+  </div>
+
+</main>
+
+<footer class="archive-footer">
+  <div class="social-links">
+    <!-- reuse the exact icons from the main page -->
+    (copy the same SVG social block here)
+  </div>
+  <p>© <span id="year"></span> Thunder Child Band</p>
+</footer>
+
+<script>
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
