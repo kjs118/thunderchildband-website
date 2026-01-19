@@ -251,3 +251,71 @@ footer { background:#000; padding:1em; font-size:.8em; }
   border: 0;
   display: block;
 }
+/* ================= ARCHIVE PAGE ================= */
+
+.archive-page {
+  background: black;
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.archive-hero {
+  text-align: center;
+  padding: 60px 20px 30px;
+  background: linear-gradient(to bottom, #111, #000);
+}
+
+.archive-hero h1 {
+  font-family: 'Roboto Slab', serif;
+  margin-top: 10px;
+  letter-spacing: 2px;
+}
+
+.archive-container {
+  max-width: 1000px;
+  margin: auto;
+  padding: 40px 20px 60px;
+}
+
+.archive-show {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 40px;
+  border-bottom: 1px solid #333;
+  padding-bottom: 30px;
+}
+
+.archive-image img {
+  width: 220px;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 2px solid #222;
+}
+
+.archive-details h2 {
+  margin: 0 0 6px;
+}
+
+.archive-details p {
+  margin: 4px 0;
+  line-height: 1.5;
+}
+
+.archive-footer {
+  text-align: center;
+  padding: 30px 20px 40px;
+  border-top: 1px solid #222;
+}
+
+/* MOBILE STACK */
+@media (max-width: 768px) {
+  .archive-show {
+    flex-direction: column;
+  }
+
+  .archive-image img {
+    width: 100%;
+    height: auto;
+  }
+}
