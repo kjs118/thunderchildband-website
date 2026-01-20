@@ -327,7 +327,7 @@ footer { background:#000; padding:1em; font-size:.8em; }
   .archive-show {
     flex-direction: column;
   }
-}
+
   .archive-image img {
     width: 100%;
     height: auto;
