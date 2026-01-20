@@ -352,4 +352,25 @@ footer { background:#000; padding:1em; font-size:.8em; }
   height: 100%;
   object-fit: cover;
 }
+  .archive-video {
+  width: 220px;
+  height: 220px;
+  border: 2px solid #222;
+  border-radius: 6px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;     /* vertical centering */
+  justify-content: center; /* horizontal centering */
+}
+
+.video-inner {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+}
+
+.video-inner iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
 }
