@@ -313,7 +313,21 @@ footer { background:#000; padding:1em; font-size:.8em; }
   .archive-show {
     flex-direction: column;
   }
+/* Fix iframe fill inside square desktop container */
+.archive-video {
+  width: 320px;
+  aspect-ratio: 16 / 9;
+  border: 2px solid #222;
+  border-radius: 6px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
 
+.archive-video iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
   .archive-image img {
     width: 100%;
     height: auto;
@@ -346,19 +360,5 @@ footer { background:#000; padding:1em; font-size:.8em; }
     height: auto !important;
     aspect-ratio: 16 / 9 !important;
   }
-/* Fix iframe fill inside square desktop container */
-.archive-video {
-  width: 320px;
-  aspect-ratio: 16 / 9;
-  border: 2px solid #222;
-  border-radius: 6px;
-  overflow: hidden;
-  flex-shrink: 0;
-}
 
-.archive-video iframe {
-  width: 100%;
-  height: 100%;
-  border: 0;
-}
 }
