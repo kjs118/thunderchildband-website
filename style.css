@@ -332,3 +332,19 @@ footer { background:#000; padding:1em; font-size:.8em; }
   height: 100%;
   border: 0;
 }
+/* ==== ARCHIVE VIDEO MOBILE FIX ==== */
+@media (max-width: 768px) {
+
+  .archive-video {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 auto 10px !important;
+  }
+
+  .archive-video iframe {
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 16 / 9 !important;
+  }
+
+}
