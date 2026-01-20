@@ -307,13 +307,7 @@ footer { background:#000; padding:1em; font-size:.8em; }
   padding: 30px 20px 40px;
   border-top: 1px solid #222;
 }
-
-/* MOBILE STACK */
-@media (max-width: 768px) {
-  .archive-show {
-    flex-direction: column;
-  }
-/* Fix iframe fill inside square desktop container */
+/* ARCHIVE VIDEO DESKTOP */
 .archive-video {
   width: 320px;
   aspect-ratio: 16 / 9;
@@ -328,17 +322,16 @@ footer { background:#000; padding:1em; font-size:.8em; }
   height: 100%;
   border: 0;
 }
+/* MOBILE STACK */
+@media (max-width: 768px) {
+  .archive-show {
+    flex-direction: column;
+  }
+}
   .archive-image img {
     width: 100%;
     height: auto;
   }
-}
-.archive-video {
-  width: 220px;
-  aspect-ratio: 1 / 1;
-  border: 2px solid #222;
-  border-radius: 6px;
-  overflow: hidden;
 }
 
 .archive-video iframe {
