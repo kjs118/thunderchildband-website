@@ -286,12 +286,25 @@ footer { background:#000; padding:1em; font-size:.8em; }
   .archive-video iframe { width: 100% !important; height: auto !important; aspect-ratio: 16 / 9 !important; }
 }
 
-/* ==== DESKTOP ONLY: STICKY NAV ==== */
+/* ==== DESKTOP STICKY HEADER ==== */
 @media (min-width: 769px) {
+  /* Make the header with logo sticky */
+  .hero {
+    position: sticky;
+    top: 0;
+    z-index: 2001; /* above desktop nav */
+    background: #000; /* ensure background covers content behind it */
+  }
+
+  /* Add a border or shadow if desired to separate logo from content */
+  .hero {
+    border-bottom: 1px solid #222;
+  }
+
+  /* Ensure desktop nav stays sticky below the header */
   .desktop-nav {
     position: sticky;
-    top: 0; /* sticks to top of viewport */
-    z-index: 2000; /* above content but below any mobile overlays */
-    background: #000; /* ensures the nav doesn’t blend into content */
+    top: 100px; /* match the height of .logo in .hero */
+    z-index: 2000;
   }
 }
