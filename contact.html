@@ -101,5 +101,34 @@
 </footer>
 
 <script src="script.js"></script>
+
+  <script>
+const form = document.getElementById('email-form');
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault(); // stops the page from reloading
+
+  const formData = new FormData(form);
+
+  try {
+    const response = await fetch(form.action, {
+      method: 'POST',
+      body: formData
+    });
+
+    const result = await response.json();
+
+    if (result.status === 'success') {
+      alert("Thanks for signing up!");
+      form.reset();
+    } else {
+      alert("Oops! Something went wrong. Please try again.");
+    }
+  } catch (error) {
+    alert("Error submitting the form. Please try again.");
+    console.error(error);
+  }
+});
+</script>
 </body>
 </html>
