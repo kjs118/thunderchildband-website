@@ -9,9 +9,9 @@ html, body {
   overflow-x: hidden;
   width: 100%;
 }
-/* * {
+ * {
   max-width: 100%;
-} */
+} 
 img, iframe, video {
   max-width: 100%;
   height: auto;
@@ -156,7 +156,9 @@ html {
 
   body.scrolled .logo {
     height: 50px !important;
-    max-width: 40% !important;
+   /* max-width: 40% !important; */
+    width: auto !important;
+    max-width: none !important;
   }
 
   body.scrolled .menu-btn {
