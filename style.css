@@ -254,9 +254,7 @@ footer { background:#000; padding:1em; font-size:.8em; }
 /* ================= ARCHIVE PAGE ================= */
 
 .archive-page {
-  background: black;
-  color: white;
-  font-family: 'Montserrat', sans-serif;
+  background: #000;
 }
 
 .archive-hero {
