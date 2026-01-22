@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thunder Child Band – Contact</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto+Slab&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="contact-page">
+
+<!-- ====================== HEADER WITH MOBILE NAV ====================== -->
+<header class="hero">
+  <div class="header-content">
+    <img src="images/thunderchild2.png" alt="Thunder Child Band" class="logo">
+    <button class="menu-btn" aria-label="Open menu">
+      <span class="icon">☰</span>
+      <span class="text">Menu</span>
+    </button>
+  </div>
+
+  <nav class="mobile-nav">
+    <ul>
+      <li><a href="index.html#shows">Shows</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="archive.html">Archive</a></li>
+    </ul>
+  </nav>
+</header>
+
+<!-- ====================== DESKTOP NAV ====================== -->
+<nav class="desktop-nav">
+  <ul>
+    <li><a href="index.html#shows">Shows</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="archive.html">Archive</a></li>
+  </ul>
+</nav>
+
+<!-- ====================== MAIN CONTACT SECTION ====================== -->
+<main class="flex-row contact-main">
+  <!-- Left Column: Band Photo -->
+  <div class="col contact-photo">
+    <img src="images/band-photo.jpg" alt="Thunder Child Band" class="full-width-img">
+  </div>
+
+  <!-- Right Column: Email Sign-Up -->
+  <div class="col contact-form">
+    <h2>Stay in the Loop</h2>
+    <p>Sign up for our email list to get the latest updates on shows, new music, and more!</p>
+    <form action="#" method="POST" class="email-form">
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" placeholder="Your Name" required>
+
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" placeholder="Your Email" required>
+
+      <button type="submit">Subscribe</button>
+    </form>
+  </div>
+</main>
+
+<!-- ====================== SOCIAL LINKS + FOOTER ====================== -->
+<section id="contact-footer" class="section">
+  <div class="social-links">
+    <a href="https://instagram.com/thunderchildband" target="_blank">
+      <svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="24" cy="24" r="23" fill="white"/>
+        <circle cx="24" cy="24" r="20" fill="black"/>
+        <rect x="16" y="16" width="16" height="16" rx="4.5" stroke="white" stroke-width="2" fill="none"/>
+        <circle cx="24" cy="24" r="4.5" stroke="white" stroke-width="2" fill="none"/>
+        <circle cx="29" cy="19" r="1.8" fill="white"/>
+      </svg>
+    </a>
+    <a href="https://facebook.com/thunderchildbandLA" target="_blank">
+      <svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="24" cy="24" r="23" fill="white"/>
+        <circle cx="24" cy="24" r="20" fill="black"/>
+        <path d="M25.2 17h3.2v-3.2h-3.2c-2.7 0-4.8 2.1-4.8 4.8v3.2H17v3.2h3.4v8.8h3.4v-8.8h3l0.8-3.2h-3.8v-3.2c0-0.9 0.7-1.6 1.6-1.6z" fill="white"/>
+      </svg>
+    </a>
+    <a href="mailto:contact@thunderchildband.com" target="_blank">
+      <svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="24" cy="24" r="23" fill="white"/>
+        <circle cx="24" cy="24" r="20" fill="black"/>
+        <rect x="15" y="17" width="18" height="14" rx="2" stroke="white" stroke-width="2" fill="none"/>
+        <polyline points="15,17 24,26 33,17" fill="none" stroke="white" stroke-width="2"/>
+      </svg>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <p>© <span id="year"></span> Thunder Child Band – All Rights Reserved</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
