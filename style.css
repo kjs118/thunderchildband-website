@@ -6,8 +6,6 @@ html, body {
   color:#eee;
   text-align:center;
   padding-top: 70px !important; /* ALWAYS RESERVE SPACE */
-}
-html, body {
   overflow-x: hidden;
   width: 100%;
 }
@@ -22,7 +20,7 @@ html {
   scroll-padding-top: 80px; /* avoids header overlap */
 }
 
-/* ==== HEADER (FULL HEIGHT UNTIL FIXED) ==== */
+/* ==== HEADER ==== */
 .hero {
   background: #000;
   padding: 2rem 1rem;
@@ -30,7 +28,7 @@ html {
   z-index: 2000;
   margin-top: -70px !important;
   padding-top: 70px !important;
-  transition: none !important; /* NO SHRINK UNTIL FIXED */
+  transition: none !important;
 }
 .header-content {
   display: flex;
@@ -86,6 +84,7 @@ html {
   color: #eee;
   text-decoration: none;
   font-weight: bold;
+  font-size: 1rem; /* matches index and archive */
   padding: 0.5rem 1rem;
   display: block;
   transition: background 0.3s;
@@ -96,11 +95,12 @@ html {
   border-radius: 4px;
 }
 
+/* ==== SCROLL TARGET FIX ==== */
 #shows,
 #about,
 #band,
 #contact {
-  scroll-margin-top: 250px; /* adjust until perfect */
+  scroll-margin-top: 250px;
 }
 
 /* ==== MOBILE NAV ==== */
@@ -131,17 +131,9 @@ html {
   .menu-btn { display: flex !important; width: 100% !important; border-radius: 0 !important; }
   .desktop-nav { display: none !important; }
 
-  .social-links {
-    font-size: 0; /* removes whitespace between inline-block children */
-  }
+  .social-links { font-size: 0; }
+  .social-links a { display: inline-block; font-size: 0; margin: 0 6px; }
 
-  .social-links a {
-    display: inline-block;
-    font-size: 0; /* keeps SVG icons unaffected */
-    margin: 0 6px; /* optional: control spacing explicitly */
-  }
-
-  /* FIXED HEADER — SHRINKS SMOOTHLY */
   body.scrolled .hero {
     position: fixed !important;
     top: 0 !important;
@@ -177,7 +169,6 @@ html {
   body.scrolled .menu-btn .text { display: none !important; }
   body.scrolled .menu-btn .icon { font-size: 1.4rem !important; }
 
-  /* MOBILE NAV STAYS UNDER FIXED HEADER */
   body.scrolled .mobile-nav {
     position: fixed !important;
     top: 70px !important;
@@ -193,7 +184,7 @@ html {
   .desktop-nav { display: block !important; }
 }
 
-/* ==== SOCIAL ICONS: RED GLOW ON HOVER (DESKTOP) ==== */
+/* ==== SOCIAL ICONS ==== */
 @media (min-width: 769px) {
   .social-links a {
     display: inline-block;
@@ -202,9 +193,7 @@ html {
     position: relative;
     transition: transform 0.3s ease;
   }
-  .social-links a:hover {
-    transform: scale(1.1);
-  }
+  .social-links a:hover { transform: scale(1.1); }
   .social-links a::after {
     content: '';
     position: absolute;
@@ -220,7 +209,7 @@ html {
   .social-links a:hover::after { opacity: 1; }
 }
 
-/* ==== CONTENT ==== */
+/* ==== MAIN CONTENT ==== */
 #shows .show-item { margin-bottom:1.2em; font-size:1.2em; line-height:1.5; }
 .flex-row { display:flex; flex-wrap:wrap; gap:2rem; justify-content:center; padding:4rem 1rem; max-width:1200px; margin:0 auto; }
 .col { flex:1; min-width:280px; }
@@ -236,42 +225,17 @@ html {
 .social-links { text-align:center; margin-top:15px; }
 footer { background:#000; padding:1em; font-size:.8em; }
 
-/* ==== INSTAGRAM RESPONSIVE FIX ==== */
-#photos, .instagram-wrapper {
-  width: 100%;
-  max-width: 500px;
-  margin: 0 auto;
-  aspect-ratio: 1 / 1; /* square container */
-  overflow: hidden;
-}
+/* ==== INSTAGRAM RESPONSIVE ==== */
+#photos, .instagram-wrapper { width: 100%; max-width: 500px; margin: 0 auto; aspect-ratio: 1 / 1; overflow: hidden; }
+#photos iframe, .instagram-wrapper iframe { width: 100%; height: 100%; border: 0; display: block; }
 
-#photos iframe, .instagram-wrapper iframe {
-  width: 100%;
-  height: 100%;
-  border: 0;
-  display: block;
-}
-/* ================= ARCHIVE PAGE ================= */
-
+/* ==== ARCHIVE PAGE SPECIFIC ==== */
 .archive-page {
   background: black;
   color: white;
-  font-family: 'Montserrat', sans-serif;
-  background: #000;
 }
 
-.archive-hero {
-  text-align: center;
-  padding: 60px 20px 30px;
-  background: linear-gradient(to bottom, #111, #000);
-}
-
-.archive-hero h1 {
-  font-family: 'Roboto Slab', serif;
-  margin-top: 10px;
-  letter-spacing: 2px;
-}
-
+/* Archive show layout */
 .archive-container {
   max-width: 1000px;
   margin: auto;
@@ -284,7 +248,7 @@ footer { background:#000; padding:1em; font-size:.8em; }
   margin-bottom: 40px;
   border-bottom: 1px solid #333;
   padding-bottom: 30px;
-  align-items: center; 
+  align-items: center;
 }
 
 .archive-image img {
@@ -295,16 +259,10 @@ footer { background:#000; padding:1em; font-size:.8em; }
   border: 2px solid #222;
 }
 
-.archive-details h2 {
-  margin: 0 0 6px;
-}
+.archive-details h2 { margin: 0 0 6px; }
+.archive-details p { margin: 4px 0; line-height: 1.5; }
 
-.archive-details p {
-  margin: 4px 0;
-  line-height: 1.5;
-}
-
-/* ARCHIVE VIDEO DESKTOP */
+/* Archive video layout */
 .archive-video {
   width: 320px;
   aspect-ratio: 16 / 9;
@@ -319,53 +277,11 @@ footer { background:#000; padding:1em; font-size:.8em; }
   height: 100%;
   border: 0;
 }
-/* MOBILE STACK */
+
+/* Mobile archive layout */
 @media (max-width: 768px) {
-  .archive-show {
-    flex-direction: column;
-  }
-
-  .archive-image img {
-    width: 100%;
-    height: auto;
-  }
-}
-
-.archive-video iframe {
-  width: 100%;
-  height: 100%;
-  border: 0;
-}
-/* ==== ARCHIVE VIDEO MOBILE FIX ==== */
-@media (max-width: 768px) {
-
-  .archive-video {
-    width: 100% !important;
-    max-width: 100% !important;
-    margin: 0 auto 10px !important;
-  }
-
-  .archive-video iframe {
-    width: 100% !important;
-    height: auto !important;
-    aspect-ratio: 16 / 9 !important;
-  }
-.archive-home {
-  text-align: center;
-  margin-bottom: 30px;
-}
-}
-.home-btn {
-  display: inline-block;
-  background: #ff0000;
-  color: #fff;
-  font-weight: bold;
-  padding: 0.6rem 1.2rem;
-  border-radius: 6px;
-  text-decoration: none;
-  transition: background 0.3s ease;
-}
-
-.home-btn:hover {
-  background: #cc0000;
+  .archive-show { flex-direction: column; }
+  .archive-image img { width: 100%; height: auto; }
+  .archive-video { width: 100% !important; max-width: 100% !important; margin: 0 auto 10px !important; }
+  .archive-video iframe { width: 100% !important; height: auto !important; aspect-ratio: 16 / 9 !important; }
 }
