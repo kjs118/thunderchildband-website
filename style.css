@@ -304,11 +304,6 @@ footer { background:#000; padding:1em; font-size:.8em; }
   line-height: 1.5;
 }
 
-.archive-footer {
-  text-align: center;
-  padding: 30px 20px 40px;
-  border-top: 1px solid #222;
-}
 /* ARCHIVE VIDEO DESKTOP */
 .archive-video {
   width: 320px;
