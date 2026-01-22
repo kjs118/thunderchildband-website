@@ -6,6 +6,26 @@
   <title>Thunder Child – About</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto+Slab&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <style>
+    /* About page spacing and text improvements */
+    .about-page .about-text {
+      max-width: 700px;
+      margin: 0 auto 3rem auto; /* center and add space below */
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: #eee;
+      text-align: center; /* keeps it readable and elegant */
+    }
+
+    .about-page #band {
+      padding-top: 3rem;
+      padding-bottom: 3rem;
+    }
+
+    .about-page #band h2 {
+      margin-bottom: 2rem;
+    }
+  </style>
 </head>
 <body class="about-page">
 
@@ -36,17 +56,17 @@
   </ul>
 </nav>
 
-<main class="flex-row">
-  <div class="col">
+<main>
+  <!-- About Section -->
+  <section class="about-text">
     <h2>About Thunder Child</h2>
       <p>Thunder Child is taking Lafayette by storm with hard-hitting classic rock.</p>
 <p>Thunder Child plays the rock songs you grew up with - and still turn up loud! From Sabbath, Zeppelin, Floyd and Hendrix to Nirvana, Foo Fighters, Queens of the Stone Age and the Strokes, their setlist is packed with iconic tracks that defined generations of rock</p>
  <p>Every song is performed with respect to the original recordings - no shortcuts, no parody - just powerful vocals, big guitars, and the moments fans know by heart. It's about the riffs, the feel, and the shared connection that only great rock songs create live.</p>
-  <p>If you love real rock music played with care and conviction, this is your band. </p>
-  
-  </div>
+  <p>If you love real rock music played with care and conviction, this is your band. </p> </section>
 
-  <div class="col" id="band">
+  <!-- Meet the Band Section -->
+  <section id="band">
     <h2>Meet the Band</h2>
     <div class="band-grid">
       <div class="member-card">
@@ -75,7 +95,7 @@
         <p>Drums</p>
       </div>
     </div>
-  </div>
+  </section>
 </main>
 
 <section id="contact" class="section">
