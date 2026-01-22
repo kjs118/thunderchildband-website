@@ -7,14 +7,26 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto+Slab&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <style>
-    /* About page spacing and text improvements */
+    /* ====== ABOUT PAGE SPECIFIC ====== */
+    .about-page .about-band-image {
+      text-align: center;
+      margin: 3rem auto 2rem auto; /* space above and below image */
+    }
+    .about-page .about-band-image img {
+      max-width: 90%;
+      height: auto;
+      border-radius: 8px;        /* optional: soft corners */
+      border: 2px solid #222;    /* optional: matches dark theme */
+    }
+
     .about-page .about-text {
       max-width: 700px;
-      margin: 0 auto 3rem auto; /* center and add space below */
-      font-size: 1.1rem;
-      line-height: 1.8;
+      margin: 0 auto 3rem auto;   /* center and space below */
+      padding-top: 2rem;           /* space from nav/menu */
+      font-size: 1.1rem;           /* slightly larger text */
+      line-height: 1.8;            /* airy spacing between lines */
       color: #eee;
-      text-align: center; /* keeps it readable and elegant */
+      text-align: center;          /* keeps text readable and elegant */
     }
 
     .about-page #band {
@@ -29,6 +41,7 @@
 </head>
 <body class="about-page">
 
+<!-- ====== HEADER ====== -->
 <header class="hero">
   <div class="header-content">
     <img src="images/thunderchild2.png" alt="Thunder Child Band" class="logo">
@@ -47,6 +60,7 @@
   </nav>
 </header>
 
+<!-- ====== DESKTOP NAV ====== -->
 <nav class="desktop-nav">
   <ul>
     <li><a href="index.html#shows">Shows</a></li>
@@ -57,15 +71,20 @@
 </nav>
 
 <main>
-  <!-- About Section -->
+  <!-- ====== BAND IMAGE ====== -->
+  <div class="about-band-image">
+    <img src="images/bandphoto.jpg" alt="Thunder Child Band">
+  </div>
+
+  <!-- ====== ABOUT TEXT ====== -->
   <section class="about-text">
     <h2>About Thunder Child</h2>
-      <p>Thunder Child is taking Lafayette by storm with hard-hitting classic rock.</p>
+   <p>Thunder Child is taking Lafayette by storm with hard-hitting classic rock.</p>
 <p>Thunder Child plays the rock songs you grew up with - and still turn up loud! From Sabbath, Zeppelin, Floyd and Hendrix to Nirvana, Foo Fighters, Queens of the Stone Age and the Strokes, their setlist is packed with iconic tracks that defined generations of rock</p>
  <p>Every song is performed with respect to the original recordings - no shortcuts, no parody - just powerful vocals, big guitars, and the moments fans know by heart. It's about the riffs, the feel, and the shared connection that only great rock songs create live.</p>
   <p>If you love real rock music played with care and conviction, this is your band. </p> </section>
 
-  <!-- Meet the Band Section -->
+  <!-- ====== MEET THE BAND ====== -->
   <section id="band">
     <h2>Meet the Band</h2>
     <div class="band-grid">
@@ -98,10 +117,34 @@
   </section>
 </main>
 
+<!-- ====== CONTACT ====== -->
 <section id="contact" class="section">
   <h2>Contact & Booking</h2>
   <div class="social-links">
-    <!-- Copy same SVG social icons as index.html -->
+    <a href="https://instagram.com/thunderchildband" target="_blank">
+      <svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="24" cy="24" r="23" fill="white"/>
+        <circle cx="24" cy="24" r="20" fill="black"/>
+        <rect x="16" y="16" width="16" height="16" rx="4.5" stroke="white" stroke-width="2" fill="none"/>
+        <circle cx="24" cy="24" r="4.5" stroke="white" stroke-width="2" fill="none"/>
+        <circle cx="29" cy="19" r="1.8" fill="white"/>
+      </svg>
+    </a>
+    <a href="https://facebook.com/thunderchildbandLA" target="_blank">
+      <svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="24" cy="24" r="23" fill="white"/>
+        <circle cx="24" cy="24" r="20" fill="black"/>
+        <path d="M25.2 17h3.2v-3.2h-3.2c-2.7 0-4.8 2.1-4.8 4.8v3.2H17v3.2h3.4v8.8h3.4v-8.8h3l0.8-3.2h-3.8v-3.2c0-0.9 0.7-1.6 1.6-1.6z" fill="white"/>
+      </svg>
+    </a>
+    <a href="mailto:contact@thunderchildband.com" target="_blank">
+      <svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="24" cy="24" r="23" fill="white"/>
+        <circle cx="24" cy="24" r="20" fill="black"/>
+        <rect x="15" y="17" width="18" height="14" rx="2" stroke="white" stroke-width="2" fill="none"/>
+        <polyline points="15,17 24,26 33,17" fill="none" stroke="white" stroke-width="2"/>
+      </svg>
+    </a>
   </div>
 </section>
 
