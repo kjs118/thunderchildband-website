@@ -285,22 +285,4 @@ footer { background:#000; padding:1em; font-size:.8em; }
   .archive-video { width: 100% !important; max-width: 100% !important; margin: 0 auto 10px !important; }
   .archive-video iframe { width: 100% !important; height: auto !important; aspect-ratio: 16 / 9 !important; }
 }
-/* ==== DESKTOP ONLY: STICKY HEADER ==== */
-@media (min-width: 769px) {
-  /* Make the hero/logo section sticky on desktop */
-  .hero {
-    position: sticky;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 2000; /* keep above content but below mobile overlays */
-    background: #000; /* ensures it stays solid */
-  }
 
-  /* Ensure the desktop nav remains sticky below the hero */
-  .desktop-nav {
-    position: sticky; /* you already had this, just making sure */
-    top: 100px; /* adjust if your hero/logo is taller */
-    z-index: 1000;
-  }
-}
