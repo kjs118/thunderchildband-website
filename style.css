@@ -293,18 +293,14 @@ footer { background:#000; padding:1em; font-size:.8em; }
     top: 0;
     left: 0;
     right: 0;
-    z-index: 2500; /* higher than desktop nav but lower than mobile scrolled */
-    background: #000; /* ensures it doesn’t show transparency */
+    z-index: 2000; /* keep above content but below mobile overlays */
+    background: #000; /* ensures it stays solid */
   }
 
-  /* Optional: prevent content from jumping under the sticky header */
-  body {
-    padding-top: 150px; /* adjust if needed to match hero + nav height */
-  }
-
-  /* Ensure the desktop nav remains below the hero */
+  /* Ensure the desktop nav remains sticky below the hero */
   .desktop-nav {
-    top: 100px; /* matches the height of your hero/logo section */
-    z-index: 2000;
+    position: sticky; /* you already had this, just making sure */
+    top: 100px; /* adjust if your hero/logo is taller */
+    z-index: 1000;
   }
 }
