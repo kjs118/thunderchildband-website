@@ -1,26 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Thunder Child – Show Archive</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thunder Child – Show Archive</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto+Slab&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto+Slab&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body class="archive-page">
 
-<div class="archive-home">
-  <a href="index.html" class="home-btn">Home</a>
-</div>
-
-<!-- MATCHES MAIN SITE HEADER STYLING -->
+<!-- ====================== HEADER WITH MOBILE NAV INSIDE ====================== -->
 <header class="hero">
   <div class="header-content">
     <img src="images/thunderchild2.png" alt="Thunder Child Band" class="logo">
+    <button class="menu-btn" aria-label="Open menu">
+      <span class="icon">☰</span>
+      <span class="text">Menu</span>
+    </button>
   </div>
+
+  <!-- MOBILE NAV -->
+  <nav class="mobile-nav">
+    <ul>
+      <li><a href="index.html#shows">Shows</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+      <li><a href="archive.html">Archive</a></li>
+    </ul>
+  </nav>
 </header>
+
+<!-- ====================== DESKTOP NAV ====================== -->
+<nav class="desktop-nav">
+  <ul>
+    <li><a href="index.html#shows">Shows</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+    <li><a href="archive.html">Archive</a></li>
+  </ul>
+</nav>
 
 <main class="archive-container">
 
@@ -53,7 +73,7 @@
 
 </main>
 
-<!-- MATCHES MAIN SITE FOOTER STRUCTURE -->
+<!-- ====================== FOOTER ====================== -->
 <footer>
   <div class="social-links">
     <a href="https://instagram.com/thunderchildband" target="_blank">
@@ -87,9 +107,8 @@
   <p>© <span id="year"></span> Thunder Child Band</p>
 </footer>
 
-<script>
-document.getElementById("year").textContent = new Date().getFullYear();
-</script>
+<!-- MATCHES INDEX PAGE SCRIPT -->
+<script src="script.js"></script>
 
 </body>
 </html>
