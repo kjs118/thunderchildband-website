@@ -307,17 +307,38 @@ footer { background:#000; padding:1em; font-size:.8em; }
 }
 
 .contact-form button {
-  padding: 12px;
-  font-size: 1rem;
-  background-color: #000; /* black button */
+  margin-top: 0.5rem;
+  padding: 14px 20px;
+  font-size: 1.05rem;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+
+  background: #ff0000; /* Thunder Child red */
   color: #fff;
+
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
   cursor: pointer;
+
+  transition: background 0.2s ease, transform 0.1s ease, box-shadow 0.1s ease;
+  box-shadow: 0 4px 0 #b30000;
 }
+
+.contact-form button:hover {
+  background: #ff1a1a;
+}
+
+.contact-form button:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #b30000;
+}
+
 
 .contact-form button:hover {
   background-color: #444;
 }
-
+.contact-form form {
+  margin-top: 1.5rem; /* 👈 adds space below the paragraph */
+}
 
