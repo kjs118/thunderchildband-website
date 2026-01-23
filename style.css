@@ -127,6 +127,24 @@ html {
 }
 .mobile-nav a:hover { background: #222; }
 
+/* ==== INDEX FEATURE IMAGE ==== */
+.index-feature-image {
+  text-align: center;
+  margin: 3rem auto 2rem;
+}
+
+.index-feature-image img {
+  width: 70vw;              /* 70% of screen width */
+  max-width: 900px;         /* prevents ultra-wide stretch */
+  height: auto;
+
+  border-radius: 8px;       /* matches About page */
+  border: 2px solid #222;   /* same subtle frame */
+
+  display: block;
+  margin: 0 auto;
+}
+
 /* ==== MOBILE BAND CAROUSEL ==== */
 /* MOBILE BAND CAROUSEL */
 @media (max-width: 768px) {
