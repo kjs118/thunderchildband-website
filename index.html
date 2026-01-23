@@ -46,7 +46,6 @@
 <section class="flex-row">
   <div class="col" id="shows">
    <h2>Upcoming Shows</h2> 
- 
 
     <div class="show-item">February 21, 2026 – Frozen Sun, Maurice, LA</div>
     <div class="show-item">May 2, 2026 – Legends Pub, Lafayette, LA</div>
@@ -71,60 +70,6 @@
   <h2>Meet the Band</h2>
   <div class="spacer"></div>
   <div class="band-grid">
-    <div class="carousel-track">  <!-- ← New wrapper -->
-
-      <!-- Original 5 members (keep as-is) -->
-      <div class="member-card">
-        <img src="images/abiclair.jpg" alt="Abi Clair - Vocals" class="member-photo">
-        <h3>Abi Clair</h3>
-        <p>Vocals</p>
-      </div>
-      <div class="member-card">
-        <img src="images/keith.jpg" alt="Keith Stewart - Guitar" class="member-photo">
-        <h3>Keith Stewart</h3>
-        <p>Guitar</p>
-      </div>
-      <div class="member-card">
-        <img src="images/jared.jpg" alt="Jared Crenshaw - Guitar" class="member-photo">
-        <h3>Jared Crenshaw</h3>
-        <p>Guitar</p>
-      </div>
-      <div class="member-card">
-        <img src="images/alex.jpeg" alt="Alex Pipkins - Bass" class="member-photo">
-        <h3>Alex Pipkins</h3>
-        <p>Bass</p>
-      </div>
-      <div class="member-card">
-        <img src="images/austin1.jpg" alt="Austin Pierre - Drums" class="member-photo">
-        <h3>Austin Pierre</h3>
-        <p>Drums</p>
-      </div>
-
-      <!-- Duplicates for seamless looping (first 2 again) -->
-      <div class="member-card duplicate">
-        <img src="images/abiclair.jpg" alt="Abi Clair - Vocals" class="member-photo">
-        <h3>Abi Clair</h3>
-        <p>Vocals</p>
-      </div>
-      <div class="member-card duplicate">
-        <img src="images/keith.jpg" alt="Keith Stewart - Guitar" class="member-photo">
-        <h3>Keith Stewart</h3>
-        <p>Guitar</p>
-      </div>
-
-      <!-- Duplicates for seamless looping (last 2 again – optional but helps on fast swipes) -->
-      <div class="member-card duplicate">
-        <img src="images/alex.jpeg" alt="Alex Pipkins - Bass" class="member-photo">
-        <h3>Alex Pipkins</h3>
-        <p>Bass</p>
-      </div>
-      <div class="member-card duplicate">
-        <img src="images/austin1.jpg" alt="Austin Pierre - Drums" class="member-photo">
-        <h3>Austin Pierre</h3>
-        <p>Drums</p>
-      </div>
-
-    </div>  <!-- End carousel-track -->
     <div class="member-card">
       <img src="images/abiclair.jpg" alt="Abi Clair - Vocals" class="member-photo">
       <h3>Abi Clair</h3>
@@ -189,33 +134,5 @@
 </footer>
 
 <script src="script.js"></script>
-  <script>
-  // Infinite loop for mobile carousel
-  document.addEventListener('DOMContentLoaded', () => {
-    const track = document.querySelector('.carousel-track');
-    if (!track) return;
-
-    const cards = track.querySelectorAll('.member-card');
-    const firstCardWidth = cards[0].offsetWidth + 24; // + gap
-
-    // Reset scroll position when nearing duplicates
-    track.addEventListener('scroll', () => {
-      const scrollPos = track.scrollLeft;
-      const totalWidth = track.scrollWidth;
-      const visibleWidth = track.clientWidth;
-
-      // If scrolled near the end duplicates → jump back to start
-      if (scrollPos > totalWidth - visibleWidth - firstCardWidth * 2) {
-        track.scrollLeft = scrollPos - (cards.length - 4) * firstCardWidth; // Jump back by original length
-      }
-
-      // If scrolled near the beginning duplicates → jump forward
-      if (scrollPos < firstCardWidth * 2) {
-        track.scrollLeft = scrollPos + (cards.length - 4) * firstCardWidth;
-      }
-    });
-  });
-</script>
 </body>
-
 </html>
