@@ -217,7 +217,7 @@ html {
 .flex-row { display:flex; flex-wrap:wrap; gap:2rem; justify-content:center; padding:4rem 1rem; max-width:1200px; margin:0 auto; }
 .col { flex:1; min-width:280px; }
 .col h2 { text-align:center; margin-bottom:1rem; }
-/*===Meet the band===*/
+
 /*#band { padding:3rem 1rem; }
 .band-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:2rem; max-width:1000px; margin:auto; }
 .member-card { background:#222; border-radius:8px; padding:1.5rem; text-align:center; transition:transform .3s; }
@@ -227,58 +227,34 @@ html {
 .member-card p { font-size:.95rem; line-height:1.5; color:#ccc; }
 */
 /* ==== MEET THE BAND ==== */
-/* ==== MEET THE BAND ==== */
 #band {
   padding: 3rem 1rem;
-  background: #000;
+  background: #000;          /* matches site background */
 }
-
-.band-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr); /* Default to desktop 3-column grid */
-  gap: 2.5rem;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1rem;
-  justify-items: center; /* Centers items in grid cells */
-  overflow: hidden; /* Hide overflow on desktop */
-}
-
-/* Mobile-only: Turn into swipeable carousel */
-@media (max-width: 899px) {
+/* Desktop: Switch back to 3-column grid layout */
+@media (min-width: 900px) {
   .band-grid {
-    display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;    /* Force snap to each card */
-    scroll-behavior: smooth;
-    gap: 1.5rem;                      /* Space between cards */
-    padding: 1.5rem 10vw;             /* Side padding for peek effect */
-    -webkit-overflow-scrolling: touch; /* Smooth momentum on iOS */
-    scrollbar-width: none;            /* Hide scrollbar Firefox */
-    -ms-overflow-style: none;         /* Hide scrollbar Edge/IE */
-  }
-
-  .band-grid::-webkit-scrollbar {
-    display: none;                    /* Hide scrollbar Chrome/Safari */
+    display: grid;                    /* Back to grid on desktop */
+    grid-template-columns: repeat(3, 1fr); /* Exactly 3 per row */
+    overflow-x: visible;              /* No horizontal scroll */
+    scroll-snap-type: none;           /* Disable snap */
+    gap: 2.5rem;
+    padding: 0;
+    justify-items: center;            /* Centers each member card */
   }
 
   .member-card {
-    flex: 0 0 85%;                    /* ~85% of viewport → full-slide feel with peek */
-    max-width: 320px;
-    scroll-snap-align: center;        /* Snap to center of card */
-    background: transparent;
-    text-align: center;
-    padding: 0.5rem 0;
-    transition: none;
+    flex: none;                       /* Reset flex properties */
+    max-width: none;                  /* Remove mobile width cap */
+    scroll-snap-align: none;
   }
 
   .member-photo {
-    max-width: 220px;                 /* Bigger on mobile for impact */
+    max-width: 200px;                 /* Desktop photo size – adjust if you want bigger/smaller */
   }
 }
 
-/* Tablet (600–899px): Optional 2-column grid instead of carousel */
+/* Optional: On medium screens (tablets ~600–899px), show 2 columns instead of carousel */
 @media (min-width: 600px) and (max-width: 899px) {
   .band-grid {
     display: grid;
@@ -286,7 +262,7 @@ html {
     overflow-x: visible;
     scroll-snap-type: none;
     gap: 3rem;
-    padding: 0 1rem;
+    justify-items: center;
   }
 
   .member-card {
@@ -298,57 +274,49 @@ html {
   .member-photo {
     max-width: 220px;
   }
-/* Mobile carousel wrapper */
-.carousel-track {
-  display: flex;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  gap: 1.5rem;
-  padding: 1rem 10vw; /* Side padding for peek effect */
+}
+.band-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  justify-items: center; /* centers each card/photo horizontally */
+  display: flex;                /* Change from grid to flex for horizontal scrolling */
+  flex-wrap: nowrap;            /* Prevent wrapping */
+  overflow-x: auto;             /* Enable horizontal scroll */
+  scroll-snap-type: x mandatory; /* Snap to each item */
+  scroll-behavior: smooth;      /* Smooth scrolling */
+  gap: 2rem;
+  padding: 1rem 0;              /* Vertical padding + room for snap */
+  -webkit-overflow-scrolling: touch; /* Smooth momentum on iOS */
+  scrollbar-width: none;        /* Hide scrollbar in Firefox */
+  -ms-overflow-style: none;     /* Hide scrollbar in IE/Edge */
 }
 
-/* Desktop (900px+): 3-column grid (no changes needed here, but explicit) */
-@media (min-width: 900px) {
-  .band-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-.carousel-track::-webkit-scrollbar { display: none; }
-
-  .member-card {
-    flex: none;
-    max-width: none;
-    scroll-snap-align: none;
-  }
-
-  .member-photo {
-    max-width: 200px;
-  }
+.band-grid::-webkit-scrollbar {
+  display: none;                /* Hide scrollbar in Chrome/Safari */
 }
 
-/* Shared styles for all devices */
 .member-card {
-  flex: 0 0 85%;          /* ~85% width for full-slide feel with peek */
-  max-width: 320px;
-  scroll-snap-align: center;
+  flex: 0 0 80%;                /* Each card takes ~80% of viewport width (feels like full-slide) */
+  max-width: 320px;             /* Cap width on larger phones */
+  scroll-snap-align: center;    /* Snap to center of each card */
   background: transparent;
   text-align: center;
+  padding: 1rem 0;
   transition: none;
 }
 
 .member-card:hover {
   transform: none;
   box-shadow: none;
-  padding: 0.5rem 0;
 }
 
 .member-photo {
   width: 100%;
-  max-width: 220px;
+  max-width: 220px;             /* Slightly larger for mobile carousel feel */
   aspect-ratio: 1/1;
   object-fit: cover;
   border-radius: 50%;
@@ -362,43 +330,55 @@ html {
   transform: scale(1.06);
 }
 
+/* Force exactly 3 columns on screens wider than ~900px (adjust if needed) */
+@media (min-width: 900px) {
+  .band-grid {
+    grid-template-columns: repeat(3, 1fr); /* exactly 3 per row */
+  }
+
+  /* The last row (2 members) will automatically center */
+  .member-card:nth-child(4),
+  .member-card:nth-child(5) {
+    grid-column: span 1; /* keeps them in place */
+  }
+}
+
+/* On smaller screens, keep it flexible (2 or 1 per row) */
+@media (max-width: 899px) {
+  .band-grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 3rem; /* more space when stacked */
+  }
+}
+
+.member-card {
+  background: transparent;   /* no more grey card */
+  text-align: center;
+  padding: 1rem 0;           /* light vertical spacing only */
+  transition: none;
+}
+
+.member-card:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.member-photo {
+  width: 100%;
+  max-width: 200px;          /* slightly larger for better look without cards */
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid #000;
+  margin: 0 auto 1.2rem;
+  display: block;
+}
+
 .member-card h3 {
   font-family: 'Roboto Slab', serif;
   font-size: 1.5rem;
   color: #ccc;
   margin-bottom: 0.5rem;
-/* Desktop: Switch to 3-column grid */
-@media (min-width: 900px) {
-  .band-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2.5rem;
-    padding: 0 1rem;
-    justify-items: center;
-  }
-
-  .carousel-track {
-    flex-wrap: wrap;          /* Allow wrapping on desktop */
-    overflow-x: hidden;
-    scroll-snap-type: none;
-    padding: 0;
-    gap: 2.5rem;
-  }
-
-  .member-card {
-    flex: 1 1 30%;           /* Approx 3 per row */
-    max-width: none;
-    scroll-snap-align: none;
-  }
-
-  .member-photo {
-    max-width: 200px;
-  }
-
-  /* Hide duplicates on desktop */
-  .duplicate {
-    display: none;
-  }
 }
 
 .member-card p {
@@ -406,19 +386,14 @@ html {
   line-height: 1.5;
   color: #ccc;
   margin: 0;
-/* Tablet: 2-column grid */
-@media (min-width: 600px) and (max-width: 899px) {
-  .carousel-track {
-    flex-wrap: wrap;
-    overflow-x: hidden;
-    scroll-snap-type: none;
-    gap: 3rem;
-  }
+}
 
-  .member-card {
-    flex: 1 1 45%;
-    max-width: none;
-  }
+/* Optional: very subtle hover on photo only */
+.member-card:hover .member-photo {
+  transform: scale(1.06);
+}
+.member-photo {
+  transition: transform 0.4s ease;   /* smooth if you keep the hover */
 }
 /* end meet the band section */
 .spacer { height:1.5rem; }
