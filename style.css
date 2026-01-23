@@ -179,6 +179,29 @@ html {
     right: 0 !important;
     z-index: 2999 !important;
   }
+  /* ==== MOBILE BAND CAROUSEL ==== */
+@media (max-width: 768px) {
+  .band-grid {
+    display: flex;               /* horizontal layout */
+    overflow-x: auto;            /* enable horizontal scroll */
+    scroll-snap-type: x mandatory; /* snap each card */
+    gap: 1rem;                   /* spacing between cards */
+    padding: 1rem;               /* optional side padding */
+    justify-content: flex-start; /* aligns first card to start */
+    scroll-behavior: smooth;     /* smooth snapping */
+  }
+
+  .member-card {
+    flex: 0 0 70%;              /* each card takes 70% of viewport width */
+    scroll-snap-align: center;  /* snap so card is centered */
+    margin: 0 auto;             /* centers the card in viewport */
+  }
+
+  /* optional: hide scrollbar for cleaner look */
+  .band-grid::-webkit-scrollbar { display: none; }
+  .band-grid { -ms-overflow-style: none; scrollbar-width: none; }
+}
+
 }
 
 /* ==== DESKTOP ONLY ==== */
