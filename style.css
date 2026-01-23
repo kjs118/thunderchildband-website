@@ -235,10 +235,32 @@ html {
 .band-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2.5rem;               /* a bit more breathing room */
+  gap: 2.5rem;
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 1rem;
+  justify-items: center; /* centers each card/photo horizontally */
+}
+
+/* Force exactly 3 columns on screens wider than ~900px (adjust if needed) */
+@media (min-width: 900px) {
+  .band-grid {
+    grid-template-columns: repeat(3, 1fr); /* exactly 3 per row */
+  }
+  
+  /* The last row (2 members) will automatically center */
+  .member-card:nth-child(4),
+  .member-card:nth-child(5) {
+    grid-column: span 1; /* keeps them in place */
+  }
+}
+
+/* On smaller screens, keep it flexible (2 or 1 per row) */
+@media (max-width: 899px) {
+  .band-grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 3rem; /* more space when stacked */
+  }
 }
 
 .member-card {
