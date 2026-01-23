@@ -219,8 +219,8 @@ html {
 .col h2 { text-align:center; margin-bottom:1rem; }
 #band { padding:3rem 1rem; }
 .band-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:2rem; max-width:1000px; margin:auto; }
-.member-card { background:#222; border-radius:8px; padding:1.5rem; text-align:center; transition:transform .3s; }
-.member-card:hover { transform:translateY(-5px); box-shadow:0 10px 25px #ff0000; }
+.member-card { background:#transparent; border-radius:8px; padding:1.5rem; text-align:center; transition:transform .3s; }
+.member-card:hover { transform:none; box-shadow:none; }
 .member-photo { width:100%; max-width:180px; aspect-ratio:1/1; object-fit:cover; border-radius:50%; border:3px solid #000; margin:0 auto 1rem; }
 .member-card h3 { font-family:'Roboto Slab',serif; font-size:1.5rem; color:#ccc; margin-bottom:.5rem; }
 .member-card p { font-size:.95rem; line-height:1.5; color:#ccc; }
