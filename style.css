@@ -130,27 +130,29 @@ html {
 /* ==== MOBILE BAND CAROUSEL ==== */
 @media (max-width: 768px) {
   .band-grid {
-    display: flex !important;
+    display: flex;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
     gap: 1rem;
 
-    width: 100vw;           /* full viewport width */
-    max-width: 100vw;       /* ignore desktop max-width */
-    margin: 0;              /* remove auto margin */
-    padding: 0 1rem;        /* optional side padding */
+    width: 100%;            /* use 100% instead of 100vw */
+    max-width: 100%;
+    margin: 0 auto;         /* center the grid */
+    padding: 0 0.5rem;      /* smaller side padding */
   }
 
   .member-card {
-    flex: 0 0 70vw;          /* 70% of viewport width */
+    flex: 0 0 70%;           /* percentage of container, not viewport */
     scroll-snap-align: center;
   }
 
   /* hide scrollbar */
   .band-grid::-webkit-scrollbar { display: none; }
   .band-grid { -ms-overflow-style: none; scrollbar-width: none; }
+}
+
 
   /* other mobile styles you had here */
   .menu-btn { display: flex !important; width: 100% !important; border-radius: 0 !important; }
