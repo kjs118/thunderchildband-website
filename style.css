@@ -234,11 +234,70 @@ html {
 }
 
 .band-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Default to desktop 3-column grid */
+  gap: 2.5rem;
   max-width: 1200px;
   margin: 0 auto;
+  padding: 0 1rem;
+  justify-items: center; /* Centers items in grid cells */
   overflow: hidden; /* Hide overflow on desktop */
 }
 
+/* Mobile-only: Turn into swipeable carousel */
+@media (max-width: 899px) {
+  .band-grid {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;    /* Force snap to each card */
+    scroll-behavior: smooth;
+    gap: 1.5rem;                      /* Space between cards */
+    padding: 1.5rem 10vw;             /* Side padding for peek effect */
+    -webkit-overflow-scrolling: touch; /* Smooth momentum on iOS */
+    scrollbar-width: none;            /* Hide scrollbar Firefox */
+    -ms-overflow-style: none;         /* Hide scrollbar Edge/IE */
+  }
+
+  .band-grid::-webkit-scrollbar {
+    display: none;                    /* Hide scrollbar Chrome/Safari */
+  }
+
+  .member-card {
+    flex: 0 0 85%;                    /* ~85% of viewport → full-slide feel with peek */
+    max-width: 320px;
+    scroll-snap-align: center;        /* Snap to center of card */
+    background: transparent;
+    text-align: center;
+    padding: 0.5rem 0;
+    transition: none;
+  }
+
+  .member-photo {
+    max-width: 220px;                 /* Bigger on mobile for impact */
+  }
+}
+
+/* Tablet (600–899px): Optional 2-column grid instead of carousel */
+@media (min-width: 600px) and (max-width: 899px) {
+  .band-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    overflow-x: visible;
+    scroll-snap-type: none;
+    gap: 3rem;
+    padding: 0 1rem;
+  }
+
+  .member-card {
+    flex: none;
+    max-width: none;
+    scroll-snap-align: none;
+  }
+
+  .member-photo {
+    max-width: 220px;
+  }
 /* Mobile carousel wrapper */
 .carousel-track {
   display: flex;
@@ -250,17 +309,40 @@ html {
   scrollbar-width: none;
   -ms-overflow-style: none;
   gap: 1.5rem;
-  padding: 1rem 0; /* Side padding for peek effect */
+  padding: 1rem 10vw; /* Side padding for peek effect */
 }
 
+/* Desktop (900px+): 3-column grid (no changes needed here, but explicit) */
+@media (min-width: 900px) {
+  .band-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 .carousel-track::-webkit-scrollbar { display: none; }
 
+  .member-card {
+    flex: none;
+    max-width: none;
+    scroll-snap-align: none;
+  }
+
+  .member-photo {
+    max-width: 200px;
+  }
+}
+
+/* Shared styles for all devices */
 .member-card {
   flex: 0 0 85%;          /* ~85% width for full-slide feel with peek */
   max-width: 320px;
   scroll-snap-align: center;
   background: transparent;
   text-align: center;
+  transition: none;
+}
+
+.member-card:hover {
+  transform: none;
+  box-shadow: none;
   padding: 0.5rem 0;
 }
 
@@ -280,6 +362,11 @@ html {
   transform: scale(1.06);
 }
 
+.member-card h3 {
+  font-family: 'Roboto Slab', serif;
+  font-size: 1.5rem;
+  color: #ccc;
+  margin-bottom: 0.5rem;
 /* Desktop: Switch to 3-column grid */
 @media (min-width: 900px) {
   .band-grid {
@@ -314,6 +401,11 @@ html {
   }
 }
 
+.member-card p {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #ccc;
+  margin: 0;
 /* Tablet: 2-column grid */
 @media (min-width: 600px) and (max-width: 899px) {
   .carousel-track {
@@ -559,4 +651,3 @@ footer { background:#000; padding:1em; font-size:.8em; }
   display: block;
   margin: 0 auto;          /* centers the image */
 }
-
