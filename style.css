@@ -189,6 +189,8 @@ html {
     padding: 1rem;               /* optional side padding */
     justify-content: flex-start; /* aligns first card to start */
     scroll-behavior: smooth;     /* smooth snapping */
+    -webkit-overflow-scrolling: touch; /* smooth touch scroll */
+
   }
 
   .member-card {
