@@ -250,7 +250,7 @@ html {
   scrollbar-width: none;
   -ms-overflow-style: none;
   gap: 1.5rem;
-  padding: 1rem 10vw; /* Side padding for peek effect */
+  padding: 1rem 0; /* Side padding for peek effect */
 }
 
 .carousel-track::-webkit-scrollbar { display: none; }
