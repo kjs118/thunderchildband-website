@@ -160,5 +160,32 @@
 </footer>
 
 <script src="script.js"></script>
+  <script>
+  // Infinite loop for mobile carousel
+  document.addEventListener('DOMContentLoaded', () => {
+    const track = document.querySelector('.carousel-track');
+    if (!track) return;
+
+    const cards = track.querySelectorAll('.member-card');
+    const firstCardWidth = cards[0].offsetWidth + 24; // + gap
+
+    // Reset scroll position when nearing duplicates
+    track.addEventListener('scroll', () => {
+      const scrollPos = track.scrollLeft;
+      const totalWidth = track.scrollWidth;
+      const visibleWidth = track.clientWidth;
+
+      // If scrolled near the end duplicates → jump back to start
+      if (scrollPos > totalWidth - visibleWidth - firstCardWidth * 2) {
+        track.scrollLeft = scrollPos - (cards.length - 4) * firstCardWidth; // Jump back by original length
+      }
+
+      // If scrolled near the beginning duplicates → jump forward
+      if (scrollPos < firstCardWidth * 2) {
+        track.scrollLeft = scrollPos + (cards.length - 4) * firstCardWidth;
+      }
+    });
+  });
+</script>
 </body>
 </html>
