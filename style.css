@@ -127,11 +127,8 @@ html {
 }
 .mobile-nav a:hover { background: #222; }
 
-/* ==== MOBILE ONLY ==== */
+/* ==== MOBILE BAND CAROUSEL ==== */
 @media (max-width: 768px) {
-
-   /* ==== MOBILE BAND CAROUSEL ==== */
-  @media (max-width: 768px) {
   .band-grid {
     display: flex !important;
     overflow-x: auto;
@@ -154,7 +151,8 @@ html {
   /* hide scrollbar */
   .band-grid::-webkit-scrollbar { display: none; }
   .band-grid { -ms-overflow-style: none; scrollbar-width: none; }
-}
+
+  /* other mobile styles you had here */
   .menu-btn { display: flex !important; width: 100% !important; border-radius: 0 !important; }
   .desktop-nav { display: none !important; }
 
@@ -183,7 +181,6 @@ html {
 
   body.scrolled .logo {
     height: 50px !important;
-   /* max-width: 40% !important; */
     width: auto !important;
     max-width: none !important;
   }
@@ -205,11 +202,8 @@ html {
     right: 0 !important;
     z-index: 2999 !important;
   }
-
- 
-
-
 }
+
 
 /* ==== DESKTOP ONLY ==== */
 @media (min-width: 769px) {
