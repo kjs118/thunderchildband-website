@@ -423,6 +423,38 @@ footer { background:#000; padding:1em; font-size:.8em; }
   height: 100%;
   border: 0;
 }
+/* ==== SHOWS PAGE – RSVP BUTTON ==== */
+.shows-page .rsvp-btn {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.65rem 1.4rem;
+
+  background: #ff0000;              /* Thunder Child red */
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+
+  border-radius: 6px;
+  box-shadow: 0 4px 0 #b30000;
+
+  transition:
+    transform 0.1s ease,
+    box-shadow 0.1s ease,
+    background 0.2s ease;
+}
+
+.shows-page .rsvp-btn:hover {
+  background: #ff1a1a;
+}
+
+.shows-page .rsvp-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #b30000;
+}
+
 
 /* ===== SHOW PAGE – BLACK FLYER PLACEHOLDER ===== */
 
