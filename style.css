@@ -181,7 +181,6 @@ html {
   }
 
   /* ==== MOBILE BAND CAROUSEL ==== */
-@media (max-width: 768px) {
   .band-grid {
     display: flex;               /* horizontal layout */
     overflow-x: auto;            /* enable horizontal scroll */
