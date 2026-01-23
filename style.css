@@ -182,7 +182,7 @@ html {
 
   /* ==== MOBILE BAND CAROUSEL ==== */
   .band-grid {
-    display: flex;               /* horizontal layout */
+    display: flex !important;               /* horizontal layout */
     overflow-x: auto;            /* enable horizontal scroll */
     scroll-snap-type: x mandatory; /* snap each card */
     gap: 1rem;                   /* spacing between cards */
