@@ -128,7 +128,7 @@ html {
 .mobile-nav a:hover { background: #222; }
 
 /* MOBILE BAND CAROUSEL */
-@media (max-width: 768px) {
+/*@media (max-width: 768px) {
   .band-grid {
     display: flex;                /* horizontal scroll */
     overflow-x: auto;             /* scroll sideways */
@@ -142,12 +142,12 @@ html {
   .member-card {
     flex: 0 0 70%;                /* each card takes 70% of width */
     scroll-snap-align: center;    /* centers each card */
-  }
+  } 
 
   /* hide scrollbar */
   .band-grid::-webkit-scrollbar { display: none; }
   .band-grid { -ms-overflow-style: none; scrollbar-width: none; }
-}
+}*/
 
 /* DESKTOP GRID */
 @media (min-width: 769px) {
@@ -159,9 +159,9 @@ html {
     margin: auto;
   }
 
-  .member-card {
+ /* .member-card {
     flex: initial; /* reset flex from mobile */
-  }
+  }*/
 }
 
 
