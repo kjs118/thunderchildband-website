@@ -127,27 +127,39 @@ html {
 }
 .mobile-nav a:hover { background: #222; }
 
+/* ==== MOBILE BAND CAROUSEL ==== */
 /* MOBILE BAND CAROUSEL */
-/*@media (max-width: 768px) {
+@media (max-width: 768px) {
   .band-grid {
+    display: flex;
+    overflow-x: auto;
     display: flex;                /* horizontal scroll */
     overflow-x: auto;             /* scroll sideways */
     scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
     gap: 1rem;
+
+    width: 100%;            /* use 100% instead of 100vw */
+    max-width: 100%;
+    margin: 0 auto;         /* center the grid */
+    padding: 0 0.5rem;      /* smaller side padding */
     width: 100%;
     margin: 0 auto;
     padding: 0 0.5rem;
   }
 
   .member-card {
+    flex: 0 0 70%;           /* percentage of container, not viewport */
+    scroll-snap-align: center;
     flex: 0 0 70%;                /* each card takes 70% of width */
     scroll-snap-align: center;    /* centers each card */
-  } 
+  }
 
   /* hide scrollbar */
   .band-grid::-webkit-scrollbar { display: none; }
   .band-grid { -ms-overflow-style: none; scrollbar-width: none; }
-}*/
+}
 
 /* DESKTOP GRID */
 @media (min-width: 769px) {
@@ -159,9 +171,9 @@ html {
     margin: auto;
   }
 
- /* .member-card {
+  .member-card {
     flex: initial; /* reset flex from mobile */
-  }*/
+  }
 }
 
 
