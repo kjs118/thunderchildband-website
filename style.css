@@ -5,13 +5,20 @@ html, body {
   background:#000;
   color:#eee;
   text-align:center;
-  padding-top: 70px !important;
+  padding-top: 70px !important; /* ALWAYS RESERVE SPACE */
   overflow-x: hidden;
   width: 100%;
 }
-* { max-width: 100%; }
-img, iframe, video { max-width: 100%; height: auto; }
-html { scroll-padding-top: 80px; }
+ * {
+  max-width: 100%;
+} 
+img, iframe, video {
+  max-width: 100%;
+  height: auto;
+}
+html {
+  scroll-padding-top: 80px; /* avoids header overlap */
+}
 
 /* ==== HEADER ==== */
 .hero {
@@ -21,17 +28,21 @@ html { scroll-padding-top: 80px; }
   z-index: 2000;
   margin-top: -70px !important;
   padding-top: 70px !important;
+  transition: none !important;
 }
 .header-content {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1rem;
+  width: 100%;
 }
 .logo {
   height: 100px;
   max-width: 500px;
+  width: auto;
   transition: height 0.3s ease;
+  flex-shrink: 0;
 }
 
 /* ==== MENU BUTTON ==== */
@@ -43,7 +54,10 @@ html { scroll-padding-top: 80px; }
   font-weight: bold;
   font-size: 1.1rem;
   padding: 0.7rem 1rem;
+  border-radius: 0;
   cursor: pointer;
+  align-items: center;
+  justify-content: center;
   gap: 0.5rem;
   width: 100%;
 }
@@ -64,17 +78,30 @@ html { scroll-padding-top: 80px; }
   display: flex;
   justify-content: center;
   gap: 2rem;
+  margin: 0;
+  padding: 0;
 }
 .desktop-nav a {
   color: #eee;
   text-decoration: none;
   font-weight: bold;
+  font-size: 1rem; /* matches index and archive */
   padding: 0.5rem 1rem;
+  display: block;
+  transition: background 0.3s;
 }
 .desktop-nav a:hover {
   background: #ff0000;
   color: #fff;
   border-radius: 4px;
+}
+
+/* ==== SCROLL TARGET FIX ==== */
+#shows,
+#about,
+#band,
+#contact {
+  scroll-margin-top: 250px;
 }
 
 /* ==== MOBILE NAV ==== */
@@ -85,153 +112,96 @@ html { scroll-padding-top: 80px; }
   left: 0;
   right: 0;
   background: #000;
+  z-index: 9999;
   border-bottom: 1px solid #222;
 }
-.mobile-nav.open { display: block; }
+.mobile-nav.open { display: block !important; }
+.mobile-nav ul { list-style: none; margin: 0; padding: 0; }
 .mobile-nav a {
   display: block;
   padding: 1rem;
-  color: #fff;
-  text-decoration: none;
+  color: #fff !important;
+  text-align: center;
   border-bottom: 1px solid #222;
+  text-decoration: none;
 }
+.mobile-nav a:hover { background: #222; }
 
 /* ==== MOBILE ONLY ==== */
 @media (max-width: 768px) {
-  .menu-btn { display: flex; }
-  .desktop-nav { display: none; }
-}
+  .menu-btn { display: flex !important; width: 100% !important; border-radius: 0 !important; }
+  .desktop-nav { display: none !important; }
 
-/* ==== MAIN CONTENT ==== */
-.flex-row {
-  display:flex;
-  flex-wrap:wrap;
-  gap:2rem;
-  justify-content:center;
-  padding:4rem 1rem;
-  max-width:1200px;
-  margin:0 auto;
-}
-.col { flex:1; min-width:280px; }
+  .social-links { font-size: 0; }
+  .social-links a { display: inline-block; font-size: 0; margin: 0 6px; }
 
-/* ===================================================== */
-/* ================ MEET THE BAND ====================== */
-/* ===================================================== */
-
-#band {
-  padding: 3rem 1rem;
-}
-
-/* MOBILE FIRST — CAROUSEL */
-.band-grid {
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-}
-
-.carousel-track {
-  display: flex;
-  gap: 2rem;
-  padding: 1rem 0;
-}
-
-.member-card {
-  flex: 0 0 80%;
-  max-width: 320px;
-  scroll-snap-align: center;
-  text-align: center;
-}
-
-.member-photo {
-  width: 100%;
-  max-width: 220px;
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
-  border-radius: 50%;
-  border: 3px solid #000;
-  margin: 0 auto 1rem;
-}
-
-.member-card h3 {
-  font-family: 'Roboto Slab', serif;
-  font-size: 1.5rem;
-  color: #ccc;
-}
-
-.member-card p {
-  font-size: 0.95rem;
-  color: #ccc;
-}
-
-/* DESKTOP — GRID */
-@media (min-width: 900px) {
-  .band-grid {
-    overflow: visible;
+  body.scrolled .hero {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    padding: 0.4rem 0.8rem !important;
+    background: #000 !important;
+    z-index: 3000 !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.6) !important;
+    margin-top: 0 !important;
+    transition: padding 0.3s ease !important;
   }
 
-  .carousel-track {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2.5rem;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0;
+  body.scrolled .header-content {
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
   }
 
-  .member-card {
-    flex: none;
-    max-width: none;
+  body.scrolled .logo {
+    height: 50px !important;
+   /* max-width: 40% !important; */
+    width: auto !important;
+    max-width: none !important;
   }
 
-  .member-photo {
-    max-width: 200px;
+  body.scrolled .menu-btn {
+    width: auto !important;
+    padding: 0.4rem 0.8rem !important;
+    font-size: 1rem !important;
+    border-radius: 4px !important;
+  }
+
+  body.scrolled .menu-btn .text { display: none !important; }
+  body.scrolled .menu-btn .icon { font-size: 1.4rem !important; }
+
+  body.scrolled .mobile-nav {
+    position: fixed !important;
+    top: 70px !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 2999 !important;
   }
 }
 
-/* ===================================================== */
-
-.spacer { height: 1.5rem; }
-footer { background:#000; padding:1em; font-size:.8em; }
-
-/* ==== INSTAGRAM ==== */
-.instagram-wrapper {
-  max-width: 500px;
-  margin: 0 auto;
-  aspect-ratio: 1 / 1;
-}
-.instagram-wrapper iframe {
-  width: 100%;
-  height: 100%;
-  border: 0;
-}
-/* ==== SOCIAL ICONS (RESTORED) ==== */
-
-.social-links {
-  text-align: center;
-  margin-top: 15px;
-}
-
-.social-links a {
-  display: inline-block;
-  margin: 0 10px;
-  text-decoration: none;
-  position: relative;
-  transition: transform 0.3s ease;
-}
-
-.social-links a:hover {
-  transform: scale(1.1);
-}
-
-/* Desktop hover ring */
+/* ==== DESKTOP ONLY ==== */
 @media (min-width: 769px) {
+  .menu-btn, .mobile-nav { display: none !important; }
+  .desktop-nav { display: block !important; }
+}
+
+/* ==== SOCIAL ICONS ==== */
+@media (min-width: 769px) {
+  .social-links a {
+    display: inline-block;
+    margin: 0 12px;
+    text-decoration: none !important;
+    position: relative;
+    transition: transform 0.3s ease;
+  }
+  .social-links a:hover { transform: scale(1.1); }
   .social-links a::after {
     content: '';
     position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 56px;
-    height: 56px;
+    top: 50%; left: 50%;
+    width: 56px; height: 56px;
     border: 3px solid #ff0000;
     border-radius: 50%;
     transform: translate(-50%, -50%);
@@ -239,15 +209,248 @@ footer { background:#000; padding:1em; font-size:.8em; }
     pointer-events: none;
     transition: opacity 0.3s ease;
   }
+  .social-links a:hover::after { opacity: 1; }
+}
 
-  .social-links a:hover::after {
-    opacity: 1;
+/* ==== MAIN CONTENT ==== */
+#shows .show-item { margin-bottom:1.2em; font-size:1.2em; line-height:1.5; }
+.flex-row { display:flex; flex-wrap:wrap; gap:2rem; justify-content:center; padding:4rem 1rem; max-width:1200px; margin:0 auto; }
+.col { flex:1; min-width:280px; }
+.col h2 { text-align:center; margin-bottom:1rem; }
+#band { padding:3rem 1rem; }
+.band-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:2rem; max-width:1000px; margin:auto; }
+.member-card { background:#222; border-radius:8px; padding:1.5rem; text-align:center; transition:transform .3s; }
+.member-card:hover { transform:translateY(-5px); box-shadow:0 10px 25px #ff0000; }
+.member-photo { width:100%; max-width:180px; aspect-ratio:1/1; object-fit:cover; border-radius:50%; border:3px solid #000; margin:0 auto 1rem; }
+.member-card h3 { font-family:'Roboto Slab',serif; font-size:1.5rem; color:#ccc; margin-bottom:.5rem; }
+.member-card p { font-size:.95rem; line-height:1.5; color:#ccc; }
+.spacer { height:1.5rem; }
+.social-links { text-align:center; margin-top:15px; }
+footer { background:#000; padding:1em; font-size:.8em; }
+
+/* ==== INSTAGRAM RESPONSIVE ==== */
+#photos, .instagram-wrapper { width: 100%; max-width: 500px; margin: 0 auto; aspect-ratio: 1 / 1; overflow: hidden; }
+#photos iframe, .instagram-wrapper iframe { width: 100%; height: 100%; border: 0; display: block; }
+
+
+/* ====== ABOUT PAGE SPECIFIC ====== */
+.about-page .about-band-image {
+  text-align: center;
+  margin: 3rem auto 2rem auto; /* space above and below image */
+}
+
+.about-page .about-band-image img {
+  max-width: 600px;     /* limits the width of the image */
+  width: 90%;           /* scales nicely on smaller screens */
+  height: auto;         /* maintain aspect ratio */
+  border-radius: 8px;   /* soft corners */
+  border: 2px solid #222; /* subtle dark border */
+  display: block;
+  margin: 0 auto;       /* center horizontally */
+}
+
+/* About section two-column layout */
+.about-content {
+  display: flex;
+  flex-wrap: wrap;        /* stack on smaller screens */
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 3rem auto;
+  padding: 0 1rem;
+}
+
+.about-content .about-image {
+  flex: 1 1 400px;        /* grows, shrinks, min 400px */
+  text-align: center;
+}
+
+.about-content .about-image img {
+  width: 100%;
+  max-width: 450px;       /* controls desktop image size */
+  height: auto;
+  border-radius: 8px;
+  border: 2px solid #222;
+}
+
+.about-content .about-text {
+  flex: 1 1 400px;
+  max-width: 600px;       /* prevent text from stretching too far */
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #eee;
+  text-align: left;
+}
+
+/* Stack columns on smaller screens */
+@media (max-width: 768px) {
+  .about-content {
+    flex-direction: column;
+  }
+  .about-content .about-text {
+    text-align: center;
+    padding-top: 1.5rem;
   }
 }
 
-/* Mobile spacing fix */
+
+/* ==== ARCHIVE PAGE SPECIFIC ==== */
+.archive-page {
+  background: black;
+  color: white;
+}
+
+/* Archive show layout */
+.archive-container {
+  max-width: 1000px;
+  margin: auto;
+  padding: 40px 20px 60px;
+}
+
+.archive-show {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 40px;
+  border-bottom: 1px solid #333;
+  padding-bottom: 30px;
+  align-items: center;
+}
+
+.archive-image img {
+  width: 220px;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 2px solid #222;
+}
+
+.archive-details h2 { margin: 0 0 6px; }
+.archive-details p { margin: 4px 0; line-height: 1.5; }
+
+/* Archive video layout */
+.archive-video {
+  width: 320px;
+  aspect-ratio: 16 / 9;
+  border: 2px solid #222;
+  border-radius: 6px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.archive-video iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* ===== SHOW PAGE – BLACK FLYER PLACEHOLDER ===== */
+
+.show-flyer {
+  width: 320px;
+  max-width: 100%;
+}
+
+.show-flyer img {
+  width: 100%;
+  display: block;
+}
+
+.show-flyer.empty {
+  height: 180px;
+  background: #000;        /* match site background */
+  border: 2px solid #000;  /* prevents layout shift */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.show-flyer.empty span {
+  color: #666;             /* very subtle */
+  font-size: 0.8rem;
+}
+
+
+/* Mobile archive layout */
 @media (max-width: 768px) {
-  .social-links a {
-    margin: 0 6px;
+  .archive-show { flex-direction: column; }
+  .archive-image img { width: 100%; height: auto; }
+  .archive-video { width: 100% !important; max-width: 100% !important; margin: 0 auto 10px !important; }
+  .archive-video iframe { width: 100% !important; height: auto !important; aspect-ratio: 16 / 9 !important; }
+}
+
+
+
+/* Contact Form Styling */
+.contact-form form {
+  display: flex;
+  flex-direction: column; /* stack items vertically */
+  gap: 15px; /* space between each input */
+}
+
+.contact-form label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.contact-form input {
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%; /* full width of the form column */
+  box-sizing: border-box;
+}
+
+.contact-form button {
+  margin-top: 0.5rem;
+  padding: 14px 20px;
+  font-size: 1.05rem;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+
+  background: #ff0000; /* Thunder Child red */
+  color: #fff;
+
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+
+  transition: background 0.2s ease, transform 0.1s ease, box-shadow 0.1s ease;
+  box-shadow: 0 4px 0 #b30000;
+}
+
+.contact-form button:hover {
+  background: #ff1a1a;
+}
+
+.contact-form button:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #b30000;
+}
+
+
+.contact-form button:hover {
+  background-color: #444;
+}
+.contact-form form {
+  margin-top: 1.5rem; /* 👈 adds space below the paragraph */
+}
+
+@media (max-width: 768px) {
+  .show-flyer.empty {
+    background: #000;
   }
+}
+/* ===== MAIN PAGE IMAGES – CONSISTENT STYLE ===== */
+.about-page .about-band-image img,
+.contact-page .contact-photo img,
+.shows-page .show-flyer img {
+  max-width: 90%;          /* scales nicely */
+  height: auto;
+  border-radius: 8px;      /* soft corners */
+  border: 2px solid #222;  /* dark border to match site theme */
+  display: block;
+  margin: 0 auto;          /* centers the image */
 }
