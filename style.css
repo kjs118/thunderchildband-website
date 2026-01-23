@@ -231,15 +231,96 @@ html {
   padding: 3rem 1rem;
   background: #000;          /* matches site background */
 }
+/* Desktop: Switch back to 3-column grid layout */
+@media (min-width: 900px) {
+  .band-grid {
+    display: grid;                    /* Back to grid on desktop */
+    grid-template-columns: repeat(3, 1fr); /* Exactly 3 per row */
+    overflow-x: visible;              /* No horizontal scroll */
+    scroll-snap-type: none;           /* Disable snap */
+    gap: 2.5rem;
+    padding: 0;
+    justify-items: center;            /* Centers each member card */
+  }
 
+  .member-card {
+    flex: none;                       /* Reset flex properties */
+    max-width: none;                  /* Remove mobile width cap */
+    scroll-snap-align: none;
+  }
+
+  .member-photo {
+    max-width: 200px;                 /* Desktop photo size – adjust if you want bigger/smaller */
+  }
+}
+
+/* Optional: On medium screens (tablets ~600–899px), show 2 columns instead of carousel */
+@media (min-width: 600px) and (max-width: 899px) {
+  .band-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    overflow-x: visible;
+    scroll-snap-type: none;
+    gap: 3rem;
+    justify-items: center;
+  }
+
+  .member-card {
+    flex: none;
+    max-width: none;
+    scroll-snap-align: none;
+  }
+
+  .member-photo {
+    max-width: 220px;
+  }
+}
 .band-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2.5rem;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1rem;
-  justify-items: center; /* centers each card/photo horizontally */
+  display: flex;                /* Change from grid to flex for horizontal scrolling */
+  flex-wrap: nowrap;            /* Prevent wrapping */
+  overflow-x: auto;             /* Enable horizontal scroll */
+  scroll-snap-type: x mandatory; /* Snap to each item */
+  scroll-behavior: smooth;      /* Smooth scrolling */
+  gap: 2rem;
+  padding: 1rem 0;              /* Vertical padding + room for snap */
+  -webkit-overflow-scrolling: touch; /* Smooth momentum on iOS */
+  scrollbar-width: none;        /* Hide scrollbar in Firefox */
+  -ms-overflow-style: none;     /* Hide scrollbar in IE/Edge */
+}
+
+.band-grid::-webkit-scrollbar {
+  display: none;                /* Hide scrollbar in Chrome/Safari */
+}
+
+.member-card {
+  flex: 0 0 80%;                /* Each card takes ~80% of viewport width (feels like full-slide) */
+  max-width: 320px;             /* Cap width on larger phones */
+  scroll-snap-align: center;    /* Snap to center of each card */
+  background: transparent;
+  text-align: center;
+  padding: 1rem 0;
+  transition: none;
+}
+
+.member-card:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.member-photo {
+  width: 100%;
+  max-width: 220px;             /* Slightly larger for mobile carousel feel */
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid #000;
+  margin: 0 auto 1.2rem;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.member-card:hover .member-photo {
+  transform: scale(1.06);
 }
 
 /* Force exactly 3 columns on screens wider than ~900px (adjust if needed) */
