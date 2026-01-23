@@ -196,7 +196,7 @@ html {
   .member-card {
     flex: 0 0 70%;              /* each card takes 70% of viewport width */
     scroll-snap-align: center;  /* snap so card is centered */
-    margin: 0 auto;             /* centers the card in viewport */
+    /* margin: 0 auto;             centers the card in viewport */
   }
 
   /* optional: hide scrollbar for cleaner look */
