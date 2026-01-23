@@ -179,6 +179,7 @@ html {
     right: 0 !important;
     z-index: 2999 !important;
   }
+}
   /* ==== MOBILE BAND CAROUSEL ==== */
 @media (max-width: 768px) {
   .band-grid {
