@@ -202,12 +202,26 @@ function predictBarFlash() {
     let holeLeft = getHoleLeft();
     let holeRight = holeLeft + HOLE_WIDTH;
 
+    if(holeRight <= SCREEN_WIDTH) {
+        // no wrap
+        if(blockLeft >= holeLeft && blockRight <= holeRight){
+            barFlashColor = "#00FF00"; // green
+        } else {
+            barFlashColor = "#FF0000"; // red
+        }
     let safe = false;
 
     if(holeRight <= SCREEN_WIDTH){
         // normal, no wrap
         safe = (blockLeft >= holeLeft && blockRight <= holeRight);
     } else {
+        // wraparound
+        if( (blockLeft >= holeLeft && blockRight <= SCREEN_WIDTH) ||
+            (blockLeft >= 0 && blockRight <= holeRight - SCREEN_WIDTH) ){
+            barFlashColor = "#00FF00"; // green
+        } else {
+            barFlashColor = "#FF0000"; // red
+        }
         // wraparound: block is safe if either:
         // 1. fully fits in right part of screen
         const rightPart = (blockLeft >= holeLeft && blockRight <= SCREEN_WIDTH);
