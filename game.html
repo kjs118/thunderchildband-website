@@ -203,8 +203,8 @@ function getClosestBlockAboveHole(){
     return closest;
 }
 
-function predictBarFlash(){
-    const block = getClosestBlockAboveHole();
+function predictBarFlash() {
+    const block = getClosestBlockAboveBar();
     if(!block) return;
 
     const blockLeft = block.x;
@@ -212,13 +212,30 @@ function predictBarFlash(){
     const holeLeft = getHoleLeft();
     const holeRight = holeLeft + HOLE_WIDTH;
 
-    if(blockRight < holeLeft || blockLeft > holeRight){
-        barFlashColor="#FF0000"; // red → will hit
+    // Strict containment logic
+    if(blockLeft >= holeLeft && blockRight <= holeRight){
+        barFlashColor = "#00FF00"; // green → safe
     } else {
-        barFlashColor="#00FF00"; // green → will pass
+        barFlashColor = "#FF0000"; // red → will hit
     }
 
-    setTimeout(()=>{ barFlashColor=WHITE; }, 200);
+    setTimeout(() => { barFlashColor = WHITE; }, 200);
+}
+
+// Helper to find nearest block above bar vertically
+function getClosestBlockAboveBar() {
+    let closest = null;
+    let minDistance = Infinity;
+    blocks.forEach(block => {
+        if(block.y + block.height < BAR_Y){
+            const dist = BAR_Y - (block.y + block.height);
+            if(dist < minDistance){
+                minDistance = dist;
+                closest = block;
+            }
+        }
+    });
+    return closest;
 }
 
 // ---- UPDATE LOOP ----
