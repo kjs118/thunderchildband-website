@@ -104,19 +104,16 @@ function startGame(level) {
 // ---- INPUT ----
 canvas.addEventListener('mousedown', () => { 
     if (state === "game_over") resetGame();
-    mouseDown = true;                // ← add this
+    mouseDown = true;                // Stop automatic sliding
     if (difficulty === "hard") predictBarFlash();
 });
-
 canvas.addEventListener('mouseup', () => mouseDown = false);
-
 canvas.addEventListener('touchstart', (e) => { 
     e.preventDefault();
     if (state === "game_over") resetGame();
-    mouseDown = true;                // ← add this
+    mouseDown = true;                // Stop automatic sliding
     if (difficulty === "hard") predictBarFlash();
 });
-
 canvas.addEventListener('touchend', (e) => { 
     e.preventDefault(); 
     mouseDown = false; 
@@ -180,20 +177,34 @@ function resetGame(){
 }
 
 // ---- HARD DIFFICULTY: PREDICTION ----
-function getClosestBlockAboveBar(){
-    let closest=null;
-    let minDist=Infinity;
-    blocks.forEach(block=>{
-        if(block.y+block.height<BAR_Y){
-            const dist=BAR_Y-(block.y+block.height);
-            if(dist<minDist){ minDist=dist; closest=block; }
+function getClosestBlockAboveHole(){
+    let closest = null;
+    let minDistance = Infinity;
+    const holeLeft = getHoleLeft();
+    const holeRight = holeLeft + HOLE_WIDTH;
+
+    blocks.forEach(block => {
+        // Only consider blocks above the bar
+        if(block.y + block.height < BAR_Y){
+            const blockLeft = block.x;
+            const blockRight = block.x + block.width;
+
+            // Only blocks horizontally over the hole
+            if(blockRight > holeLeft && blockLeft < holeRight){
+                const dist = BAR_Y - (block.y + block.height);
+                if(dist < minDistance){
+                    minDistance = dist;
+                    closest = block;
+                }
+            }
         }
     });
+
     return closest;
 }
 
 function predictBarFlash(){
-    const block = getClosestBlockAboveBar();
+    const block = getClosestBlockAboveHole();
     if(!block) return;
 
     const blockLeft = block.x;
@@ -207,7 +218,6 @@ function predictBarFlash(){
         barFlashColor="#00FF00"; // green → will pass
     }
 
-    // Reset to white after short flash
     setTimeout(()=>{ barFlashColor=WHITE; }, 200);
 }
 
@@ -253,11 +263,11 @@ function draw(){
     // Draw blocks
     blocks.forEach(block=>block.draw());
 
-    // Draw score
-    ctx.fillStyle=WHITE; ctx.font="48px Arial";
-    ctx.fillText(score,20,60);
+    // Draw score slightly down/right
+    ctx.fillStyle=WHITE; ctx.font="48px Arial"; ctx.textAlign="start";
+    ctx.fillText(score,30,100);
     ctx.font="32px Arial";
-    ctx.fillText("High Score: "+highScore,20,100);
+    ctx.fillText("High Score: "+highScore,30,140);
 
     if(state==="game_over"){
         ctx.fillStyle="rgba(0,0,0,0.55)";
