@@ -18,7 +18,9 @@
     height: 100vh;
   }
   canvas { display: none; background: black; }
-  #menu { text-align: center; }
+  #menu {
+    text-align: center;
+  }
   button {
     display: block;
     margin: 10px auto;
@@ -50,6 +52,7 @@ const SCREEN_HEIGHT = canvas.height;
 
 const BLACK = "#000";
 const WHITE = "#fff";
+
 const BLOCK_COLORS = ["#FF6464","#FFA500","#FFFF00","#64FF64","#00C8FF","#6464FF","#C800FF","#FF3296"];
 const NUM_COLUMNS = BLOCK_COLORS.length;
 const COLUMN_WIDTH = SCREEN_WIDTH / NUM_COLUMNS;
@@ -61,13 +64,16 @@ const HOLE_HEIGHT = BAR_HEIGHT;
 
 const SLIDE_SPEED = 4.5;
 const SPAWN_INTERVAL_FRAMES = 165;
+
 const NORMAL_WIDTH = Math.floor(HOLE_WIDTH*0.45);
 const WIDE_WIDTH = Math.floor(HOLE_WIDTH*0.9);
+
 const INITIAL_FALL_SPEED = 2.2;
 const FALL_SPEED_INCREASE = 0.3;
 const MAX_LEVELS = 5;
 const SCORE_INTERVAL = 20;
 
+// Hard & Harder variables
 let score = 0;
 let highScore = parseInt(localStorage.getItem('brakeDownHighScore')) || 0;
 let blocks = [];
@@ -93,36 +99,39 @@ function startGame(level) {
     difficulty = level;
     menuDiv.style.display = "none";
     canvas.style.display = "block";
-    if(difficulty==="glutton") initGlutton();
+    if(level === 'glutton') initGlutton();
     else resetGame();
 }
 
 // ---- INPUT ----
-const keysDown = {};
-document.addEventListener('keydown', e => { keysDown[e.key.toLowerCase()] = true; });
-document.addEventListener('keyup', e => { keysDown[e.key.toLowerCase()] = false; });
-
 canvas.addEventListener('mousedown', () => { 
-    if(state==="game_over") difficulty==="glutton"? initGlutton() : resetGame();
+    if (state === "game_over") difficulty === 'glutton' ? initGlutton() : resetGame();
     mouseDown = true;                
     if (difficulty === "hard") predictBarFlash();
 });
 canvas.addEventListener('mouseup', () => mouseDown = false);
-canvas.addEventListener('touchstart', e => { 
+canvas.addEventListener('touchstart', (e) => { 
     e.preventDefault();
-    if(state==="game_over") difficulty==="glutton"? initGlutton() : resetGame();
+    if (state === "game_over") difficulty === 'glutton' ? initGlutton() : resetGame();
     mouseDown = true;                
     if (difficulty === "hard") predictBarFlash();
 });
-canvas.addEventListener('touchend', e => { e.preventDefault(); mouseDown = false; });
+canvas.addEventListener('touchend', (e) => { 
+    e.preventDefault(); 
+    mouseDown = false; 
+});
+document.addEventListener('keydown', handleKeyDown);
+document.addEventListener('keyup', handleKeyUp);
 
-// ---- BLOCK CLASS ----
+// ------------------- BLOCK CLASS -------------------
 class Block {
-    constructor(x, fallSpeed, width, fromTop=true){
-        this.x = x; this.y = fromTop?-HOLE_HEIGHT:SCREEN_HEIGHT;
-        this.width = width; this.height = HOLE_HEIGHT;
+    constructor(x, y, fallSpeed, width, fromTop=true) {
+        this.x = x; 
+        this.y = y;
+        this.width = width; 
+        this.height = HOLE_HEIGHT;
         this.fallSpeed = fallSpeed;
-        this.fromTop = fromTop;
+        this.fromTop = fromTop; // top -> down, bottom -> up
         this.column = Math.floor(x/COLUMN_WIDTH)%NUM_COLUMNS;
         this.baseColor = BLOCK_COLORS[this.column];
         this.color = this.baseColor;
@@ -130,31 +139,27 @@ class Block {
         this.isWide = (width>NORMAL_WIDTH);
     }
     update(){
-        this.y += this.fromTop? this.fallSpeed : -this.fallSpeed;
+        this.y += this.fromTop ? this.fallSpeed : -this.fallSpeed;
         if(this.isWide && score>=50){
             const t = performance.now()/1000; const pos = t%1.0;
             if(pos<0.4) this.color=this.baseColor;
             else if(pos<0.5) this.color=WHITE;
             else if(pos<0.9) this.color=this.baseColor;
             else this.color=BLACK;
-        }else this.color=this.baseColor;
+        } else this.color=this.baseColor;
     }
     draw(){ ctx.fillStyle=this.color; ctx.fillRect(this.x,this.y,this.width,this.height);}
 }
 
-// ---- FUNCTIONS FOR HARD/HARDER ----
+// ------------------- HARD & HARDER FUNCTIONS -------------------
 function spawnBlock(){
     blockCount++;
     const isWide = (blockCount%5===0);
     const w = isWide? WIDE_WIDTH:NORMAL_WIDTH;
     const x = Math.random()*(SCREEN_WIDTH-w);
-    blocks.push(new Block(x,fallSpeed,w));
+    blocks.push(new Block(x,-HOLE_HEIGHT,fallSpeed,w,true));
 }
-
-function getHoleLeft(){
-    let left = holeX % SCREEN_WIDTH; if(left<0) left+=SCREEN_WIDTH; return left;
-}
-
+function getHoleLeft(){ let left = holeX % SCREEN_WIDTH; if(left<0) left+=SCREEN_WIDTH; return left; }
 function blockPassesHole(block){
     const left=getHoleLeft();
     const right=left+HOLE_WIDTH;
@@ -162,19 +167,17 @@ function blockPassesHole(block){
     if(right<=SCREEN_WIDTH) return block.x>=left && blockRight<=right;
     return (block.x>=left)||(blockRight<=right-SCREEN_WIDTH);
 }
-
 function updateFallSpeed(){
     const level = Math.min(Math.floor(score/SCORE_INTERVAL),MAX_LEVELS);
     fallSpeed = INITIAL_FALL_SPEED + level*FALL_SPEED_INCREASE;
 }
-
 function resetGame(){
     state="playing"; score=0; holeX=SCREEN_WIDTH/2 - HOLE_WIDTH/2;
     blocks=[]; spawnTimer=SPAWN_INTERVAL_FRAMES; fallSpeed=INITIAL_FALL_SPEED; blockCount=0;
     barFlashColor=WHITE;
 }
 
-// ---- HARD DIFFICULTY: PREDICTION ----
+// Hard difficulty flash
 function getClosestBlockAboveBar(){
     let closest = null;
     let minDistance = Infinity;
@@ -189,178 +192,139 @@ function getClosestBlockAboveBar(){
     });
     return closest;
 }
-
 function predictBarFlash() {
     const block = getClosestBlockAboveBar();
-    if (!block) return;
-
-    const blockLeft = block.x;
-    const blockRight = block.x + block.width;
-
-    let holeLeft = getHoleLeft();
-    let holeRight = holeLeft + HOLE_WIDTH;
-
+    if(!block) return;
+    const blockLeft = block.x, blockRight = block.x+block.width;
+    let holeLeft = getHoleLeft(), holeRight = holeLeft + HOLE_WIDTH;
     let safe = false;
-
-    if (holeRight <= SCREEN_WIDTH) safe = (blockLeft >= holeLeft && blockRight <= holeRight);
-    else {
-        const rightSegmentFits = blockLeft >= holeLeft && blockRight <= SCREEN_WIDTH;
-        const leftSegmentFits = blockLeft >= 0 && blockRight <= (holeRight - SCREEN_WIDTH);
-        safe = rightSegmentFits || leftSegmentFits;
-    }
-
-    barFlashColor = safe ? "#00FF00" : "#FF0000";
-    setTimeout(()=>{barFlashColor=WHITE;},200);
+    if(holeRight<=SCREEN_WIDTH) safe = (blockLeft>=holeLeft && blockRight<=holeRight);
+    else safe = ((blockLeft>=holeLeft && blockRight<=SCREEN_WIDTH)||(blockLeft>=0 && blockRight<=holeRight-SCREEN_WIDTH));
+    barFlashColor = safe?"#00FF00":"#FF0000";
+    setTimeout(()=>{ barFlashColor=WHITE; },200);
 }
 
-// ---- GLUTTON MODE VARIABLES ----
-let topBarX=0, bottomBarX=0;
-let topBarSpeed=4, bottomBarSpeed=4;
-let topHoleX=100, bottomHoleX=150;
+// ------------------- GLUTTON MODE -------------------
+let topBarX, bottomBarX;
+let topBarSpeed = 2.5, bottomBarSpeed = 2.5;
+let topHoleX, bottomHoleX;
 let gluttonBlocks = [];
-let gluttonSpawnTimer = 0;
-let gluttonState="playing";
+let gluttonSpawnTimer = 100;
+let gluttonScore = 0;
+let topBarHold = false;
+let bottomBarHold = false;
 
-// Initialize Glutton mode
 function initGlutton(){
-    score=0; gluttonBlocks=[]; gluttonSpawnTimer=0; gluttonState="playing";
-    topBarX=0; bottomBarX=0;
-    // bars centered vertically
-    topBarY = SCREEN_HEIGHT/2 - BAR_HEIGHT - BAR_HEIGHT/2;
-    bottomBarY = SCREEN_HEIGHT/2 + BAR_HEIGHT/2;
-    spawnGluttonBlock();
+    // reset variables
+    state = "playing";
+    gluttonBlocks = [];
+    gluttonSpawnTimer = 100;
+    gluttonScore = 0;
+
+    topBarX = 0; bottomBarX = 0;
+    topHoleX = Math.random()*(SCREEN_WIDTH-HOLE_WIDTH);
+    bottomHoleX = Math.random()*(SCREEN_WIDTH-HOLE_WIDTH);
+    topBarHold = false; bottomBarHold = false;
+
+    blocks = []; // just to clear
 }
 
-// Spawn a glutton block (top or bottom)
+// Keyboard controls
+function handleKeyDown(e){
+    if(state!=="playing") return;
+    if(difficulty !== 'glutton') return;
+    if(e.key === "w" || e.key === "ArrowUp") topBarHold = true;
+    if(e.key === "s" || e.key === "ArrowDown") bottomBarHold = true;
+}
+function handleKeyUp(e){
+    if(difficulty !== 'glutton') return;
+    if(e.key === "w" || e.key === "ArrowUp") topBarHold = false;
+    if(e.key === "s" || e.key === "ArrowDown") bottomBarHold = false;
+}
+
+// Glutton block spawn
 function spawnGluttonBlock(){
-    const fromTop = Math.random() < 0.5;
-    const w = Math.random() < 0.2? WIDE_WIDTH:NORMAL_WIDTH;
-    const x = Math.random()*(SCREEN_WIDTH-w);
-    gluttonBlocks.push(new Block(x, INITIAL_FALL_SPEED+Math.random(), w, fromTop));
+    const x = Math.random()*(SCREEN_WIDTH-NORMAL_WIDTH);
+    // top
+    gluttonBlocks.push(new Block(x,-HOLE_HEIGHT,INITIAL_FALL_SPEED,true));
+    // bottom
+    const y = SCREEN_HEIGHT + HOLE_HEIGHT;
+    gluttonBlocks.push(new Block(x,y,INITIAL_FALL_SPEED,NORMAL_WIDTH,false));
 }
 
-// Glutton block pass detection
-function gluttonBlockPasses(block){
-    // Top bar
-    const topLeft = topHoleX;
-    const topRight = topHoleX + HOLE_WIDTH;
-    // Bottom bar
-    const bottomLeft = bottomHoleX;
-    const bottomRight = bottomHoleX + HOLE_WIDTH;
-
-    const blockLeft = block.x;
-    const blockRight = block.x + block.width;
-    const topPass = block.fromTop ? (blockLeft >= topLeft && blockRight <= topRight) : true;
-    const bottomPass = !block.fromTop ? (blockLeft >= bottomLeft && blockRight <= bottomRight) : true;
-    return topPass && bottomPass;
-}
-
-// ---- UPDATE LOOP ----
-function update(){
+// Glutton update
+function updateGlutton(){
     if(state!=="playing") return;
 
-    if(difficulty==="glutton"){
-        if(gluttonState!=="playing") return;
+    // move bars unless held
+    if(!topBarHold){ topBarX+=topBarSpeed; if(topBarX>SCREEN_WIDTH) topBarX-=SCREEN_WIDTH; }
+    if(!bottomBarHold){ bottomBarX-=bottomBarSpeed; if(bottomBarX<-SCREEN_WIDTH) bottomBarX+=SCREEN_WIDTH; }
 
-        // Move bars unless key is held
-        if(!(keysDown["w"]||keysDown["arrowup"])) topBarX+=topBarSpeed;
-        if(!(keysDown["s"]||keysDown["arrowdown"])) bottomBarX+=bottomBarSpeed;
+    // spawn blocks staggered
+    gluttonSpawnTimer--;
+    if(gluttonSpawnTimer<=0){
+        spawnGluttonBlock();
+        gluttonSpawnTimer = 100; // adjust for pacing
+    }
 
-        // Wrap bars
-        if(topBarX>SCREEN_WIDTH) topBarX-=SCREEN_WIDTH;
-        if(bottomBarX>SCREEN_WIDTH) bottomBarX-=SCREEN_WIDTH;
+    // update blocks
+    for(let i=gluttonBlocks.length-1;i>=0;i--){
+        const b = gluttonBlocks[i];
+        b.update();
 
-        // Spawn blocks slower
-        gluttonSpawnTimer--;
-        if(gluttonSpawnTimer<=0){
-            spawnGluttonBlock();
-            gluttonSpawnTimer=SPAWN_INTERVAL_FRAMES*2;
-        }
-
-        // Update blocks
-        for(let i=gluttonBlocks.length-1;i>=0;i--){
-            const b=gluttonBlocks[i]; b.update();
-
-            // Collision check
-            if((b.fromTop && b.y+b.height>=topBarY && b.y<=topBarY+BAR_HEIGHT) ||
-               (!b.fromTop && b.y<=bottomBarY+BAR_HEIGHT && b.y>=bottomBarY)){
-                if(!gluttonBlockPasses(b)){
-                    gluttonState="game_over";
-                    break;
-                }
+        // check collision
+        if(b.fromTop){
+            const topBarY = SCREEN_HEIGHT/2 - BAR_HEIGHT/2 - BAR_HEIGHT/2; // upper bar half-height
+            const left = topBarX % SCREEN_WIDTH;
+            const right = left+HOLE_WIDTH;
+            const blockRight = b.x + b.width;
+            if(b.y+b.height>topBarY && b.y<topBarY + BAR_HEIGHT/2){
+                let safe = (blockRight>left && b.x<right) ? false : true;
+                if(!safe){ state="game_over"; break; }
             }
-
-            // Remove offscreen blocks and score
-            if((b.fromTop && b.y>SCREEN_HEIGHT) || (!b.fromTop && b.y<-b.height)){
-                if(!b.scored){ score++; b.scored=true; }
-                gluttonBlocks.splice(i,1);
+            if(b.y>SCREEN_HEIGHT) gluttonBlocks.splice(i,1);
+        } else {
+            const bottomBarY = SCREEN_HEIGHT/2 + BAR_HEIGHT/2; // bottom bar
+            const left = bottomBarX % SCREEN_WIDTH;
+            const right = left+HOLE_WIDTH;
+            const blockRight = b.x + b.width;
+            if(b.y<b.height+bottomBarY && b.y>bottomBarY - BAR_HEIGHT/2){
+                let safe = (blockRight>left && b.x<right) ? false : true;
+                if(!safe){ state="game_over"; break; }
             }
-        }
-
-    } else {
-        // HARD/HARDER NORMAL UPDATE
-        if(!mouseDown) holeX-=SLIDE_SPEED;
-
-        spawnTimer--; if(spawnTimer<=0){spawnBlock(); spawnTimer=SPAWN_INTERVAL_FRAMES;}
-
-        for(let i=blocks.length-1;i>=0;i--){
-            const block=blocks[i]; block.update();
-
-            if(!block.scored && block.y>BAR_Y+BAR_HEIGHT){
-                if(blockPassesHole(block)){ block.scored=true; score++; updateFallSpeed(); }
-            }
-
-            if(block.y+block.height>BAR_Y && block.y<BAR_Y+BAR_HEIGHT){
-                if(!blockPassesHole(block)){
-                    state="game_over";
-                    if(score>highScore){ highScore=score; localStorage.setItem('brakeDownHighScore',highScore); scoreboard.innerText="High Score: "+highScore;}
-                    break;
-                }
-            }
-
-            if(block.y>SCREEN_HEIGHT) blocks.splice(i,1);
+            if(b.y<0) gluttonBlocks.splice(i,1);
         }
     }
 }
 
-// ---- DRAW LOOP ----
-function draw(){
+// Glutton draw
+function drawGlutton(){
     ctx.fillStyle=BLACK; ctx.fillRect(0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
 
-    if(difficulty==="glutton"){
-        // Draw bars with holes
-        ctx.fillStyle=WHITE;
-        ctx.fillRect(topBarX, topBarY, SCREEN_WIDTH, BAR_HEIGHT/2);
-        ctx.fillRect(bottomBarX, bottomBarY, SCREEN_WIDTH, BAR_HEIGHT/2);
+    // draw top bar
+    const topBarY = SCREEN_HEIGHT/2 - BAR_HEIGHT; 
+    ctx.fillStyle=WHITE;
+    ctx.fillRect(topBarX, topBarY, SCREEN_WIDTH, BAR_HEIGHT/2);
+    ctx.fillStyle=BLACK;
+    ctx.fillRect(topHoleX, topBarY, HOLE_WIDTH, BAR_HEIGHT/2);
+    if(topHoleX + HOLE_WIDTH>SCREEN_WIDTH) ctx.fillRect(topHoleX-SCREEN_WIDTH, topBarY, HOLE_WIDTH, BAR_HEIGHT/2);
 
-        ctx.fillStyle=BLACK;
-        ctx.fillRect(topHoleX, topBarY, HOLE_WIDTH, BAR_HEIGHT/2);
-        ctx.fillRect(bottomHoleX, bottomBarY, HOLE_WIDTH, BAR_HEIGHT/2);
+    // draw bottom bar
+    const bottomBarY = SCREEN_HEIGHT/2;
+    ctx.fillStyle=WHITE;
+    ctx.fillRect(bottomBarX, bottomBarY, SCREEN_WIDTH, BAR_HEIGHT/2);
+    ctx.fillStyle=BLACK;
+    ctx.fillRect(bottomHoleX, bottomBarY, HOLE_WIDTH, BAR_HEIGHT/2);
+    if(bottomHoleX + HOLE_WIDTH>SCREEN_WIDTH) ctx.fillRect(bottomHoleX-SCREEN_WIDTH, bottomBarY, HOLE_WIDTH, BAR_HEIGHT/2);
 
-        // Draw glutton blocks
-        gluttonBlocks.forEach(b=>b.draw());
+    // draw blocks
+    gluttonBlocks.forEach(b=>b.draw());
 
-    } else {
-        // Draw bar and hole
-        ctx.fillStyle=barFlashColor;
-        ctx.fillRect(0,BAR_Y,SCREEN_WIDTH,BAR_HEIGHT);
-        const left=getHoleLeft();
-        ctx.fillStyle=BLACK;
-        ctx.fillRect(left,BAR_Y,HOLE_WIDTH,BAR_HEIGHT);
-        if(left+HOLE_WIDTH>SCREEN_WIDTH) ctx.fillRect(left-SCREEN_WIDTH,BAR_Y,HOLE_WIDTH,BAR_HEIGHT);
-
-        // Draw normal blocks
-        blocks.forEach(block=>block.draw());
-    }
-
-    // Draw score/high score
+    // score
     ctx.fillStyle=WHITE; ctx.font="48px Arial"; ctx.textAlign="start";
-    ctx.fillText(score,30,100);
-    ctx.font="32px Arial";
-    ctx.fillText("High Score: "+highScore,30,140);
+    ctx.fillText(gluttonScore,30,100);
 
-    // Game over screen
-    if((difficulty!=="glutton" && state==="game_over") || (difficulty==="glutton" && gluttonState==="game_over")){
+    if(state==="game_over"){
         ctx.fillStyle="rgba(0,0,0,0.55)";
         ctx.fillRect(0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
 
@@ -368,14 +332,18 @@ function draw(){
         ctx.fillText("GAME OVER",SCREEN_WIDTH/2,SCREEN_HEIGHT/2-40);
 
         ctx.fillStyle=WHITE; ctx.font="32px Arial";
-        ctx.fillText(score,SCREEN_WIDTH/2,SCREEN_HEIGHT/2);
+        ctx.fillText(gluttonScore,SCREEN_WIDTH/2,SCREEN_HEIGHT/2);
 
         ctx.font="24px Arial"; ctx.fillText("Press Any Key To Restart",SCREEN_WIDTH/2,SCREEN_HEIGHT/2+60);
     }
 }
 
-// ---- MAIN LOOP ----
-function loop(){ update(); draw(); requestAnimationFrame(loop);}
+// ------------------- MAIN LOOP -------------------
+function loop(){
+    if(difficulty==='glutton') { updateGlutton(); drawGlutton(); }
+    else { update(); draw(); }
+    requestAnimationFrame(loop);
+}
 loop();
 </script>
 </body>
