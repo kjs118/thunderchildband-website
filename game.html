@@ -38,7 +38,6 @@
   <div id="scoreboard"></div>
   <button id="hardBtn">Hard</button>
   <button id="harderBtn">Harder</button>
-  <button id="gluttonBtn">I'm a Glutton for Punishment</button>
 </div>
 
 <canvas id="gameCanvas" width="375" height="812"></canvas>
@@ -92,7 +91,6 @@ scoreboard.innerText = "High Score: " + highScore;
 
 document.getElementById('hardBtn').onclick = () => startGame('hard');
 document.getElementById('harderBtn').onclick = () => startGame('harder');
-document.getElementById('gluttonBtn').onclick = () => startGame('glutton');
 
 function startGame(level) {
     difficulty = level;
@@ -194,7 +192,7 @@ function getClosestBlockAboveBar(){
 
 function predictBarFlash() {
     const block = getClosestBlockAboveBar();
-    if (!block) return;
+    if(!block) return;
 
     const blockLeft = block.x;
     const blockRight = block.x + block.width;
@@ -204,27 +202,18 @@ function predictBarFlash() {
 
     let safe = false;
 
-    if (holeRight <= SCREEN_WIDTH) {
-        // --- No wrap ---
+    if(holeRight <= SCREEN_WIDTH) {
         safe = (blockLeft >= holeLeft && blockRight <= holeRight);
     } else {
-        // --- Wraparound ---
-        const rightSegmentFits =
-            blockLeft >= holeLeft && blockRight <= SCREEN_WIDTH;
-
-        const leftSegmentFits =
-            blockLeft >= 0 && blockRight <= (holeRight - SCREEN_WIDTH);
-
+        const rightSegmentFits = blockLeft >= holeLeft && blockRight <= SCREEN_WIDTH;
+        const leftSegmentFits = blockLeft >= 0 && blockRight <= (holeRight - SCREEN_WIDTH);
         safe = rightSegmentFits || leftSegmentFits;
     }
 
     barFlashColor = safe ? "#00FF00" : "#FF0000";
 
-    setTimeout(() => {
-        barFlashColor = WHITE;
-    }, 200);
+    setTimeout(() => { barFlashColor = WHITE; }, 200);
 }
-
 
 // ---- UPDATE LOOP ----
 function update(){
@@ -268,7 +257,7 @@ function draw(){
     // Draw blocks
     blocks.forEach(block=>block.draw());
 
-    // Draw score slightly down/right
+    // Draw score
     ctx.fillStyle=WHITE; ctx.font="48px Arial"; ctx.textAlign="start";
     ctx.fillText(score,30,100);
     ctx.font="32px Arial";
