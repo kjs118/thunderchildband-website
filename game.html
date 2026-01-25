@@ -67,8 +67,10 @@ let state = "menu";
 let holeXTop = W/2 - HOLE_WIDTH/2;
 let holeXBottom = W/2 - HOLE_WIDTH/2;
 
-let holdTop = false;
-let holdBottom = false;
+let hold = false;          // Hard / Harder
+let holdTop = false;      // Glutton
+let holdBottom = false;   // Glutton
+
 
 let blocks = [];
 let score = 0;
@@ -134,13 +136,13 @@ function spawnBlock(){
 function update(){
   if(state!=="playing") return;
 
-  if(difficulty!=="glutton"){
-    if(!holdTop) holeXTop -= SLIDE_SPEED;
-    holeXBottom = holeXTop;
-  } else {
-    if(!holdTop) holeXTop -= SLIDE_SPEED;
-    if(!holdBottom) holeXBottom += SLIDE_SPEED;
-  }
+ if(difficulty !== "glutton"){
+  if(!hold) holeXTop -= SLIDE_SPEED;
+  holeXBottom = holeXTop;
+} else {
+  if(!holdTop) holeXTop -= SLIDE_SPEED;
+  if(!holdBottom) holeXBottom += SLIDE_SPEED;
+}
 
   if(Math.random()<0.02) spawnBlock();
 
@@ -207,26 +209,42 @@ function loop(){
 loop();
 
 /* INPUT */
-window.addEventListener("keydown",e=>{
-  if(difficulty==="glutton"){
+
+  function tryReset(){
+  if(state === "game_over"){
+    resetGame();
+  }
+}
+window.addEventListener("keydown", e => {
+  tryReset();
+
+  if(difficulty === "glutton"){
     if(e.key==="a"||e.key==="ArrowLeft") holdTop=true;
     if(e.key==="d"||e.key==="ArrowRight") holdBottom=true;
   } else {
-    holdTop=true;
+    hold = true;
   }
 });
 window.addEventListener("keyup",()=>{
-  holdTop=false; holdBottom=false;
+  hold=false;
+  holdTop=false;
+  holdBottom=false;
 });
+canvas.addEventListener("mousedown", e => {
+  tryReset();
 
-canvas.addEventListener("mousedown",e=>{
-  if(difficulty==="glutton"){
-    if(e.offsetY < H/2) holdTop=true;
-    else holdBottom=true;
-  } else holdTop=true;
+  if(difficulty === "glutton"){
+    if(e.offsetY < H/2) holdTop = true;
+    else holdBottom = true;
+  } else {
+    hold = true;
+  }
 });
-canvas.addEventListener("mouseup",()=>{holdTop=false;holdBottom=false;});
-
+canvas.addEventListener("mouseup",()=>{
+  hold=false;
+  holdTop=false;
+  holdBottom=false;
+});
 </script>
 </body>
 </html>
