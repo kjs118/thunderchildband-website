@@ -102,12 +102,17 @@ function startGame(level) {
 }
 
 // ---- INPUT ----
-canvas.addEventListener('mousedown', ()=>mouseDown=true);
-canvas.addEventListener('mouseup', ()=>mouseDown=false);
-canvas.addEventListener('touchstart',(e)=>{e.preventDefault(); mouseDown=true;});
-canvas.addEventListener('touchend',(e)=>{e.preventDefault(); mouseDown=false;});
-canvas.addEventListener('mousedown',()=>{ if(state==="game_over") resetGame(); });
-canvas.addEventListener('touchstart',()=>{ if(state==="game_over") resetGame(); });
+canvas.addEventListener('mousedown', () => { 
+    if (state === "game_over") resetGame();
+    if (difficulty === "hard") predictBarFlash();
+});
+canvas.addEventListener('mouseup', () => mouseDown = false);
+canvas.addEventListener('touchstart', (e) => { 
+    e.preventDefault();
+    if (state === "game_over") resetGame();
+    if (difficulty === "hard") predictBarFlash();
+});
+canvas.addEventListener('touchend', (e) => { e.preventDefault(); mouseDown = false; });
 
 // ---- BLOCK CLASS ----
 class Block {
@@ -166,6 +171,38 @@ function resetGame(){
     barFlashColor=WHITE;
 }
 
+// ---- HARD DIFFICULTY: PREDICTION ----
+function getClosestBlockAboveBar(){
+    let closest=null;
+    let minDist=Infinity;
+    blocks.forEach(block=>{
+        if(block.y+block.height<BAR_Y){
+            const dist=BAR_Y-(block.y+block.height);
+            if(dist<minDist){ minDist=dist; closest=block; }
+        }
+    });
+    return closest;
+}
+
+function predictBarFlash(){
+    const block = getClosestBlockAboveBar();
+    if(!block) return;
+
+    const blockLeft = block.x;
+    const blockRight = block.x + block.width;
+    const holeLeft = getHoleLeft();
+    const holeRight = holeLeft + HOLE_WIDTH;
+
+    if(blockRight < holeLeft || blockLeft > holeRight){
+        barFlashColor="#FF0000"; // red → will hit
+    } else {
+        barFlashColor="#00FF00"; // green → will pass
+    }
+
+    // Reset to white after short flash
+    setTimeout(()=>{ barFlashColor=WHITE; }, 200);
+}
+
 // ---- UPDATE LOOP ----
 function update(){
     if(state!=="playing") return;
@@ -174,16 +211,8 @@ function update(){
 
     spawnTimer--; if(spawnTimer<=0){spawnBlock(); spawnTimer=SPAWN_INTERVAL_FRAMES;}
 
-    barFlashColor = WHITE; // reset
-
     for(let i=blocks.length-1;i>=0;i--){
         const block=blocks[i]; block.update();
-
-        // HARD difficulty feedback
-        if(difficulty==="hard" && block.y + block.height >= BAR_Y && !block.scored){
-            if(blockPassesHole(block)) barFlashColor="#00FF00"; // green
-            else barFlashColor="#FF0000"; // red
-        }
 
         if(!block.scored && block.y>BAR_Y+BAR_HEIGHT){
             if(blockPassesHole(block)){ block.scored=true; score++; updateFallSpeed(); }
