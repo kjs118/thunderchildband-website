@@ -105,7 +105,6 @@ function startGame(level) {
 canvas.addEventListener('mousedown', () => { 
     if (state === "game_over") resetGame();
     mouseDown = true;                // Stop automatic sliding
-    mouseDown = true;                
     if (difficulty === "hard") predictBarFlash();
 });
 canvas.addEventListener('mouseup', () => mouseDown = false);
@@ -113,7 +112,6 @@ canvas.addEventListener('touchstart', (e) => {
     e.preventDefault();
     if (state === "game_over") resetGame();
     mouseDown = true;                // Stop automatic sliding
-    mouseDown = true;                
     if (difficulty === "hard") predictBarFlash();
 });
 canvas.addEventListener('touchend', (e) => { 
@@ -180,8 +178,6 @@ function resetGame(){
 
 // ---- HARD DIFFICULTY: PREDICTION ----
 function getClosestBlockAboveHole(){
-// ---- HARD DIFFICULTY: PREDICTION WITH WRAPAROUND ----
-function getClosestBlockAboveBar(){
     let closest = null;
     let minDistance = Infinity;
     const holeLeft = getHoleLeft();
@@ -200,10 +196,6 @@ function getClosestBlockAboveBar(){
                     minDistance = dist;
                     closest = block;
                 }
-            const dist = BAR_Y - (block.y + block.height);
-            if(dist < minDistance){
-                minDistance = dist;
-                closest = block;
             }
         }
     });
@@ -211,6 +203,8 @@ function getClosestBlockAboveBar(){
     return closest;
 }
 
+function predictBarFlash(){
+    const block = getClosestBlockAboveHole();
 function predictBarFlash() {
     const block = getClosestBlockAboveBar();
     if(!block) return;
@@ -220,31 +214,19 @@ function predictBarFlash() {
     const holeLeft = getHoleLeft();
     const holeRight = holeLeft + HOLE_WIDTH;
 
+    if(blockRight < holeLeft || blockLeft > holeRight){
+        barFlashColor="#FF0000"; // red → will hit
     // Strict containment logic
     if(blockLeft >= holeLeft && blockRight <= holeRight){
         barFlashColor = "#00FF00"; // green → safe
-    let holeLeft = getHoleLeft();
-    let holeRight = holeLeft + HOLE_WIDTH;
-
-    if(holeRight <= SCREEN_WIDTH) {
-        // no wrap
-        if(blockLeft >= holeLeft && blockRight <= holeRight){
-            barFlashColor = "#00FF00"; // green
-        } else {
-            barFlashColor = "#FF0000"; // red
-        }
     } else {
+        barFlashColor="#00FF00"; // green → will pass
         barFlashColor = "#FF0000"; // red → will hit
-        // wraparound
-        if( (blockLeft >= holeLeft && blockRight <= SCREEN_WIDTH) ||
-            (blockLeft >= 0 && blockRight <= holeRight - SCREEN_WIDTH) ){
-            barFlashColor = "#00FF00"; // green
-        } else {
-            barFlashColor = "#FF0000"; // red
-        }
     }
 
-   
+    setTimeout(()=>{ barFlashColor=WHITE; }, 200);
+    setTimeout(() => { barFlashColor = WHITE; }, 200);
+}
 
 // Helper to find nearest block above bar vertically
 function getClosestBlockAboveBar() {
