@@ -104,15 +104,23 @@ function startGame(level) {
 // ---- INPUT ----
 canvas.addEventListener('mousedown', () => { 
     if (state === "game_over") resetGame();
+    mouseDown = true;                // ← add this
     if (difficulty === "hard") predictBarFlash();
 });
+
 canvas.addEventListener('mouseup', () => mouseDown = false);
+
 canvas.addEventListener('touchstart', (e) => { 
     e.preventDefault();
     if (state === "game_over") resetGame();
+    mouseDown = true;                // ← add this
     if (difficulty === "hard") predictBarFlash();
 });
-canvas.addEventListener('touchend', (e) => { e.preventDefault(); mouseDown = false; });
+
+canvas.addEventListener('touchend', (e) => { 
+    e.preventDefault(); 
+    mouseDown = false; 
+});
 
 // ---- BLOCK CLASS ----
 class Block {
