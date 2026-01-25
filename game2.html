@@ -285,20 +285,20 @@ function loop(){
 }
 loop();
 
-// --- GLUTTON MODE CLASS ---
+// --- GLUTTON GAME CLASS ---
 let gluttonGame = null;
 function startGluttonGame(){
     gluttonGame = new GluttonGame();
     gluttonGame.init();
 }
 
-// --- GLUTTON GAME CLASS ---
 class GluttonGame {
     constructor(){
         this.state="playing";
-        this.topBarY = SCREEN_HEIGHT/2 - BAR_HEIGHT; 
-        this.bottomBarY = SCREEN_HEIGHT/2; 
-        this.barHeight = BAR_HEIGHT/2;
+        this.barHeight = BAR_HEIGHT/4; 
+        this.spaceBetween = BAR_HEIGHT*2; 
+        this.topBarY = SCREEN_HEIGHT/2 - this.spaceBetween/2 - this.barHeight;
+        this.bottomBarY = SCREEN_HEIGHT/2 + this.spaceBetween/2;
         this.holeWidth = HOLE_WIDTH;
         this.topX = 0;
         this.bottomX = 0;
@@ -306,7 +306,7 @@ class GluttonGame {
         this.bottomSpeed = 2.5;
         this.blocks = [];
         this.spawnTimer = 0;
-        this.spawnInterval = 120; // slower than Hard
+        this.spawnInterval = 60; // half original
         this.score = 0;
         this.keys = {};
         this.gameOver=false;
@@ -320,6 +320,7 @@ class GluttonGame {
         this.gameOver=false;
         this.keys={};
         document.addEventListener('keydown', e => {
+            if(this.gameOver){ this.init(); return; } 
             if(e.key==='w' || e.key==='ArrowUp') this.keys.top=true;
             if(e.key==='s' || e.key==='ArrowDown') this.keys.bottom=true;
         });
@@ -340,61 +341,44 @@ class GluttonGame {
 
     update(){
         if(this.state!=="playing") return;
-        // Move bars
         if(!this.keys.top) this.topX = (this.topX + this.topSpeed) % SCREEN_WIDTH;
         if(!this.keys.bottom) this.bottomX = (this.bottomX - this.bottomSpeed + SCREEN_WIDTH) % SCREEN_WIDTH;
 
-        // Spawn blocks
         this.spawnTimer--;
         if(this.spawnTimer<=0){
             this.spawnBlock();
             this.spawnTimer=this.spawnInterval;
         }
 
-        // Update blocks
         for(let i=this.blocks.length-1;i>=0;i--){
             const b = this.blocks[i];
             b.y += b.speed;
 
-            // Check collision with top bar
+            // collision top bar
             if(b.fromTop && b.y + b.height > this.topBarY && b.y < this.topBarY+this.barHeight){
                 let left = this.topX%SCREEN_WIDTH;
                 let right = left+this.holeWidth;
                 const bRight = b.x+b.width;
-                let safe = false;
-                if(right<=SCREEN_WIDTH){
-                    safe = b.x>=left && bRight<=right;
-                } else {
-                    const rPart = b.x>=left && bRight<=SCREEN_WIDTH;
-                    const lPart = b.x>=0 && bRight<=right-SCREEN_WIDTH;
-                    safe = rPart || lPart;
-                }
+                let safe = right<=SCREEN_WIDTH ? (b.x>=left && bRight<=right) : (b.x>=left && bRight<=SCREEN_WIDTH)||(b.x>=0 && bRight<=right-SCREEN_WIDTH);
                 if(!safe){ this.state="game_over"; this.gameOver=true; }
             }
 
-            // Check collision with bottom bar
+            // collision bottom bar
             if(!b.fromTop && b.y<b.bottomBarY+this.barHeight && b.y+b.height>this.bottomBarY){
                 let left = this.bottomX%SCREEN_WIDTH;
                 let right = left+this.holeWidth;
                 const bRight = b.x+b.width;
-                let safe = false;
-                if(right<=SCREEN_WIDTH){
-                    safe = b.x>=left && bRight<=right;
-                } else {
-                    const rPart = b.x>=left && bRight<=SCREEN_WIDTH;
-                    const lPart = b.x>=0 && bRight<=right-SCREEN_WIDTH;
-                    safe = rPart || lPart;
-                }
+                let safe = right<=SCREEN_WIDTH ? (b.x>=left && bRight<=right) : (b.x>=left && bRight<=SCREEN_WIDTH)||(b.x>=0 && bRight<=right-SCREEN_WIDTH);
                 if(!safe){ this.state="game_over"; this.gameOver=true; }
             }
 
-            // Score when block passes both bars
+            // score
             if(!b.scored){
                 if(b.fromTop && b.y>this.bottomBarY+this.barHeight) { b.scored=true; this.score++; }
                 if(!b.fromTop && b.y+b.height<this.topBarY) { b.scored=true; this.score++; }
             }
 
-            // Remove offscreen blocks
+            // remove offscreen
             if(b.fromTop && b.y>SCREEN_HEIGHT) this.blocks.splice(i,1);
             if(!b.fromTop && b.y+b.height<0) this.blocks.splice(i,1);
         }
@@ -403,7 +387,7 @@ class GluttonGame {
     draw(){
         ctx.fillStyle=BLACK; ctx.fillRect(0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
 
-        // Draw top bar
+        // top bar
         ctx.fillStyle=WHITE;
         ctx.fillRect(0,this.topBarY,SCREEN_WIDTH,this.barHeight);
         let tLeft = this.topX%SCREEN_WIDTH;
@@ -411,7 +395,7 @@ class GluttonGame {
         ctx.fillRect(tLeft,this.topBarY,this.holeWidth,this.barHeight);
         if(tLeft+this.holeWidth>SCREEN_WIDTH) ctx.fillRect(tLeft-SCREEN_WIDTH,this.topBarY,this.holeWidth,this.barHeight);
 
-        // Draw bottom bar
+        // bottom bar
         ctx.fillStyle=WHITE;
         ctx.fillRect(0,this.bottomBarY,SCREEN_WIDTH,this.barHeight);
         let bLeft = this.bottomX%SCREEN_WIDTH;
@@ -419,13 +403,13 @@ class GluttonGame {
         ctx.fillRect(bLeft,this.bottomBarY,this.holeWidth,this.barHeight);
         if(bLeft+this.holeWidth>SCREEN_WIDTH) ctx.fillRect(bLeft-SCREEN_WIDTH,this.bottomBarY,this.holeWidth,this.barHeight);
 
-        // Draw blocks
+        // draw blocks
         this.blocks.forEach(b=>{
             ctx.fillStyle=BLOCK_COLORS[Math.floor(b.x/COLUMN_WIDTH)%NUM_COLUMNS];
             ctx.fillRect(b.x,b.y,b.width,b.height);
         });
 
-        // Draw score
+        // draw score
         ctx.fillStyle=WHITE; ctx.font="48px Arial"; ctx.textAlign="start";
         ctx.fillText(this.score,30,100);
 
