@@ -194,7 +194,7 @@ function getClosestBlockAboveBar(){
 
 function predictBarFlash() {
     const block = getClosestBlockAboveBar();
-    if(!block) return;
+    if (!block) return;
 
     const blockLeft = block.x;
     const blockRight = block.x + block.width;
@@ -202,41 +202,29 @@ function predictBarFlash() {
     let holeLeft = getHoleLeft();
     let holeRight = holeLeft + HOLE_WIDTH;
 
-    if(holeRight <= SCREEN_WIDTH) {
-        // no wrap
-        if(blockLeft >= holeLeft && blockRight <= holeRight){
-            barFlashColor = "#00FF00"; // green
-        } else {
-            barFlashColor = "#FF0000"; // red
-        }
     let safe = false;
 
-    if(holeRight <= SCREEN_WIDTH){
-        // normal, no wrap
+    if (holeRight <= SCREEN_WIDTH) {
+        // --- No wrap ---
         safe = (blockLeft >= holeLeft && blockRight <= holeRight);
     } else {
-        // wraparound
-        if( (blockLeft >= holeLeft && blockRight <= SCREEN_WIDTH) ||
-            (blockLeft >= 0 && blockRight <= holeRight - SCREEN_WIDTH) ){
-            barFlashColor = "#00FF00"; // green
-        } else {
-            barFlashColor = "#FF0000"; // red
-        }
-        // wraparound: block is safe if either:
-        // 1. fully fits in right part of screen
-        const rightPart = (blockLeft >= holeLeft && blockRight <= SCREEN_WIDTH);
-        // 2. fully fits in left part of screen
-        const leftPart = (blockLeft >= 0 && blockRight <= holeRight - SCREEN_WIDTH);
-        safe = rightPart || leftPart;
+        // --- Wraparound ---
+        const rightSegmentFits =
+            blockLeft >= holeLeft && blockRight <= SCREEN_WIDTH;
+
+        const leftSegmentFits =
+            blockLeft >= 0 && blockRight <= (holeRight - SCREEN_WIDTH);
+
+        safe = rightSegmentFits || leftSegmentFits;
     }
 
-    barFlashColor = safe ? "#00FF00" : "#FF0000"; // green/red
-    setTimeout(()=>{ barFlashColor=WHITE; }, 200);
+    barFlashColor = safe ? "#00FF00" : "#FF0000";
+
+    setTimeout(() => {
+        barFlashColor = WHITE;
+    }, 200);
 }
 
-
-    setTimeout(() => { barFlashColor = WHITE; }, 200);
-}
 
 // ---- UPDATE LOOP ----
 function update(){
