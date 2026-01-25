@@ -108,6 +108,7 @@ function spawnBlock() {
 let topBarHold = false;
 let bottomBarHold = false;
 
+// Keyboard
 document.addEventListener('keydown', e => {
     if(state==="game_over"){ resetGame(); return; }
     if(e.key === "w" || e.key === "ArrowUp") topBarHold = true;
@@ -118,6 +119,28 @@ document.addEventListener('keyup', e => {
     if(e.key === "s" || e.key === "ArrowDown") bottomBarHold = false;
 });
 
+// Touch for mobile
+canvas.addEventListener('touchstart', e => {
+    e.preventDefault();
+    if(state==="game_over"){ resetGame(); return; }
+    for(let t of e.touches){
+        if(t.clientY < TOP_BAR_Y + BAR_HEIGHT) topBarHold = true;
+        if(t.clientY > BOTTOM_BAR_Y) bottomBarHold = true;
+    }
+});
+
+canvas.addEventListener('touchend', e => {
+    e.preventDefault();
+    // reset holds on release
+    // check remaining touches
+    topBarHold = false;
+    bottomBarHold = false;
+    for(let t of e.touches){
+        if(t.clientY < TOP_BAR_Y + BAR_HEIGHT) topBarHold = true;
+        if(t.clientY > BOTTOM_BAR_Y) bottomBarHold = true;
+    }
+});
+
 // ---- Collision & Scoring ----
 function blockPassesBar(block, bar) {
     const left = bar.holeX;
@@ -126,7 +149,6 @@ function blockPassesBar(block, bar) {
     if(right <= SCREEN_WIDTH) {
         return block.x >= left && blockRight <= right;
     } else {
-        // wraparound
         return (block.x >= left && blockRight <= SCREEN_WIDTH) ||
                (block.x >= 0 && blockRight <= right - SCREEN_WIDTH);
     }
@@ -198,7 +220,7 @@ function draw() {
         ctx.fillStyle=WHITE; ctx.font="32px Arial";
         ctx.fillText("Score: "+score,SCREEN_WIDTH/2,SCREEN_HEIGHT/2);
         ctx.font="24px Arial";
-        ctx.fillText("Press any key to restart",SCREEN_WIDTH/2,SCREEN_HEIGHT/2+60);
+        ctx.fillText("Press any key or touch to restart",SCREEN_WIDTH/2,SCREEN_HEIGHT/2+60);
     }
 }
 
