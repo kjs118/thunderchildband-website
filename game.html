@@ -32,13 +32,13 @@
   }
   #scoreboard { font-size: 28px; margin-bottom: 20px; }
 </style>
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
 <body>
 <div id="menu">
   <div id="scoreboard"></div>
   <button id="hardBtn">Hard</button>
   <button id="harderBtn">Harder</button>
+  <button id="gluttonBtn">I'm a Glutton for Punishment</button>
 </div>
 
 <canvas id="gameCanvas" width="375" height="812"></canvas>
@@ -88,10 +88,11 @@ let barFlashColor = WHITE;
 // ---- MENU ----
 const menuDiv = document.getElementById('menu');
 const scoreboard = document.getElementById('scoreboard');
-scoreboard.innerText = "HI: " + highScore;
+scoreboard.innerText = "High Score: " + highScore;
 
 document.getElementById('hardBtn').onclick = () => startGame('hard');
 document.getElementById('harderBtn').onclick = () => startGame('harder');
+document.getElementById('gluttonBtn').onclick = () => startGame('glutton');
 
 function startGame(level) {
     difficulty = level;
@@ -193,6 +194,7 @@ function getClosestBlockAboveBar(){
 
 function predictBarFlash() {
     const block = getClosestBlockAboveBar();
+    if (!block) return;
     if(!block) return;
 
     const blockLeft = block.x;
@@ -203,9 +205,18 @@ function predictBarFlash() {
 
     let safe = false;
 
+    if (holeRight <= SCREEN_WIDTH) {
+        // --- No wrap ---
     if(holeRight <= SCREEN_WIDTH) {
         safe = (blockLeft >= holeLeft && blockRight <= holeRight);
     } else {
+        // --- Wraparound ---
+        const rightSegmentFits =
+            blockLeft >= holeLeft && blockRight <= SCREEN_WIDTH;
+
+        const leftSegmentFits =
+            blockLeft >= 0 && blockRight <= (holeRight - SCREEN_WIDTH);
+
         const rightSegmentFits = blockLeft >= holeLeft && blockRight <= SCREEN_WIDTH;
         const leftSegmentFits = blockLeft >= 0 && blockRight <= (holeRight - SCREEN_WIDTH);
         safe = rightSegmentFits || leftSegmentFits;
@@ -213,8 +224,12 @@ function predictBarFlash() {
 
     barFlashColor = safe ? "#00FF00" : "#FF0000";
 
+    setTimeout(() => {
+        barFlashColor = WHITE;
+    }, 200);
     setTimeout(() => { barFlashColor = WHITE; }, 200);
 }
+
 
 // ---- UPDATE LOOP ----
 function update(){
@@ -234,7 +249,7 @@ function update(){
         if(block.y+block.height>BAR_Y && block.y<BAR_Y+BAR_HEIGHT){
             if(!blockPassesHole(block)){
                 state="game_over";
-                if(score>highScore){ highScore=score; localStorage.setItem('brakeDownHighScore',highScore); scoreboard.innerText="HI: "+highScore;}
+                if(score>highScore){ highScore=score; localStorage.setItem('brakeDownHighScore',highScore); scoreboard.innerText="High Score: "+highScore;}
                 break;
             }
         }
@@ -255,30 +270,27 @@ function draw(){
     ctx.fillRect(left,BAR_Y,HOLE_WIDTH,BAR_HEIGHT);
     if(left+HOLE_WIDTH>SCREEN_WIDTH) ctx.fillRect(left-SCREEN_WIDTH,BAR_Y,HOLE_WIDTH,BAR_HEIGHT);
 
-    // Draw score
-    ctx.fillStyle=WHITE; 
-    ctx.font="48px 'Press Start 2P', Arial"; 
-    ctx.textAlign="start";
-    ctx.fillText(score,30,100);
+    // Draw blocks
+    blocks.forEach(block=>block.draw());
 
-    ctx.font="32px 'Press Start 2P', Arial";
-    ctx.fillText("HI: "+highScore,30,140);
+    // Draw score slightly down/right
+    // Draw score
+    ctx.fillStyle=WHITE; ctx.font="48px Arial"; ctx.textAlign="start";
+    ctx.fillText(score,30,100);
+    ctx.font="32px Arial";
+    ctx.fillText("High Score: "+highScore,30,140);
 
     if(state==="game_over"){
         ctx.fillStyle="rgba(0,0,0,0.55)";
         ctx.fillRect(0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
 
-        ctx.fillStyle="#FF5050"; 
-        ctx.font="48px 'Press Start 2P', Arial"; 
-        ctx.textAlign="center";
+        ctx.fillStyle="#FF5050"; ctx.font="48px Arial"; ctx.textAlign="center";
         ctx.fillText("GAME OVER",SCREEN_WIDTH/2,SCREEN_HEIGHT/2-40);
 
-        ctx.fillStyle=WHITE; 
-        ctx.font="32px 'Press Start 2P', Arial";
+        ctx.fillStyle=WHITE; ctx.font="32px Arial";
         ctx.fillText(score,SCREEN_WIDTH/2,SCREEN_HEIGHT/2);
 
-        ctx.font="24px 'Press Start 2P', Arial"; 
-        ctx.fillText("Tap / Click To Restart",SCREEN_WIDTH/2,SCREEN_HEIGHT/2+60);
+        ctx.font="24px Arial"; ctx.fillText("Tap / Click To Restart",SCREEN_WIDTH/2,SCREEN_HEIGHT/2+60);
     }
 }
 
