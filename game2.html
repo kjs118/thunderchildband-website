@@ -4,10 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Glutton Mode - Brake Down</title>
-
 <!-- Retro font -->
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-
 <style>
   body {
     margin: 0;
@@ -26,39 +24,32 @@
   }
 </style>
 </head>
-
 <body>
 <canvas id="gluttonCanvas" width="375" height="812"></canvas>
-
 <script>
 const canvas = document.getElementById('gluttonCanvas');
 const ctx = canvas.getContext('2d');
-
 const SCREEN_WIDTH = canvas.width;
 const SCREEN_HEIGHT = canvas.height;
-
 const BLACK = "#000";
 const WHITE = "#fff";
 const BLOCK_COLORS = ["#FF6464","#FFA500","#FFFF00","#64FF64","#00C8FF","#6464FF","#C800FF","#FF3296"];
-
 const HARD_BAR_HEIGHT = 60;
 const BAR_HEIGHT = HARD_BAR_HEIGHT / 4;
 const BAR_SPACE = HARD_BAR_HEIGHT * 2;
-
 const TOP_BAR_Y = SCREEN_HEIGHT/2 - BAR_SPACE/2 - BAR_HEIGHT;
 const BOTTOM_BAR_Y = SCREEN_HEIGHT/2 + BAR_SPACE/2;
-
 const HOLE_WIDTH = 80;
 const SLIDE_SPEED = 4.5;
 const BLOCK_FALL_SPEED = 2.5;
 const SPAWN_INTERVAL = 120;
-
 let score = 0;
 let highScore = parseInt(localStorage.getItem('gluttonHighScore')) || 0;
 let blocks = [];
 let spawnTimer = SPAWN_INTERVAL;
 let state = "playing";
-
+let gameOverTimestamp = 0;
+const GAME_OVER_DELAY = 500; // ms to ignore inputs after game over
 /* ---------- Bars ---------- */
 class Bar {
   constructor(y, speed, direction) {
@@ -74,19 +65,15 @@ class Bar {
   draw() {
     ctx.fillStyle = WHITE;
     ctx.fillRect(0, this.y, SCREEN_WIDTH, BAR_HEIGHT);
-
     ctx.fillStyle = BLACK;
     ctx.fillRect(this.holeX, this.y, HOLE_WIDTH, BAR_HEIGHT);
-
     if (this.holeX + HOLE_WIDTH > SCREEN_WIDTH) {
       ctx.fillRect(this.holeX - SCREEN_WIDTH, this.y, HOLE_WIDTH, BAR_HEIGHT);
     }
   }
 }
-
 const topBar = new Bar(TOP_BAR_Y, SLIDE_SPEED, 1);
 const bottomBar = new Bar(BOTTOM_BAR_Y, SLIDE_SPEED, -1);
-
 /* ---------- Blocks ---------- */
 class Block {
   constructor(x) {
@@ -105,20 +92,22 @@ class Block {
     ctx.fillRect(this.x, this.y, this.width, this.height);
   }
 }
-
 function spawnBlock() {
   const w = Math.floor(HOLE_WIDTH * 0.45);
   const x = Math.random() * (SCREEN_WIDTH - w);
   blocks.push(new Block(x));
 }
-
 /* ---------- Controls ---------- */
 let topBarHold = false;
 let bottomBarHold = false;
-
 // Keyboard
 document.addEventListener('keydown', e => {
-  if(state==="game_over"){ resetGame(); return; }
+  if(state==="game_over"){
+    if (Date.now() - gameOverTimestamp > GAME_OVER_DELAY) {
+      resetGame();
+    }
+    return;
+  }
   if(e.key === "w" || e.key === "ArrowUp") topBarHold = true;
   if(e.key === "s" || e.key === "ArrowDown") bottomBarHold = true;
 });
@@ -126,19 +115,21 @@ document.addEventListener('keyup', e => {
   if(e.key === "w" || e.key === "ArrowUp") topBarHold = false;
   if(e.key === "s" || e.key === "ArrowDown") bottomBarHold = false;
 });
-
 // Touch
 canvas.addEventListener('touchstart', e => {
   e.preventDefault();
-  if (state === "game_over") { resetGame(); return; }
-
+  if (state === "game_over") {
+    if (Date.now() - gameOverTimestamp > GAME_OVER_DELAY) {
+      resetGame();
+    }
+    return;
+  }
   for (let t of e.touches) {
     const y = t.clientY - canvas.getBoundingClientRect().top;
     if (y < TOP_BAR_Y + BAR_HEIGHT) topBarHold = true;
     if (y > BOTTOM_BAR_Y) bottomBarHold = true;
   }
 }, { passive: false });
-
 canvas.addEventListener('touchend', e => {
   e.preventDefault();
   topBarHold = false;
@@ -149,7 +140,6 @@ canvas.addEventListener('touchend', e => {
     if (y > BOTTOM_BAR_Y) bottomBarHold = true;
   }
 }, { passive: false });
-
 /* ---------- Collision ---------- */
 function blockPassesBar(block, bar) {
   const left = bar.holeX;
@@ -164,75 +154,62 @@ function blockPassesBar(block, bar) {
     );
   }
 }
-
 /* ---------- Update ---------- */
 function update() {
   if (state !== "playing") return;
-
   if (!topBarHold) topBar.update();
   if (!bottomBarHold) bottomBar.update();
-
   spawnTimer--;
   if (spawnTimer <= 0) { spawnBlock(); spawnTimer = SPAWN_INTERVAL; }
-
   for (let i = blocks.length - 1; i >= 0; i--) {
     const block = blocks[i];
     block.update();
-
     // ---- SCORING: when block passes bottom bar without touching bars
     if (!block.scored && block.y > BOTTOM_BAR_Y + BAR_HEIGHT) {
-      if (blockPassesBar(block, topBar) && blockPassesBar(block, bottomBar)) {
-        block.scored = true;
-        score++;
-      }
+      block.scored = true;
+      score++;
     }
-
     // ---- COLLISION: touching bars
     if ((block.y + block.height > topBar.y && block.y < topBar.y + BAR_HEIGHT && !blockPassesBar(block, topBar)) ||
         (block.y + block.height > bottomBar.y && block.y < bottomBar.y + BAR_HEIGHT && !blockPassesBar(block, bottomBar))) {
       state = "game_over";
+      gameOverTimestamp = Date.now();
+      topBarHold = false;
+      bottomBarHold = false;
       // ---- SAVE HIGH SCORE
       if (score > highScore) {
         highScore = score;
         localStorage.setItem('gluttonHighScore', highScore);
       }
     }
-
     if (block.y > SCREEN_HEIGHT) blocks.splice(i, 1);
   }
 }
-
 /* ---------- Draw ---------- */
 function draw() {
   ctx.fillStyle = BLACK;
   ctx.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-
   topBar.draw();
   bottomBar.draw();
   blocks.forEach(b => b.draw());
-
   // Score display
   ctx.fillStyle = WHITE;
   ctx.font = "14px 'Press Start 2P'";
   ctx.textAlign = "left";
   ctx.fillText("SCORE " + score, 20, 70);
   ctx.fillText("HI " + highScore, 20, 100);
-
   if (state === "game_over") {
     ctx.fillStyle = "rgba(0,0,0,0.6)";
     ctx.fillRect(0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
-
     ctx.fillStyle = "#FF5050";
     ctx.font = "20px 'Press Start 2P'";
     ctx.textAlign = "center";
     ctx.fillText("GAME OVER", SCREEN_WIDTH/2, SCREEN_HEIGHT/2 - 40);
-
     ctx.fillStyle = WHITE;
     ctx.font = "14px 'Press Start 2P'";
     ctx.fillText("PRESS ANY KEY", SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + 20);
   }
 }
-
 /* ---------- Reset ---------- */
 function resetGame() {
   score = 0;
@@ -242,7 +219,6 @@ function resetGame() {
   topBar.holeX = Math.random() * (SCREEN_WIDTH - HOLE_WIDTH);
   bottomBar.holeX = Math.random() * (SCREEN_WIDTH - HOLE_WIDTH);
 }
-
 /* ---------- Loop ---------- */
 function loop() {
   update();
