@@ -32,9 +32,10 @@
     border: none;
     border-radius: 8px;
   }
+
   #scoreboard {
     font-family: 'Press Start 2P', monospace;
-    font-size: 18px; /* Slightly smaller for Hard & Harder menu */
+    font-size: 16px; /* match Glutton menu size */
     margin-bottom: 20px;
   }
 </style>
@@ -86,7 +87,7 @@ let blockCount = 0;
 let holeX = SCREEN_WIDTH/2 - HOLE_WIDTH/2;
 let state = "menu";
 let mouseDown = false;
-let difficulty = "harder"; // default
+let difficulty = "harder";
 let barFlashColor = WHITE;
 
 // ---- MENU ----
@@ -94,8 +95,7 @@ const menuDiv = document.getElementById('menu');
 const scoreboard = document.getElementById('scoreboard');
 
 window.onload = () => {
-  scoreboard.innerText = "High Score: " + highScore;
-
+  scoreboard.innerText = "Hi: " + highScore;
   document.getElementById('hardBtn').onclick = () => startGame('hard');
   document.getElementById('harderBtn').onclick = () => startGame('harder');
 };
@@ -190,7 +190,7 @@ function resetGame(){
     barFlashColor=WHITE;
 }
 
-// ---- HARD DIFFICULTY: PREDICTION WITH WRAPAROUND ----
+// ---- HARD DIFFICULTY: PREDICTION ----
 function getClosestBlockAboveBar(){
     let closest = null;
     let minDistance = Infinity;
@@ -256,7 +256,7 @@ function update(){
                 if(score>highScore){ 
                     highScore=score; 
                     localStorage.setItem('brakeDownHighScore',highScore); 
-                    scoreboard.innerText="High Score: "+highScore;
+                    scoreboard.innerText="Hi: "+highScore;
                 }
                 break;
             }
@@ -268,7 +268,8 @@ function update(){
 
 // ---- DRAW LOOP ----
 function draw(){
-    ctx.fillStyle=BLACK; ctx.fillRect(0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
+    ctx.fillStyle=BLACK; 
+    ctx.fillRect(0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
 
     // Draw bar and hole
     ctx.fillStyle=barFlashColor;
@@ -281,25 +282,24 @@ function draw(){
     // Draw blocks
     blocks.forEach(block=>block.draw());
 
-    // Draw score & high score (smaller font for Hard & Harder)
+    // Draw in-game score
     ctx.fillStyle=WHITE;
     ctx.font="16px 'Press Start 2P', monospace";
     ctx.textAlign="start";
-    ctx.fillText("Score: "+score,20,70);
-    ctx.fillText("High Score: "+highScore,20,95);
+    ctx.fillText("Hi: "+score,20,70);
 
     // Game Over screen
     if(state==="game_over"){
         ctx.fillStyle="rgba(0,0,0,0.55)";
         ctx.fillRect(0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
 
-        // GAME OVER title - smaller
+        // GAME OVER title - narrower like Glutton
         ctx.fillStyle="#FF5050"; 
         ctx.font="20px 'Press Start 2P', monospace";
         ctx.textAlign="center";
         ctx.fillText("GAME OVER", SCREEN_WIDTH/2, SCREEN_HEIGHT/2 - 25);
 
-        // Score
+        // Final score
         ctx.fillStyle=WHITE; 
         ctx.font="16px 'Press Start 2P', monospace";
         ctx.fillText(score, SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
