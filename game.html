@@ -261,7 +261,7 @@ function update(){
                     highScore=score; 
                     localStorage.setItem('brakeDownHighScore',highScore); 
                 }
-                updateMenuScore(); // update menu Hi
+                updateMenuScore();
                 break;
             }
         }
@@ -286,11 +286,12 @@ function draw(){
     // Draw blocks
     blocks.forEach(block=>block.draw());
 
-    // Draw in-game score
+    // In-game Score and Hi
     ctx.fillStyle=WHITE;
     ctx.font="16px 'Press Start 2P', monospace";
     ctx.textAlign="start";
-    ctx.fillText("Hi: "+score,20,70);
+    ctx.fillText("Score: "+score,20,70);
+    ctx.fillText("Hi: "+highScore,20,100);
 
     // Game Over screen
     if(state==="game_over"){
@@ -304,10 +305,11 @@ function draw(){
 
         ctx.fillStyle=WHITE; 
         ctx.font="16px 'Press Start 2P', monospace";
-        ctx.fillText(score, SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
+        ctx.fillText("Score: "+score, SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
 
         ctx.font="12px 'Press Start 2P', monospace"; 
-        ctx.fillText("Tap / Click To Restart", SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + 40);
+        ctx.fillText("Hi: "+highScore, SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + 20);
+        ctx.fillText("Tap / Click To Restart", SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + 45);
     }
 }
 
