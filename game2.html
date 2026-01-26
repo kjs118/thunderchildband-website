@@ -38,8 +38,10 @@ const HARD_BAR_HEIGHT = 60;
 const BAR_HEIGHT = HARD_BAR_HEIGHT / 4; // 1/4 original
 const BAR_SPACE = HARD_BAR_HEIGHT * 2; // 2x original bar space
 
-const TOP_BAR_Y = SCREEN_HEIGHT/2 - BAR_SPACE/2 - BAR_HEIGHT;
-const BOTTOM_BAR_Y = SCREEN_HEIGHT/2 + BAR_SPACE/2;
+// Center bars vertically on screen
+const CENTER_Y = SCREEN_HEIGHT / 2;
+const TOP_BAR_Y = CENTER_Y - BAR_SPACE / 2 - BAR_HEIGHT/2;
+const BOTTOM_BAR_Y = CENTER_Y + BAR_SPACE / 2 - BAR_HEIGHT/2;
 
 const HOLE_WIDTH = 80;
 const SLIDE_SPEED = 4.5; // pixels per frame
@@ -131,8 +133,6 @@ canvas.addEventListener('touchstart', e => {
 
 canvas.addEventListener('touchend', e => {
     e.preventDefault();
-    // reset holds on release
-    // check remaining touches
     topBarHold = false;
     bottomBarHold = false;
     for(let t of e.touches){
