@@ -19,7 +19,9 @@
     align-items: center;
     height: 100vh;
   }
+
   canvas { display: none; background: black; }
+
   #menu { text-align: center; }
   button {
     display: block;
@@ -30,7 +32,11 @@
     border: none;
     border-radius: 8px;
   }
-  #scoreboard { font-family: 'Press Start 2P', monospace; font-size: 20px; margin-bottom: 20px; }
+  #scoreboard {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
 </style>
 </head>
 <body>
@@ -51,7 +57,6 @@ const SCREEN_HEIGHT = canvas.height;
 
 const BLACK = "#000";
 const WHITE = "#fff";
-
 const BLOCK_COLORS = ["#FF6464","#FFA500","#FFFF00","#64FF64","#00C8FF","#6464FF","#C800FF","#FF3296"];
 const NUM_COLUMNS = BLOCK_COLORS.length;
 const COLUMN_WIDTH = SCREEN_WIDTH / NUM_COLUMNS;
@@ -87,10 +92,13 @@ let barFlashColor = WHITE;
 // ---- MENU ----
 const menuDiv = document.getElementById('menu');
 const scoreboard = document.getElementById('scoreboard');
-scoreboard.innerText = "HI: " + highScore;
 
-document.getElementById('hardBtn').onclick = () => startGame('hard');
-document.getElementById('harderBtn').onclick = () => startGame('harder');
+window.onload = () => {
+  scoreboard.innerText = "High Score: " + highScore;
+
+  document.getElementById('hardBtn').onclick = () => startGame('hard');
+  document.getElementById('harderBtn').onclick = () => startGame('harder');
+};
 
 function startGame(level) {
     difficulty = level;
@@ -132,12 +140,13 @@ class Block {
     update() {
         this.y += this.fallSpeed;
         if(this.isWide && score>=50){
-            const t = performance.now()/1000; const pos = t%1.0;
+            const t = performance.now()/1000; 
+            const pos = t%1.0;
             if(pos<0.4) this.color=this.baseColor;
             else if(pos<0.5) this.color=WHITE;
             else if(pos<0.9) this.color=this.baseColor;
             else this.color=BLACK;
-        }else this.color=this.baseColor;
+        } else this.color=this.baseColor;
     }
     draw(){ ctx.fillStyle=this.color; ctx.fillRect(this.x,this.y,this.width,this.height);}
 }
@@ -152,7 +161,9 @@ function spawnBlock(){
 }
 
 function getHoleLeft(){
-    let left = holeX % SCREEN_WIDTH; if(left<0) left+=SCREEN_WIDTH; return left;
+    let left = holeX % SCREEN_WIDTH; 
+    if(left<0) left+=SCREEN_WIDTH; 
+    return left;
 }
 
 function blockPassesHole(block){
@@ -169,8 +180,13 @@ function updateFallSpeed(){
 }
 
 function resetGame(){
-    state="playing"; score=0; holeX=SCREEN_WIDTH/2 - HOLE_WIDTH/2;
-    blocks=[]; spawnTimer=SPAWN_INTERVAL_FRAMES; fallSpeed=INITIAL_FALL_SPEED; blockCount=0;
+    state="playing"; 
+    score=0; 
+    holeX=SCREEN_WIDTH/2 - HOLE_WIDTH/2;
+    blocks=[]; 
+    spawnTimer=SPAWN_INTERVAL_FRAMES; 
+    fallSpeed=INITIAL_FALL_SPEED; 
+    blockCount=0;
     barFlashColor=WHITE;
 }
 
@@ -211,7 +227,6 @@ function predictBarFlash() {
     }
 
     barFlashColor = safe ? "#00FF00" : "#FF0000";
-
     setTimeout(() => { barFlashColor = WHITE; }, 200);
 }
 
@@ -221,19 +236,28 @@ function update(){
 
     if(!mouseDown) holeX-=SLIDE_SPEED;
 
-    spawnTimer--; if(spawnTimer<=0){spawnBlock(); spawnTimer=SPAWN_INTERVAL_FRAMES;}
+    spawnTimer--; 
+    if(spawnTimer<=0){ spawnBlock(); spawnTimer=SPAWN_INTERVAL_FRAMES; }
 
     for(let i=blocks.length-1;i>=0;i--){
         const block=blocks[i]; block.update();
 
         if(!block.scored && block.y>BAR_Y+BAR_HEIGHT){
-            if(blockPassesHole(block)){ block.scored=true; score++; updateFallSpeed(); }
+            if(blockPassesHole(block)){ 
+                block.scored=true; 
+                score++; 
+                updateFallSpeed(); 
+            }
         }
 
         if(block.y+block.height>BAR_Y && block.y<BAR_Y+BAR_HEIGHT){
             if(!blockPassesHole(block)){
                 state="game_over";
-                if(score>highScore){ highScore=score; localStorage.setItem('brakeDownHighScore',highScore); scoreboard.innerText="HI: "+highScore;}
+                if(score>highScore){ 
+                    highScore=score; 
+                    localStorage.setItem('brakeDownHighScore',highScore); 
+                    scoreboard.innerText="High Score: "+highScore;
+                }
                 break;
             }
         }
@@ -257,32 +281,33 @@ function draw(){
     // Draw blocks
     blocks.forEach(block=>block.draw());
 
-    // Draw score & high score using Press Start 2P
+    // Draw score & high score (retro font)
     ctx.fillStyle=WHITE;
     ctx.font="20px 'Press Start 2P', monospace";
     ctx.textAlign="start";
     ctx.fillText("Score: "+score,20,80);
-    ctx.fillText("HI: "+highScore,20,110);
+    ctx.fillText("High Score: "+highScore,20,110);
 
     // Game Over screen
-if(state==="game_over"){
-    ctx.fillStyle="rgba(0,0,0,0.55)";
-    ctx.fillRect(0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
+    if(state==="game_over"){
+        ctx.fillStyle="rgba(0,0,0,0.55)";
+        ctx.fillRect(0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
 
-    // GAME OVER title - narrower like Glutton
-    ctx.fillStyle="#FF5050"; 
-    ctx.font="24px 'Press Start 2P', monospace"; // reduced font size
-    ctx.textAlign="center";
-    ctx.fillText("GAME OVER", SCREEN_WIDTH/2, SCREEN_HEIGHT/2 - 30);
+        // GAME OVER title - narrower like Glutton
+        ctx.fillStyle="#FF5050"; 
+        ctx.font="24px 'Press Start 2P', monospace";
+        ctx.textAlign="center";
+        ctx.fillText("GAME OVER", SCREEN_WIDTH/2, SCREEN_HEIGHT/2 - 30);
 
-    // Score
-    ctx.fillStyle=WHITE; 
-    ctx.font="18px 'Press Start 2P', monospace"; // slightly smaller than before
-    ctx.fillText(score, SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
+        // Score
+        ctx.fillStyle=WHITE; 
+        ctx.font="18px 'Press Start 2P', monospace";
+        ctx.fillText(score, SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
 
-    // Restart instruction
-    ctx.font="14px 'Press Start 2P', monospace"; 
-    ctx.fillText("Tap / Click To Restart", SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + 50);
+        // Restart instruction
+        ctx.font="14px 'Press Start 2P', monospace"; 
+        ctx.fillText("Tap / Click To Restart", SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + 50);
+    }
 }
 
 // ---- MAIN LOOP ----
