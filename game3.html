@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Glutton Mode - Brake Down</title>
+<!-- Retro font -->
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+  body {
+    margin: 0;
+    background: black;
+    color: white;
+    overflow: hidden;
+    touch-action: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  canvas {
+    background: black;
+    display: block;
+  }
+</style>
+</head>
+<body>
+<canvas id="gluttonCanvas" width="375" height="812"></canvas>
+<script>
+const canvas = document.getElementById('gluttonCanvas');
+const ctx = canvas.getContext('2d');
+const SCREEN_WIDTH = canvas.width;
+const SCREEN_HEIGHT = canvas.height;
+const BLACK = "#000";
+const WHITE = "#fff";
+const BLOCK_COLORS = ["#FF6464","#FFA500","#FFFF00","#64FF64","#00C8FF","#6464FF","#C800FF","#FF3296"];
+const HARD_BAR_HEIGHT = 60;
+const BAR_HEIGHT = HARD_BAR_HEIGHT / 4;
+const BAR_SPACE = HARD_BAR_HEIGHT * 2;
+const TOP_BAR_Y = SCREEN_HEIGHT/2 - BAR_SPACE/2 - BAR_HEIGHT;
+const BOTTOM_BAR_Y = SCREEN_HEIGHT/2 + BAR_SPACE/2;
+const HOLE_WIDTH = 80;
+const SLIDE_SPEED = 4.5;
+const BLOCK_FALL_SPEED = 2.5;
+const SPAWN_INTERVAL = 120;
+let score = 0;
+let highScore = parseInt(localStorage.getItem('gluttonHighScore')) || 0;
+let blocks = [];
+let spawnTimer = SPAWN_INTERVAL;
+let state = "playing";
+let gameOverTimestamp = 0;
+const GAME_OVER_DELAY = 500; // ms to ignore inputs after game over
+
+// OPTICAL TRICKS TOGGLE - set to false to disable
+const opticalTricks = true;
+let time = 0; // for animations
+
+/* ---------- Bars ---------- */
+class Bar {
+  constructor(y, speed, direction) {
+    this.y = y;
+    this.speed = speed * direction;
+    this.holeX = Math.random() * (SCREEN_WIDTH - HOLE_WIDTH);
+  }
+  update() {
+    this.holeX += this.speed;
+    if (this.holeX < 0) this.holeX += SCREEN_WIDTH;
+    if (this.holeX > SCREEN_WIDTH) this.holeX -= SCREEN_WIDTH;
+  }
+  draw() {
+    // Main bar
+    ctx.fillStyle = WHITE;
+    ctx.fillRect(0, this.y, SCREEN_WIDTH, BAR_HEIGHT);
+
+    // Hole with Cornsweet illusion gradient + subtle flicker
+    if (opticalTricks) {
+      time += 0.016; // approx 60fps delta
+      const flickerPhase = Math.sin(time * 0.4) * 0.5 + 0.5; // slow ~0.4 rad/s
+      const tint = flickerPhase > 0.5 ? '#001122' : '#220011'; // subtle cyan/magenta
+
+      // Cornsweet gradient: sharp edge contrast makes hole seem deeper/smaller
+      const grad = ctx.createLinearGradient(this.holeX, this.y, this.holeX + HOLE_WIDTH, this.y);
+      grad.addColorStop(0, BLACK);
+      grad.addColorStop(0.02, '#222');   // light edge illusion
+      grad.addColorStop(0.03, BLACK);
+      grad.addColorStop(0.97, BLACK);
+      grad.addColorStop(0.98, '#111');
+      grad.addColorStop(1, BLACK);
+
+      ctx.fillStyle = grad;
+      ctx.fillRect(this.holeX, this.y, HOLE_WIDTH, BAR_HEIGHT);
+
+      // Overlay faint tint for afterimage potential
+      ctx.globalAlpha = 0.08 * flickerPhase;
+      ctx.fillStyle = tint;
+      ctx.fillRect(this.holeX, this.y, HOLE_WIDTH, BAR_HEIGHT);
+      ctx.globalAlpha = 1;
+    } else {
+      ctx.fillStyle = BLACK;
+      ctx.fillRect(this.holeX, this.y, HOLE_WIDTH, BAR_HEIGHT);
+    }
+
+    // Wrap-around hole
+    if (this.holeX + HOLE_WIDTH > SCREEN_WIDTH) {
+      if (opticalTricks) {
+        const gradWrap = ctx.createLinearGradient(this.holeX - SCREEN_WIDTH, this.y, this.holeX - SCREEN_WIDTH + HOLE_WIDTH, this.y);
+        gradWrap.addColorStop(0, BLACK);
+        gradWrap.addColorStop(0.02, '#222');
+        gradWrap.addColorStop(0.03, BLACK);
+        gradWrap.addColorStop(0.97, BLACK);
+        gradWrap.addColorStop(0.98, '#111');
+        gradWrap.addColorStop(1, BLACK);
+        ctx.fillStyle = gradWrap;
+        ctx.fillRect(this.holeX - SCREEN_WIDTH, this.y, HOLE_WIDTH, BAR_HEIGHT);
+
+        ctx.globalAlpha = 0.08 * Math.sin(time * 0.4 + 1); // offset phase
+        ctx.fillStyle = '#001122';
+        ctx.fillRect(this.holeX - SCREEN_WIDTH, this.y, HOLE_WIDTH, BAR_HEIGHT);
+        ctx.globalAlpha = 1;
+      } else {
+        ctx.fillStyle = BLACK;
+        ctx.fillRect(this.holeX - SCREEN_WIDTH, this.y, HOLE_WIDTH, BAR_HEIGHT);
+      }
+    }
+  }
+}
+const topBar = new Bar(TOP_BAR_Y, SLIDE_SPEED, 1);
+const bottomBar = new Bar(BOTTOM_BAR_Y, SLIDE_SPEED, -1);
+
+/* ---------- Blocks ---------- */
+class Block {
+  constructor(x) {
+    this.x = x;
+    this.y = -BAR_HEIGHT;
+    this.width = Math.floor(HOLE_WIDTH * 0.45);
+    this.height = BAR_HEIGHT;
+    this.color = BLOCK_COLORS[Math.floor(Math.random() * BLOCK_COLORS.length)];
+    this.scored = false;
+  }
+  update() {
+    this.y += BLOCK_FALL_SPEED;
+  }
+  draw() {
+    if (opticalTricks) {
+      // Chromatic aberration: offset RGB channels slightly (increases with time/score)
+      const aberr = 1 + Math.min(score / 50, 3); // max ~3px offset
+      const phase = time * 5 + this.y * 0.01; // animate a bit
+
+      ctx.fillStyle = '#ff0000'; // red offset right
+      ctx.fillRect(this.x + aberr * Math.sin(phase), this.y, this.width, this.height);
+      ctx.fillStyle = '#00ff00'; // green center
+      ctx.fillRect(this.x, this.y, this.width, this.height);
+      ctx.fillStyle = '#0000ff'; // blue offset left
+      ctx.fillRect(this.x - aberr * Math.cos(phase), this.y, this.width, this.height);
+
+      // Original on top to blend
+      ctx.fillStyle = this.color;
+      ctx.fillRect(this.x, this.y, this.width, this.height);
+    } else {
+      ctx.fillStyle = this.color;
+      ctx.fillRect(this.x, this.y, this.width, this.height);
+    }
+  }
+}
+
+function spawnBlock() {
+  const w = Math.floor(HOLE_WIDTH * 0.45);
+  const x = Math.random() * (SCREEN_WIDTH - w);
+  blocks.push(new Block(x));
+}
+
+/* ---------- Controls ---------- */
+// (unchanged from your last version - keyboard + touch)
+let topBarHold = false;
+let bottomBarHold = false;
+
+document.addEventListener('keydown', e => {
+  if(state==="game_over"){
+    if (Date.now() - gameOverTimestamp > GAME_OVER_DELAY) {
+      resetGame();
+    }
+    return;
+  }
+  if(e.key === "w" || e.key === "ArrowUp") topBarHold = true;
+  if(e.key === "s" || e.key === "ArrowDown") bottomBarHold = true;
+});
+document.addEventListener('keyup', e => {
+  if(e.key === "w" || e.key === "ArrowUp") topBarHold = false;
+  if(e.key === "s" || e.key === "ArrowDown") bottomBarHold = false;
+});
+
+canvas.addEventListener('touchstart', e => {
+  e.preventDefault();
+  if (state === "game_over") {
+    if (Date.now() - gameOverTimestamp > GAME_OVER_DELAY) {
+      resetGame();
+    }
+    return;
+  }
+  for (let t of e.touches) {
+    const y = t.clientY - canvas.getBoundingClientRect().top;
+    if (y < TOP_BAR_Y + BAR_HEIGHT) topBarHold = true;
+    if (y > BOTTOM_BAR_Y) bottomBarHold = true;
+  }
+}, { passive: false });
+
+canvas.addEventListener('touchend', e => {
+  e.preventDefault();
+  topBarHold = false;
+  bottomBarHold = false;
+  for (let t of e.touches) {
+    const y = t.clientY - canvas.getBoundingClientRect().top;
+    if (y < TOP_BAR_Y + BAR_HEIGHT) topBarHold = true;
+    if (y > BOTTOM_BAR_Y) bottomBarHold = true;
+  }
+}, { passive: false });
+
+/* ---------- Collision (unchanged) ---------- */
+function blockPassesBar(block, bar) {
+  const left = bar.holeX;
+  const right = left + HOLE_WIDTH;
+  const blockRight = block.x + block.width;
+  if (right <= SCREEN_WIDTH) {
+    return block.x >= left && blockRight <= right;
+  } else {
+    return (
+      (block.x >= left && blockRight <= SCREEN_WIDTH) ||
+      (block.x >= 0 && blockRight <= right - SCREEN_WIDTH)
+    );
+  }
+}
+
+/* ---------- Update ---------- */
+function update() {
+  if (state !== "playing") return;
+  time += 0.016; // global timer for illusions
+
+  if (!topBarHold) topBar.update();
+  if (!bottomBarHold) bottomBar.update();
+
+  spawnTimer--;
+  if (spawnTimer <= 0) { spawnBlock(); spawnTimer = SPAWN_INTERVAL; }
+
+  for (let i = blocks.length - 1; i >= 0; i--) {
+    const block = blocks[i];
+    block.update();
+
+    if (!block.scored && block.y > BOTTOM_BAR_Y + BAR_HEIGHT) {
+      block.scored = true;
+      score++;
+    }
+
+    if ((block.y + block.height > topBar.y && block.y < topBar.y + BAR_HEIGHT && !blockPassesBar(block, topBar)) ||
+        (block.y + block.height > bottomBar.y && block.y < bottomBar.y + BAR_HEIGHT && !blockPassesBar(block, bottomBar))) {
+      state = "game_over";
+      gameOverTimestamp = Date.now();
+      topBarHold = false;
+      bottomBarHold = false;
+      if (score > highScore) {
+        highScore = score;
+        localStorage.setItem('gluttonHighScore', highScore);
+      }
+    }
+
+    if (block.y > SCREEN_HEIGHT) blocks.splice(i, 1);
+  }
+}
+
+/* ---------- Draw ---------- */
+function draw() {
+  ctx.fillStyle = BLACK;
+  ctx.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+
+  topBar.draw();
+  bottomBar.draw();
+  blocks.forEach(b => b.draw());
+
+  // Score display (unchanged)
+  ctx.fillStyle = WHITE;
+  ctx.font = "14px 'Press Start 2P'";
+  ctx.textAlign = "left";
+  ctx.fillText("SCORE " + score, 20, 70);
+  ctx.fillText("HI " + highScore, 20, 100);
+
+  if (state === "game_over") {
+    ctx.fillStyle = "rgba(0,0,0,0.6)";
+    ctx.fillRect(0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
+    ctx.fillStyle = "#FF5050";
+    ctx.font = "20px 'Press Start 2P'";
+    ctx.textAlign = "center";
+    ctx.fillText("GAME OVER", SCREEN_WIDTH/2, SCREEN_HEIGHT/2 - 40);
+    ctx.fillStyle = WHITE;
+    ctx.font = "14px 'Press Start 2P'";
+    ctx.fillText("PRESS ANY KEY", SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + 20);
+  }
+}
+
+/* ---------- Reset ---------- */
+function resetGame() {
+  score = 0;
+  blocks = [];
+  spawnTimer = SPAWN_INTERVAL;
+  state = "playing";
+  topBar.holeX = Math.random() * (SCREEN_WIDTH - HOLE_WIDTH);
+  bottomBar.holeX = Math.random() * (SCREEN_WIDTH - HOLE_WIDTH);
+  time = 0;
+}
+
+/* ---------- Loop ---------- */
+function loop() {
+  update();
+  draw();
+  requestAnimationFrame(loop);
+}
+loop();
+</script>
+</body>
+</html>
