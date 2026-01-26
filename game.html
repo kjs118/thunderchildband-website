@@ -265,22 +265,24 @@ function draw(){
     ctx.fillText("HI: "+highScore,20,110);
 
     // Game Over screen
-    if(state==="game_over"){
-        ctx.fillStyle="rgba(0,0,0,0.55)";
-        ctx.fillRect(0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
+if(state==="game_over"){
+    ctx.fillStyle="rgba(0,0,0,0.55)";
+    ctx.fillRect(0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
 
-        ctx.fillStyle="#FF5050"; 
-        ctx.font="28px 'Press Start 2P', monospace"; 
-        ctx.textAlign="center";
-        ctx.fillText("GAME OVER",SCREEN_WIDTH/2,SCREEN_HEIGHT/2-40);
+    // GAME OVER title - narrower like Glutton
+    ctx.fillStyle="#FF5050"; 
+    ctx.font="24px 'Press Start 2P', monospace"; // reduced font size
+    ctx.textAlign="center";
+    ctx.fillText("GAME OVER", SCREEN_WIDTH/2, SCREEN_HEIGHT/2 - 30);
 
-        ctx.fillStyle=WHITE; 
-        ctx.font="20px 'Press Start 2P', monospace";
-        ctx.fillText(score,SCREEN_WIDTH/2,SCREEN_HEIGHT/2);
+    // Score
+    ctx.fillStyle=WHITE; 
+    ctx.font="18px 'Press Start 2P', monospace"; // slightly smaller than before
+    ctx.fillText(score, SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
 
-        ctx.font="16px 'Press Start 2P', monospace"; 
-        ctx.fillText("Tap / Click To Restart",SCREEN_WIDTH/2,SCREEN_HEIGHT/2+60);
-    }
+    // Restart instruction
+    ctx.font="14px 'Press Start 2P', monospace"; 
+    ctx.fillText("Tap / Click To Restart", SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + 50);
 }
 
 // ---- MAIN LOOP ----
