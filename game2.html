@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Glutton Mode</title>
+
 <style>
 html, body {
   margin: 0;
@@ -11,11 +12,8 @@ html, body {
   background: black;
   overflow: hidden;
 }
-
 canvas {
   display: block;
-  margin: auto;
-  background: black;
 }
 </style>
 </head>
@@ -24,144 +22,136 @@ canvas {
 <canvas id="game"></canvas>
 
 <script>
-/* ===============================
-   FIXED GAME RESOLUTION (iPhone)
-================================ */
-const GAME_WIDTH  = 390;
-const GAME_HEIGHT = 844;
-
+/* ======================
+   CANVAS
+====================== */
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
 
-let scale = 1;
-
-/* ===============================
-   SCALE + LETTERBOX
-================================ */
 function resize() {
-  const w = window.innerWidth;
-  const h = window.innerHeight;
-
-  scale = Math.min(w / GAME_WIDTH, h / GAME_HEIGHT);
-
-  canvas.width  = GAME_WIDTH  * scale;
-  canvas.height = GAME_HEIGHT * scale;
-
-  ctx.setTransform(scale, 0, 0, scale, 0, 0);
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
 }
 window.addEventListener("resize", resize);
 resize();
 
-/* ===============================
-   GAME STATE
-================================ */
-let running = true;
-let score = 0;
-let highScore = 0;
-
-/* ===============================
-   BAR CONFIG (UNCHANGED SPEED)
-================================ */
+/* ======================
+   GAME CONSTANTS
+====================== */
 const BAR_HEIGHT = 14;
 const HOLE_WIDTH = 80;
 const BAR_SPEED = 2;
 
-const BAR_GAP = 140;
-const CENTER_Y = GAME_HEIGHT / 2;
-
-const bars = [
-  {
-    y: CENTER_Y - BAR_GAP / 2,
-    holeX: 0,
-    dir: 1,
-    paused: false
-  },
-  {
-    y: CENTER_Y + BAR_GAP / 2,
-    holeX: GAME_WIDTH - HOLE_WIDTH,
-    dir: -1,
-    paused: false
-  }
-];
-
-/* ===============================
-   BLOCKS (UNCHANGED SPEED)
-================================ */
 const BLOCK_SIZE = 14;
 const BLOCK_SPEED = 3;
+const SPAWN_RATE = 40;
+
+/* ======================
+   DYNAMIC CENTER (KEY FIX)
+====================== */
+function getCenterY() {
+  return canvas.height / 2;
+}
+
+const BAR_SPACING = BAR_HEIGHT * 3;
+
+/* ======================
+   GAME STATE
+====================== */
+let running = true;
+let score = 0;
+let highScore = 0;
+
+let bars = [];
 let blocks = [];
 let spawnTimer = 0;
 
-/* ===============================
-   INPUT
-================================ */
-window.addEventListener("keydown", () => {
-  if (!running) resetGame();
-});
+/* ======================
+   INIT / RESET
+====================== */
+function initBars() {
+  const centerY = getCenterY();
 
+  bars = [
+    {
+      y: centerY - BAR_SPACING,
+      holeX: 0,
+      dir: 1,
+      paused: false
+    },
+    {
+      y: centerY + BAR_SPACING,
+      holeX: canvas.width - HOLE_WIDTH,
+      dir: -1,
+      paused: false
+    }
+  ];
+}
+
+function resetGame() {
+  running = true;
+  score = 0;
+  blocks = [];
+  spawnTimer = 0;
+  initBars();
+}
+
+initBars();
+
+/* ======================
+   INPUT (MOBILE)
+====================== */
 canvas.addEventListener("pointerdown", e => {
   if (!running) {
     resetGame();
     return;
   }
 
-  const rect = canvas.getBoundingClientRect();
-  const y = (e.clientY - rect.top) / scale;
+  const y = e.clientY;
 
   if (y < bars[0].y) bars[0].paused = true;
   if (y > bars[1].y) bars[1].paused = true;
 });
 
-canvas.addEventListener("pointerup", e => {
+canvas.addEventListener("pointerup", () => {
   bars[0].paused = false;
   bars[1].paused = false;
 });
 
-/* ===============================
-   RESET
-================================ */
-function resetGame() {
-  running = true;
-  score = 0;
-  blocks = [];
-  spawnTimer = 0;
-
-  bars[0].holeX = 0;
-  bars[1].holeX = GAME_WIDTH - HOLE_WIDTH;
-}
-
-/* ===============================
+/* ======================
    SPAWN
-================================ */
+====================== */
 function spawnBlock() {
   blocks.push({
-    x: Math.random() * (GAME_WIDTH - BLOCK_SIZE),
+    x: Math.random() * (canvas.width - BLOCK_SIZE),
     y: -BLOCK_SIZE
   });
 }
 
-/* ===============================
+/* ======================
    UPDATE
-================================ */
+====================== */
 function update() {
   if (!running) return;
 
-  // Bars
+  // Move bars
   bars.forEach(bar => {
     if (!bar.paused) {
       bar.holeX += BAR_SPEED * bar.dir;
-      if (bar.holeX > GAME_WIDTH) bar.holeX = -HOLE_WIDTH;
-      if (bar.holeX < -HOLE_WIDTH) bar.holeX = GAME_WIDTH;
+
+      if (bar.holeX > canvas.width) bar.holeX = -HOLE_WIDTH;
+      if (bar.holeX < -HOLE_WIDTH) bar.holeX = canvas.width;
     }
   });
 
-  // Blocks
+  // Spawn blocks
   spawnTimer++;
-  if (spawnTimer > 40) {
+  if (spawnTimer > SPAWN_RATE) {
     spawnTimer = 0;
     spawnBlock();
   }
 
+  // Move blocks
   blocks.forEach(b => b.y += BLOCK_SPEED);
 
   // Collision
@@ -171,38 +161,42 @@ function update() {
         b.y + BLOCK_SIZE > bar.y &&
         b.y < bar.y + BAR_HEIGHT
       ) {
-        const inHole =
+        const safe =
           b.x + BLOCK_SIZE > bar.holeX &&
           b.x < bar.holeX + HOLE_WIDTH;
 
-        if (!inHole) running = false;
+        if (!safe) running = false;
       }
     });
   });
 
   // Score
   blocks = blocks.filter(b => {
-    if (b.y > GAME_HEIGHT) {
+    if (b.y > canvas.height) {
       score++;
-      highScore = Math.max(highScore, highScore);
+      highScore = Math.max(highScore, score);
       return false;
     }
     return true;
   });
 }
 
-/* ===============================
+/* ======================
    DRAW
-================================ */
+====================== */
 function drawBar(bar) {
   ctx.fillStyle = "white";
   ctx.fillRect(0, bar.y, bar.holeX, BAR_HEIGHT);
-  ctx.fillRect(bar.holeX + HOLE_WIDTH, bar.y,
-               GAME_WIDTH, BAR_HEIGHT);
+  ctx.fillRect(
+    bar.holeX + HOLE_WIDTH,
+    bar.y,
+    canvas.width,
+    BAR_HEIGHT
+  );
 }
 
 function draw() {
-  ctx.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   bars.forEach(drawBar);
 
@@ -214,23 +208,27 @@ function draw() {
   ctx.fillStyle = "white";
   ctx.font = "16px Arial";
   ctx.textAlign = "left";
-  ctx.fillText(`Score: ${score}`, 10, 24);
-  ctx.fillText(`High: ${highScore}`, 10, 44);
+  ctx.fillText(`Score: ${score}`, 12, 26);
+  ctx.fillText(`High: ${highScore}`, 12, 46);
 
   if (!running) {
     ctx.textAlign = "center";
     ctx.font = "24px Arial";
     ctx.fillText("GAME OVER",
-      GAME_WIDTH / 2, GAME_HEIGHT / 2 - 10);
+      canvas.width / 2,
+      canvas.height / 2 - 10
+    );
     ctx.font = "16px Arial";
     ctx.fillText("Tap to Restart",
-      GAME_WIDTH / 2, GAME_HEIGHT / 2 + 20);
+      canvas.width / 2,
+      canvas.height / 2 + 20
+    );
   }
 }
 
-/* ===============================
+/* ======================
    LOOP
-================================ */
+====================== */
 function loop() {
   update();
   draw();
@@ -240,3 +238,4 @@ loop();
 </script>
 </body>
 </html>
+
