@@ -118,19 +118,19 @@ let bottomBarHold = false;
 
 // Keyboard
 document.addEventListener('keydown', e => {
-  if(state === "game_over") { resetGame(); return; }
-  if(e.key === "w" || e.key === "ArrowUp") topBarHold = true;
-  if(e.key === "s" || e.key === "ArrowDown") bottomBarHold = true;
+    if(state === "game_over"){ resetGame(); return; }
+    if(e.key === "w" || e.key === "ArrowUp") topBarHold = true;
+    if(e.key === "s" || e.key === "ArrowDown") bottomBarHold = true;
 });
 document.addEventListener('keyup', e => {
-  if(e.key === "w" || e.key === "ArrowUp") topBarHold = false;
-  if(e.key === "s" || e.key === "ArrowDown") bottomBarHold = false;
+    if(e.key === "w" || e.key === "ArrowUp") topBarHold = false;
+    if(e.key === "s" || e.key === "ArrowDown") bottomBarHold = false;
 });
 
-// Touch
+// Touch controls
 canvas.addEventListener('touchstart', e => {
   e.preventDefault();
-  if(state === "game_over") { resetGame(); return; }
+  if (state === "game_over") { resetGame(); return; }
 
   for (let t of e.touches) {
     const y = t.clientY - canvas.getBoundingClientRect().top;
@@ -143,7 +143,6 @@ canvas.addEventListener('touchend', e => {
   e.preventDefault();
   topBarHold = false;
   bottomBarHold = false;
-
   for (let t of e.touches) {
     const y = t.clientY - canvas.getBoundingClientRect().top;
     if (y < TOP_BAR_Y + BAR_HEIGHT) topBarHold = true;
@@ -151,13 +150,12 @@ canvas.addEventListener('touchend', e => {
   }
 }, { passive: false });
 
-/* ---------- Collision ---------- */
+/* ---------- Collision & Scoring ---------- */
 function blockPassesBar(block, bar) {
   const left = bar.holeX;
   const right = left + HOLE_WIDTH;
   const blockRight = block.x + block.width;
-
-  if(right <= SCREEN_WIDTH) {
+  if (right <= SCREEN_WIDTH) {
     return block.x >= left && blockRight <= right;
   } else {
     return (block.x >= left && blockRight <= SCREEN_WIDTH) || (block.x >= 0 && blockRight <= right - SCREEN_WIDTH);
@@ -178,39 +176,36 @@ function update() {
     const block = blocks[i];
     block.update();
 
-    // Collision detection
+    // Collision
     if(
       (block.y + block.height > topBar.y && block.y < topBar.y + BAR_HEIGHT && !blockPassesBar(block, topBar)) ||
       (block.y + block.height > bottomBar.y && block.y < bottomBar.y + BAR_HEIGHT && !blockPassesBar(block, bottomBar))
     ) {
       state = "game_over";
-
       if(score > highScore) {
         highScore = score;
         localStorage.setItem('gluttonHighScore', highScore);
       }
     }
 
-    // Scoring
-    if(!block.scored && block.y > bottomBar.y + BAR_HEIGHT) {
-      if(blockPassesBar(block, topBar) && blockPassesBar(block, bottomBar)) {
-        block.scored = true;
-        score++;
-        if(score > highScore) {
-          highScore = score;
-          localStorage.setItem('gluttonHighScore', highScore);
-        }
+    // Scoring: pass both bars safely
+    if(!block.scored && blockPassesBar(block, topBar) && blockPassesBar(block, bottomBar) && block.y > bottomBar.y + BAR_HEIGHT) {
+      block.scored = true;
+      score++;
+      if(score > highScore) {
+        highScore = score;
+        localStorage.setItem('gluttonHighScore', highScore);
       }
     }
 
-    if(block.y > SCREEN_HEIGHT) blocks.splice(i, 1);
+    if(block.y > SCREEN_HEIGHT) blocks.splice(i,1);
   }
 }
 
 /* ---------- Draw ---------- */
 function draw() {
   ctx.fillStyle = BLACK;
-  ctx.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+  ctx.fillRect(0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
 
   topBar.draw();
   bottomBar.draw();
@@ -223,7 +218,7 @@ function draw() {
   ctx.fillText("SCORE " + score, 20, 70);
   ctx.fillText("HI " + highScore, 20, 100);
 
-  // Game Over
+  // Game over screen
   if(state === "game_over") {
     ctx.fillStyle = "rgba(0,0,0,0.6)";
     ctx.fillRect(0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
@@ -235,7 +230,7 @@ function draw() {
 
     ctx.fillStyle = WHITE;
     ctx.font = "14px 'Press Start 2P'";
-    ctx.fillText("PRESS ANY KEY / TAP", SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + 20);
+    ctx.fillText("PRESS ANY KEY", SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + 20);
   }
 }
 
