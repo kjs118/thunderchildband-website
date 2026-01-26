@@ -5,14 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Brake Down - HTML5 Version</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-
   body {
     margin: 0;
     background: black;
     color: white;
     overflow: hidden;
-    font-family: 'Press Start 2P', monospace;
+    font-family: Arial, sans-serif;
     touch-action: none;
     display: flex;
     justify-content: center;
@@ -27,13 +25,14 @@
     display: block;
     margin: 10px auto;
     padding: 12px 30px;
-    font-size: 20px;
+    font-size: 24px;
     cursor: pointer;
     border: none;
     border-radius: 8px;
   }
-  #scoreboard { font-size: 18px; margin-bottom: 20px; }
+  #scoreboard { font-size: 28px; margin-bottom: 20px; }
 </style>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
 <body>
 <div id="menu">
@@ -89,7 +88,7 @@ let barFlashColor = WHITE;
 // ---- MENU ----
 const menuDiv = document.getElementById('menu');
 const scoreboard = document.getElementById('scoreboard');
-scoreboard.innerText = "High Score: " + highScore;
+scoreboard.innerText = "HI: " + highScore;
 
 document.getElementById('hardBtn').onclick = () => startGame('hard');
 document.getElementById('harderBtn').onclick = () => startGame('harder');
@@ -235,7 +234,7 @@ function update(){
         if(block.y+block.height>BAR_Y && block.y<BAR_Y+BAR_HEIGHT){
             if(!blockPassesHole(block)){
                 state="game_over";
-                if(score>highScore){ highScore=score; localStorage.setItem('brakeDownHighScore',highScore); scoreboard.innerText="High Score: "+highScore;}
+                if(score>highScore){ highScore=score; localStorage.setItem('brakeDownHighScore',highScore); scoreboard.innerText="HI: "+highScore;}
                 break;
             }
         }
@@ -256,27 +255,30 @@ function draw(){
     ctx.fillRect(left,BAR_Y,HOLE_WIDTH,BAR_HEIGHT);
     if(left+HOLE_WIDTH>SCREEN_WIDTH) ctx.fillRect(left-SCREEN_WIDTH,BAR_Y,HOLE_WIDTH,BAR_HEIGHT);
 
-    // Draw score and high score
+    // Draw score
     ctx.fillStyle=WHITE; 
-    ctx.font="18px 'Press Start 2P', monospace";
+    ctx.font="48px 'Press Start 2P', Arial"; 
     ctx.textAlign="start";
-    ctx.fillText("Score: "+score, 20, 50);
-    ctx.fillText("High Score: "+highScore, 20, 80);
+    ctx.fillText(score,30,100);
 
-    // Game over screen
+    ctx.font="32px 'Press Start 2P', Arial";
+    ctx.fillText("HI: "+highScore,30,140);
+
     if(state==="game_over"){
         ctx.fillStyle="rgba(0,0,0,0.55)";
         ctx.fillRect(0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
 
         ctx.fillStyle="#FF5050"; 
-        ctx.font="24px 'Press Start 2P', monospace"; 
+        ctx.font="48px 'Press Start 2P', Arial"; 
         ctx.textAlign="center";
-        ctx.fillText("GAME OVER", SCREEN_WIDTH/2, SCREEN_HEIGHT/2-40);
+        ctx.fillText("GAME OVER",SCREEN_WIDTH/2,SCREEN_HEIGHT/2-40);
 
         ctx.fillStyle=WHITE; 
-        ctx.font="18px 'Press Start 2P', monospace";
-        ctx.fillText("Score: "+score, SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
-        ctx.fillText("Press any key or tap to restart", SCREEN_WIDTH/2, SCREEN_HEIGHT/2+40);
+        ctx.font="32px 'Press Start 2P', Arial";
+        ctx.fillText(score,SCREEN_WIDTH/2,SCREEN_HEIGHT/2);
+
+        ctx.font="24px 'Press Start 2P', Arial"; 
+        ctx.fillText("Tap / Click To Restart",SCREEN_WIDTH/2,SCREEN_HEIGHT/2+60);
     }
 }
 
