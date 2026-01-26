@@ -113,19 +113,60 @@ function spawnBlock() {
 }
 
 /* ---------- Controls ---------- */
+// ---- Controls ----
 let topBarHold = false;
 let bottomBarHold = false;
 
+// Keyboard
 document.addEventListener('keydown', e => {
-  if (state === "game_over") { resetGame(); return; }
-  if (e.key === "w" || e.key === "ArrowUp") topBarHold = true;
-  if (e.key === "s" || e.key === "ArrowDown") bottomBarHold = true;
+    if(state==="game_over"){ resetGame(); return; }
+    if(e.key === "w" || e.key === "ArrowUp") topBarHold = true;
+    if(e.key === "s" || e.key === "ArrowDown") bottomBarHold = true;
+});
+document.addEventListener('keyup', e => {
+    if(e.key === "w" || e.key === "ArrowUp") topBarHold = false;
+    if(e.key === "s" || e.key === "ArrowDown") bottomBarHold = false;
 });
 
-document.addEventListener('keyup', e => {
-  if (e.key === "w" || e.key === "ArrowUp") topBarHold = false;
-  if (e.key === "s" || e.key === "ArrowDown") bottomBarHold = false;
-});
+/* ---------- Mobile Touch Controls (REPLACEMENT) ---------- */
+canvas.addEventListener('touchstart', e => {
+  e.preventDefault();
+  if (state === "game_over") {
+    resetGame();
+    return;
+  }
+
+  for (let t of e.touches) {
+    const y = t.clientY - canvas.getBoundingClientRect().top;
+
+    if (y < TOP_BAR_Y + BAR_HEIGHT) {
+      topBarHold = true;
+    }
+    if (y > BOTTOM_BAR_Y) {
+      bottomBarHold = true;
+    }
+  }
+}, { passive: false });
+
+canvas.addEventListener('touchend', e => {
+  e.preventDefault();
+
+  // Reset both, then re-check remaining touches
+  topBarHold = false;
+  bottomBarHold = false;
+
+  for (let t of e.touches) {
+    const y = t.clientY - canvas.getBoundingClientRect().top;
+
+    if (y < TOP_BAR_Y + BAR_HEIGHT) {
+      topBarHold = true;
+    }
+    if (y > BOTTOM_BAR_Y) {
+      bottomBarHold = true;
+    }
+  }
+}, { passive: false });
+
 
 /* ---------- Collision ---------- */
 function blockPassesBar(block, bar) {
