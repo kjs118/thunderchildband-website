@@ -12,7 +12,7 @@
     background: black;
     color: white;
     overflow: hidden;
-    font-family: Arial, sans-serif;
+    font-family: 'Press Start 2P', monospace;
     touch-action: none;
     display: flex;
     justify-content: center;
@@ -27,12 +27,12 @@
     display: block;
     margin: 10px auto;
     padding: 12px 30px;
-    font-size: 24px;
+    font-size: 20px;
     cursor: pointer;
     border: none;
     border-radius: 8px;
   }
-  #scoreboard { font-size: 28px; margin-bottom: 20px; }
+  #scoreboard { font-size: 18px; margin-bottom: 20px; }
 </style>
 </head>
 <body>
@@ -256,24 +256,27 @@ function draw(){
     ctx.fillRect(left,BAR_Y,HOLE_WIDTH,BAR_HEIGHT);
     if(left+HOLE_WIDTH>SCREEN_WIDTH) ctx.fillRect(left-SCREEN_WIDTH,BAR_Y,HOLE_WIDTH,BAR_HEIGHT);
 
-    // Draw score using retro font and adjusted placement
-    ctx.fillStyle=WHITE;
-    ctx.font="28px 'Press Start 2P', monospace";
+    // Draw score and high score
+    ctx.fillStyle=WHITE; 
+    ctx.font="18px 'Press Start 2P', monospace";
     ctx.textAlign="start";
-    ctx.fillText("Score: "+score,20,80);
-    ctx.fillText("High Score: "+highScore,20,120);
+    ctx.fillText("Score: "+score, 20, 50);
+    ctx.fillText("High Score: "+highScore, 20, 80);
 
+    // Game over screen
     if(state==="game_over"){
         ctx.fillStyle="rgba(0,0,0,0.55)";
         ctx.fillRect(0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
 
-        ctx.fillStyle="#FF5050"; ctx.font="48px 'Press Start 2P', monospace"; ctx.textAlign="center";
-        ctx.fillText("GAME OVER",SCREEN_WIDTH/2,SCREEN_HEIGHT/2-40);
+        ctx.fillStyle="#FF5050"; 
+        ctx.font="24px 'Press Start 2P', monospace"; 
+        ctx.textAlign="center";
+        ctx.fillText("GAME OVER", SCREEN_WIDTH/2, SCREEN_HEIGHT/2-40);
 
-        ctx.fillStyle=WHITE; ctx.font="32px 'Press Start 2P', monospace";
-        ctx.fillText(score,SCREEN_WIDTH/2,SCREEN_HEIGHT/2);
-
-        ctx.font="24px 'Press Start 2P', monospace"; ctx.fillText("Tap / Click To Restart",SCREEN_WIDTH/2,SCREEN_HEIGHT/2+60);
+        ctx.fillStyle=WHITE; 
+        ctx.font="18px 'Press Start 2P', monospace";
+        ctx.fillText("Score: "+score, SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
+        ctx.fillText("Press any key or tap to restart", SCREEN_WIDTH/2, SCREEN_HEIGHT/2+40);
     }
 }
 
