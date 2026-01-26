@@ -34,7 +34,7 @@
   }
   #scoreboard {
     font-family: 'Press Start 2P', monospace;
-    font-size: 20px;
+    font-size: 18px; /* Slightly smaller for Hard & Harder menu */
     margin-bottom: 20px;
   }
 </style>
@@ -281,32 +281,32 @@ function draw(){
     // Draw blocks
     blocks.forEach(block=>block.draw());
 
-    // Draw score & high score (retro font)
+    // Draw score & high score (smaller font for Hard & Harder)
     ctx.fillStyle=WHITE;
-    ctx.font="20px 'Press Start 2P', monospace";
+    ctx.font="16px 'Press Start 2P', monospace";
     ctx.textAlign="start";
-    ctx.fillText("Score: "+score,20,80);
-    ctx.fillText("High Score: "+highScore,20,110);
+    ctx.fillText("Score: "+score,20,70);
+    ctx.fillText("High Score: "+highScore,20,95);
 
     // Game Over screen
     if(state==="game_over"){
         ctx.fillStyle="rgba(0,0,0,0.55)";
         ctx.fillRect(0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
 
-        // GAME OVER title - narrower like Glutton
+        // GAME OVER title - smaller
         ctx.fillStyle="#FF5050"; 
-        ctx.font="24px 'Press Start 2P', monospace";
+        ctx.font="20px 'Press Start 2P', monospace";
         ctx.textAlign="center";
-        ctx.fillText("GAME OVER", SCREEN_WIDTH/2, SCREEN_HEIGHT/2 - 30);
+        ctx.fillText("GAME OVER", SCREEN_WIDTH/2, SCREEN_HEIGHT/2 - 25);
 
         // Score
         ctx.fillStyle=WHITE; 
-        ctx.font="18px 'Press Start 2P', monospace";
+        ctx.font="16px 'Press Start 2P', monospace";
         ctx.fillText(score, SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
 
         // Restart instruction
-        ctx.font="14px 'Press Start 2P', monospace"; 
-        ctx.fillText("Tap / Click To Restart", SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + 50);
+        ctx.font="12px 'Press Start 2P', monospace"; 
+        ctx.fillText("Tap / Click To Restart", SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + 40);
     }
 }
 
