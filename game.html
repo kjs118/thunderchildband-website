@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Brake Down - HTML5 Version</title>
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
   body {
     margin: 0;
     background: black;
@@ -254,26 +256,24 @@ function draw(){
     ctx.fillRect(left,BAR_Y,HOLE_WIDTH,BAR_HEIGHT);
     if(left+HOLE_WIDTH>SCREEN_WIDTH) ctx.fillRect(left-SCREEN_WIDTH,BAR_Y,HOLE_WIDTH,BAR_HEIGHT);
 
-    // Draw blocks
-    blocks.forEach(block=>block.draw());
-
-    // Draw score
-    ctx.fillStyle=WHITE; ctx.font="48px Arial"; ctx.textAlign="start";
-    ctx.fillText(score,30,100);
-    ctx.font="32px Arial";
-    ctx.fillText("High Score: "+highScore,30,140);
+    // Draw score using retro font and adjusted placement
+    ctx.fillStyle=WHITE;
+    ctx.font="28px 'Press Start 2P', monospace";
+    ctx.textAlign="start";
+    ctx.fillText("Score: "+score,20,80);
+    ctx.fillText("High Score: "+highScore,20,120);
 
     if(state==="game_over"){
         ctx.fillStyle="rgba(0,0,0,0.55)";
         ctx.fillRect(0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
 
-        ctx.fillStyle="#FF5050"; ctx.font="48px Arial"; ctx.textAlign="center";
+        ctx.fillStyle="#FF5050"; ctx.font="48px 'Press Start 2P', monospace"; ctx.textAlign="center";
         ctx.fillText("GAME OVER",SCREEN_WIDTH/2,SCREEN_HEIGHT/2-40);
 
-        ctx.fillStyle=WHITE; ctx.font="32px Arial";
+        ctx.fillStyle=WHITE; ctx.font="32px 'Press Start 2P', monospace";
         ctx.fillText(score,SCREEN_WIDTH/2,SCREEN_HEIGHT/2);
 
-        ctx.font="24px Arial"; ctx.fillText("Tap / Click To Restart",SCREEN_WIDTH/2,SCREEN_HEIGHT/2+60);
+        ctx.font="24px 'Press Start 2P', monospace"; ctx.fillText("Tap / Click To Restart",SCREEN_WIDTH/2,SCREEN_HEIGHT/2+60);
     }
 }
 
