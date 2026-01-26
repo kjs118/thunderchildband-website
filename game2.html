@@ -202,21 +202,18 @@ function update() {
     block.update();
 
     if (
-      (block.y + block.height > topBar.y && block.y < topBar.y + BAR_HEIGHT && !blockPassesBar(block, topBar)) ||
-      (block.y + block.height > bottomBar.y && block.y < bottomBar.y + BAR_HEIGHT && !blockPassesBar(block, bottomBar))
-    ) {
-      state = "game_over";
-    }
+  (block.y + block.height > topBar.y && block.y < topBar.y + BAR_HEIGHT && !blockPassesBar(block, topBar)) ||
+  (block.y + block.height > bottomBar.y && block.y < bottomBar.y + BAR_HEIGHT && !blockPassesBar(block, bottomBar))
+) {
+  state = "game_over";
 
-    if (!block.scored && block.y > bottomBar.y + BAR_HEIGHT) {
-      if (blockPassesBar(block, topBar) && blockPassesBar(block, bottomBar)) {
-        block.scored = true;
-        score++;
-        if (score > highScore) {
-          highScore = score;
-          localStorage.setItem('gluttonHighScore', highScore);
-        }
-      }
+  // Save high score if necessary
+  if (score > highScore) {
+    highScore = score;
+    localStorage.setItem('gluttonHighScore', highScore);
+  }
+}
+
     }
 
     if (block.y > SCREEN_HEIGHT) blocks.splice(i, 1);
