@@ -20,9 +20,7 @@
     height: 100vh;
   }
   canvas { display: none; background: black; }
-  #menu {
-    text-align: center;
-  }
+  #menu { text-align: center; }
   button {
     display: block;
     margin: 10px auto;
@@ -32,7 +30,7 @@
     border: none;
     border-radius: 8px;
   }
-  #scoreboard { font-size: 28px; margin-bottom: 20px; }
+  #scoreboard { font-family: 'Press Start 2P', monospace; font-size: 20px; margin-bottom: 20px; }
 </style>
 </head>
 <body>
@@ -89,7 +87,7 @@ let barFlashColor = WHITE;
 // ---- MENU ----
 const menuDiv = document.getElementById('menu');
 const scoreboard = document.getElementById('scoreboard');
-scoreboard.innerText = "High Score: " + highScore;
+scoreboard.innerText = "HI: " + highScore;
 
 document.getElementById('hardBtn').onclick = () => startGame('hard');
 document.getElementById('harderBtn').onclick = () => startGame('harder');
@@ -235,7 +233,7 @@ function update(){
         if(block.y+block.height>BAR_Y && block.y<BAR_Y+BAR_HEIGHT){
             if(!blockPassesHole(block)){
                 state="game_over";
-                if(score>highScore){ highScore=score; localStorage.setItem('brakeDownHighScore',highScore); scoreboard.innerText="High Score: "+highScore;}
+                if(score>highScore){ highScore=score; localStorage.setItem('brakeDownHighScore',highScore); scoreboard.innerText="HI: "+highScore;}
                 break;
             }
         }
@@ -259,32 +257,29 @@ function draw(){
     // Draw blocks
     blocks.forEach(block=>block.draw());
 
-    // Draw score
-    ctx.fillStyle=WHITE; ctx.font="48px Arial"; ctx.textAlign="start";
-    ctx.fillText(score,30,100);
-    ctx.font="32px Arial";
-    ctx.fillText("High Score: "+highScore,30,140);
-    // Draw score using retro font and adjusted placement
+    // Draw score & high score using Press Start 2P
     ctx.fillStyle=WHITE;
-    ctx.font="28px 'Press Start 2P', monospace";
+    ctx.font="20px 'Press Start 2P', monospace";
     ctx.textAlign="start";
     ctx.fillText("Score: "+score,20,80);
-    ctx.fillText("High Score: "+highScore,20,120);
+    ctx.fillText("HI: "+highScore,20,110);
 
+    // Game Over screen
     if(state==="game_over"){
         ctx.fillStyle="rgba(0,0,0,0.55)";
         ctx.fillRect(0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
 
-        ctx.fillStyle="#FF5050"; ctx.font="48px Arial"; ctx.textAlign="center";
-        ctx.fillStyle="#FF5050"; ctx.font="48px 'Press Start 2P', monospace"; ctx.textAlign="center";
+        ctx.fillStyle="#FF5050"; 
+        ctx.font="28px 'Press Start 2P', monospace"; 
+        ctx.textAlign="center";
         ctx.fillText("GAME OVER",SCREEN_WIDTH/2,SCREEN_HEIGHT/2-40);
 
-        ctx.fillStyle=WHITE; ctx.font="32px Arial";
-        ctx.fillStyle=WHITE; ctx.font="32px 'Press Start 2P', monospace";
+        ctx.fillStyle=WHITE; 
+        ctx.font="20px 'Press Start 2P', monospace";
         ctx.fillText(score,SCREEN_WIDTH/2,SCREEN_HEIGHT/2);
 
-        ctx.font="24px Arial"; ctx.fillText("Tap / Click To Restart",SCREEN_WIDTH/2,SCREEN_HEIGHT/2+60);
-        ctx.font="24px 'Press Start 2P', monospace"; ctx.fillText("Tap / Click To Restart",SCREEN_WIDTH/2,SCREEN_HEIGHT/2+60);
+        ctx.font="16px 'Press Start 2P', monospace"; 
+        ctx.fillText("Tap / Click To Restart",SCREEN_WIDTH/2,SCREEN_HEIGHT/2+60);
     }
 }
 
