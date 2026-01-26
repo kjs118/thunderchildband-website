@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Brake Down - HTML5 Version</title>
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
   body {
     margin: 0;
     background: black;
@@ -38,7 +40,6 @@
   <div id="scoreboard"></div>
   <button id="hardBtn">Hard</button>
   <button id="harderBtn">Harder</button>
-  <button id="gluttonBtn">I'm a Glutton for Punishment</button>
 </div>
 
 <canvas id="gameCanvas" width="375" height="812"></canvas>
@@ -92,7 +93,6 @@ scoreboard.innerText = "High Score: " + highScore;
 
 document.getElementById('hardBtn').onclick = () => startGame('hard');
 document.getElementById('harderBtn').onclick = () => startGame('harder');
-document.getElementById('gluttonBtn').onclick = () => startGame('glutton');
 
 function startGame(level) {
     difficulty = level;
@@ -194,7 +194,6 @@ function getClosestBlockAboveBar(){
 
 function predictBarFlash() {
     const block = getClosestBlockAboveBar();
-    if (!block) return;
     if(!block) return;
 
     const blockLeft = block.x;
@@ -205,18 +204,9 @@ function predictBarFlash() {
 
     let safe = false;
 
-    if (holeRight <= SCREEN_WIDTH) {
-        // --- No wrap ---
     if(holeRight <= SCREEN_WIDTH) {
         safe = (blockLeft >= holeLeft && blockRight <= holeRight);
     } else {
-        // --- Wraparound ---
-        const rightSegmentFits =
-            blockLeft >= holeLeft && blockRight <= SCREEN_WIDTH;
-
-        const leftSegmentFits =
-            blockLeft >= 0 && blockRight <= (holeRight - SCREEN_WIDTH);
-
         const rightSegmentFits = blockLeft >= holeLeft && blockRight <= SCREEN_WIDTH;
         const leftSegmentFits = blockLeft >= 0 && blockRight <= (holeRight - SCREEN_WIDTH);
         safe = rightSegmentFits || leftSegmentFits;
@@ -224,12 +214,8 @@ function predictBarFlash() {
 
     barFlashColor = safe ? "#00FF00" : "#FF0000";
 
-    setTimeout(() => {
-        barFlashColor = WHITE;
-    }, 200);
     setTimeout(() => { barFlashColor = WHITE; }, 200);
 }
-
 
 // ---- UPDATE LOOP ----
 function update(){
@@ -273,24 +259,32 @@ function draw(){
     // Draw blocks
     blocks.forEach(block=>block.draw());
 
-    // Draw score slightly down/right
     // Draw score
     ctx.fillStyle=WHITE; ctx.font="48px Arial"; ctx.textAlign="start";
     ctx.fillText(score,30,100);
     ctx.font="32px Arial";
     ctx.fillText("High Score: "+highScore,30,140);
+    // Draw score using retro font and adjusted placement
+    ctx.fillStyle=WHITE;
+    ctx.font="28px 'Press Start 2P', monospace";
+    ctx.textAlign="start";
+    ctx.fillText("Score: "+score,20,80);
+    ctx.fillText("High Score: "+highScore,20,120);
 
     if(state==="game_over"){
         ctx.fillStyle="rgba(0,0,0,0.55)";
         ctx.fillRect(0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
 
         ctx.fillStyle="#FF5050"; ctx.font="48px Arial"; ctx.textAlign="center";
+        ctx.fillStyle="#FF5050"; ctx.font="48px 'Press Start 2P', monospace"; ctx.textAlign="center";
         ctx.fillText("GAME OVER",SCREEN_WIDTH/2,SCREEN_HEIGHT/2-40);
 
         ctx.fillStyle=WHITE; ctx.font="32px Arial";
+        ctx.fillStyle=WHITE; ctx.font="32px 'Press Start 2P', monospace";
         ctx.fillText(score,SCREEN_WIDTH/2,SCREEN_HEIGHT/2);
 
         ctx.font="24px Arial"; ctx.fillText("Tap / Click To Restart",SCREEN_WIDTH/2,SCREEN_HEIGHT/2+60);
+        ctx.font="24px 'Press Start 2P', monospace"; ctx.fillText("Tap / Click To Restart",SCREEN_WIDTH/2,SCREEN_HEIGHT/2+60);
     }
 }
 
