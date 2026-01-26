@@ -35,7 +35,7 @@
 
   #scoreboard {
     font-family: 'Press Start 2P', monospace;
-    font-size: 16px; /* match Glutton menu size */
+    font-size: 16px;
     margin-bottom: 20px;
   }
 </style>
@@ -94,8 +94,12 @@ let barFlashColor = WHITE;
 const menuDiv = document.getElementById('menu');
 const scoreboard = document.getElementById('scoreboard');
 
-window.onload = () => {
+function updateMenuScore() {
   scoreboard.innerText = "Hi: " + highScore;
+}
+
+window.onload = () => {
+  updateMenuScore();
   document.getElementById('hardBtn').onclick = () => startGame('hard');
   document.getElementById('harderBtn').onclick = () => startGame('harder');
 };
@@ -256,8 +260,8 @@ function update(){
                 if(score>highScore){ 
                     highScore=score; 
                     localStorage.setItem('brakeDownHighScore',highScore); 
-                    scoreboard.innerText="Hi: "+highScore;
                 }
+                updateMenuScore(); // update menu Hi
                 break;
             }
         }
@@ -293,18 +297,15 @@ function draw(){
         ctx.fillStyle="rgba(0,0,0,0.55)";
         ctx.fillRect(0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
 
-        // GAME OVER title - narrower like Glutton
         ctx.fillStyle="#FF5050"; 
         ctx.font="20px 'Press Start 2P', monospace";
         ctx.textAlign="center";
         ctx.fillText("GAME OVER", SCREEN_WIDTH/2, SCREEN_HEIGHT/2 - 25);
 
-        // Final score
         ctx.fillStyle=WHITE; 
         ctx.font="16px 'Press Start 2P', monospace";
         ctx.fillText(score, SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
 
-        // Restart instruction
         ctx.font="12px 'Press Start 2P', monospace"; 
         ctx.fillText("Tap / Click To Restart", SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + 40);
     }
