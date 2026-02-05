@@ -29,6 +29,24 @@ html {
   margin-top: -70px !important;
   padding-top: 70px !important;
   transition: none !important;
+   /* Base dark color */
+  background: #000000;
+  /* Subtle silver/white animated gradient overlay */
+  background-image: linear-gradient(
+    315deg,       /* diagonal tilt */
+    #000000,
+    rgba(255, 255, 255, 0.05),  /* very subtle white highlight */
+    #000000
+  );
+  background-size: 200% 200%;
+  background-repeat: no-repeat;
+
+  /* Continuous left-moving animation */
+  animation: rockWave 15s linear infinite;
+}
+@keyframes rockWave {
+  0% { background-position: 100% 100%; }
+  100% { background-position: 0% 0%; }
 }
 .header-content {
   display: flex;
