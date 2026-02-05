@@ -29,24 +29,24 @@ html {
   margin-top: -70px !important;
   padding-top: 70px !important;
   transition: none !important;
-   /* Base dark color */
-  background: #000000;
-  /* Subtle silver/white animated gradient overlay */
+    /* Base dark color with subtle animated gradient */
   background-image: linear-gradient(
-    120deg,       /* diagonal tilt */
-    #000, 0%;
-    rgba(255, 255, 255, 0.05) 50%,  /* very subtle white highlight */
-    #000, 0%;
+    120deg,                  /* slight tilt */
+    #000 0%,                  /* start black */
+    rgba(255, 255, 255, 0.05) 50%,  /* subtle white highlight */
+    #000 100%                 /* back to black */
   );
-  background-size: 200% 100%;
-  background-repeat: repeat-x;
 
-  /* Continuous left-moving animation */
+  background-size: 200% 100%;   /* wide gradient for smooth movement */
+  background-repeat: repeat-x;   /* repeat horizontally */
+
+  /* Continuous horizontal animation */
   animation: rockWave 15s linear infinite;
 }
+
 @keyframes rockWave {
-  0% { background-position: 0% 0%; }
-  100% { background-position: -100% 0%; }
+  0% { background-position: 0 0; }
+  100% { background-position: -100% 0; }
 }
 .header-content {
   display: flex;
