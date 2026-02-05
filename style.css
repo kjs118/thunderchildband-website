@@ -26,25 +26,7 @@ html {
   z-index: 2000;
   margin-top: -70px !important;
   padding-top: 70px !important;
-
-  /* Base dark color with subtle moving highlight */
   background: #000;
-  background-image: linear-gradient(
-    120deg,
-    #000 0%,
-    rgba(255, 255, 255, 0.12) 50%, /* stronger highlight so it's visible */
-    #000 100%
-  );
-  background-size: 200% 100%;
-  background-repeat: repeat-x;
-
-  /* Continuous horizontal animation */
-  animation: rockWave 15s linear infinite;
-}
-
-@keyframes rockWave {
-  0% { background-position: 0 0; }
-  100% { background-position: -100% 0; }
 }
 
 .header-content {
