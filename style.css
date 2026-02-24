@@ -571,24 +571,28 @@ footer { background:#000; padding:1em; font-size:.8em; }
 
 /* ===== THUNDER CHILD GALLERY ===== */
 
+/* ===== THUNDER CHILD MASONRY GALLERY ===== */
+
 .tc-gallery {
-  padding: 2rem 1rem 4rem;
   max-width: 1200px;
   margin: 0 auto;
+  padding: 2rem 1rem 4rem;
 }
 
 .tc-gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1.5rem;
+  column-count: 3;
+  column-gap: 1rem;
 }
 
 .tc-gallery-grid img {
   width: 100%;
-  height: auto;           /* 👈 keeps original ratio */
+  height: auto;
+  margin-bottom: 1rem;
 
-  border-radius: 8px;
+  border-radius: 6px;
   border: 2px solid #222;
+
+  break-inside: avoid; /* prevents splitting */
 
   transition: transform 0.25s ease, border-color 0.25s ease;
 }
@@ -596,6 +600,15 @@ footer { background:#000; padding:1em; font-size:.8em; }
 .tc-gallery-grid img:hover {
   transform: scale(1.02);
   border-color: #ff0000;
+}
+
+/* Responsive columns */
+@media (max-width: 900px) {
+  .tc-gallery-grid { column-count: 2; }
+}
+
+@media (max-width: 500px) {
+  .tc-gallery-grid { column-count: 1; }
 }
 
 
