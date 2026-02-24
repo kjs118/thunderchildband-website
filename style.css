@@ -422,6 +422,13 @@ footer { background:#000; padding:1em; font-size:.8em; }
   height: 100%;
   border: 0;
 }
+/* Shorts vertical override */
+.short-video {
+  aspect-ratio: 9 / 16;
+  width: 320px;      /* matches your video width */
+  max-width: 100%;
+}
+
 /* ==== SHOWS PAGE – RSVP BUTTON ==== */
 .shows-page .rsvp-btn {
   display: inline-block;
