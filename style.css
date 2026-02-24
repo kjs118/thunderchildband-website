@@ -497,6 +497,27 @@ footer { background:#000; padding:1em; font-size:.8em; }
   .archive-video iframe { width: 100% !important; height: auto !important; aspect-ratio: 16 / 9 !important; }
 }
 
+/* ===== SHORTS MOBILE FIX ===== */
+
+@media (max-width: 768px) {
+
+  .short-video {
+    width: 100% !important;
+    aspect-ratio: 9 / 16 !important;
+    max-width: 400px;
+    margin: 0 auto 1rem;
+  }
+
+  .short-video iframe {
+    width: 100% !important;
+    height: 100% !important;
+    aspect-ratio: 9 / 16 !important;
+  }
+
+}
+
+
+
 #contact {
   padding-top: 5rem;
 }
