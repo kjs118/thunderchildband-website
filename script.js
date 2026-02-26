@@ -28,3 +28,25 @@ function handleScroll() {
 window.addEventListener('scroll', handleScroll);
 window.addEventListener('resize', handleScroll);
 handleScroll();
+// ===== LIGHTBOX =====
+
+const lightbox = document.getElementById("lightbox");
+const lightboxImg = document.getElementById("lightbox-content");
+const closeBtn = document.getElementById("lightbox-close");
+
+document.querySelectorAll(".lightbox-img").forEach(img => {
+  img.addEventListener("click", () => {
+    lightbox.style.display = "flex";
+    lightboxImg.src = img.src;
+  });
+});
+
+closeBtn.addEventListener("click", () => {
+  lightbox.style.display = "none";
+});
+
+lightbox.addEventListener("click", (e) => {
+  if (e.target !== lightboxImg) {
+    lightbox.style.display = "none";
+  }
+});
