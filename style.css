@@ -237,13 +237,7 @@ html {
   body.scrolled .menu-btn .text { display: none !important; }
   body.scrolled .menu-btn .icon { font-size: 1.4rem !important; }
 
-  body.scrolled .mobile-nav {
-    position: fixed !important;
-    top: 70px !important;
-    left: 0 !important;
-    right: 0 !important;
-    z-index: 2999 !important;
-  }
+
 }
 
 
