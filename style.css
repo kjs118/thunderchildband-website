@@ -62,16 +62,7 @@ html {
 }
 .menu-btn .icon { font-size: 1.5rem; }
 
-/* ==== DESKTOP NAV ==== */
-/* ===== DESKTOP HEADER CLEAN (Abi-inspired) ===== */
-@media (min-width: 769px) {
-
-  .hero {
-    margin-top: 0 !important;
-    padding-top: 1.5rem !important;
-  }
-
- /* ==== DESKTOP ONLY ==== */
+/* ==== DESKTOP ONLY ==== */
 @media (min-width: 769px) {
 
   .menu-btn,
@@ -107,8 +98,6 @@ html {
     color: #ff0000;
   }
 
-}
-radius: 4px;
 }
 
 /* ==== SCROLL TARGET FIX ==== */
@@ -150,16 +139,7 @@ radius: 4px;
     text-decoration: none;
   }
 
-  .menu-btn {
-    display: flex !important;
-    width: 100% !important;
-    border-radius: 0 !important;
-  }
-
-  .desktop-nav {
-    display: none !important;
-  }
-
+ 
 }
 
 
