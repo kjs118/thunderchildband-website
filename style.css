@@ -63,15 +63,45 @@ html {
 .menu-btn .icon { font-size: 1.5rem; }
 
 /* ==== DESKTOP NAV ==== */
-.desktop-nav {
-  background: #000;
-  border-top: 1px solid #222;
-  border-bottom: 1px solid #222;
-  padding: 0.5rem 1rem;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
+/* ===== DESKTOP HEADER CLEAN (Abi-inspired) ===== */
+@media (min-width: 769px) {
+
+  .hero {
+    margin-top: 0 !important;
+    padding-top: 1.5rem !important;
+  }
+
+  .desktop-nav {
+    background: transparent;
+    border: none;
+    padding: 0;
+    position: static;
+  }
+
+  .desktop-nav ul {
+    justify-content: center;
+    gap: 2.5rem;
+  }
+
+  .desktop-nav a {
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 0.3rem 0;
+    border-radius: 0;
+  }
+
+  .desktop-nav a:hover {
+    background: none;
+    color: #ff0000;
+  }
+
+  .menu-btn {
+    display: none !important;
+  }
+
 }
+
 .desktop-nav ul {
   list-style: none;
   display: flex;
