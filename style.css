@@ -103,28 +103,44 @@ html {
   scroll-margin-top: 250px;
 }
 
-/* ==== MOBILE NAV ==== */
-.mobile-nav {
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  background: #000;
-  z-index: 9999;
-  border-bottom: 1px solid #222;
+/* ==== MOBILE NAV (FULLSCREEN) ==== */
+@media (max-width: 768px) {
+
+  .mobile-nav {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #000;
+    z-index: 5000;
+    padding-top: 90px; /* space for header */
+  }
+
+  .mobile-nav.open {
+    display: block !important;
+  }
+
+  .mobile-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+  }
+
+  .mobile-nav a {
+    display: block;
+    padding: 1.5rem 0;
+    font-size: 1.3rem;
+    color: #fff !important;
+    border-bottom: 1px solid #222;
+    text-decoration: none;
+  }
+
+  .mobile-nav a:hover {
+    background: #111;
+  }
+
 }
-.mobile-nav.open { display: block !important; }
-.mobile-nav ul { list-style: none; margin: 0; padding: 0; }
-.mobile-nav a {
-  display: block;
-  padding: 1rem;
-  color: #fff !important;
-  text-align: center;
-  border-bottom: 1px solid #222;
-  text-decoration: none;
-}
-.mobile-nav a:hover { background: #222; }
+
 
 /* ==== INDEX FEATURE IMAGE ==== */
 .index-feature-image {
