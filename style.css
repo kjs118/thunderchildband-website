@@ -141,6 +141,9 @@ html {
   }
 
 
+  /* other mobile styles you had here */
+  .menu-btn { display: flex !important; width: 100% !important; border-radius: 0 !important; }
+  .desktop-nav { display: none !important; }
 }
 
 
@@ -212,9 +215,6 @@ html {
 }
 
 
-  /* other mobile styles you had here */
-  .menu-btn { display: flex !important; width: 100% !important; border-radius: 0 !important; }
-  .desktop-nav { display: none !important; }
 
   .social-links { font-size: 0; }
   .social-links a { display: inline-block; font-size: 0; margin: 0 6px; }
