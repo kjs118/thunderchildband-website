@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Pro Workout Timer</title>
+<style>
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  background: #050505; color: white;
+  height: 100vh; display: flex; justify-content: center; align-items: center;
+}
+.phone {
+  width: 390px; height: 844px;
+  background: #0f0f12; border-radius: 44px;
+  overflow: hidden; position: relative;
+  display: flex; flex-direction: column;
+  padding-top: 80px; border: 1px solid #222;
+}
+h1 { text-align:center; margin:0 0 16px; font-size:26px; font-weight:700; color: #fff; }
+
+.timeline-wrapper {
+  width: 100%; overflow-x: auto; overflow-y: hidden;
+  -webkit-overflow-scrolling: touch; padding: 10px 20px;
+  height: 110px; scroll-padding: 0 20px;
+}
+#timeline { 
+  display: flex; align-items: center; gap: 12px;
+  min-width: 100%; justify-content: center;
+}
+#timeline.scrollable { justify-content: flex-start; }
+
+.block {
+  height: 70px; border-radius:18px; font-size:18px; font-weight:700;
+  display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.7); transition: transform 0.2s;
+}
+.block.active { border-color: #00ffa3; background: rgba(0,255,163,0.1); color: #00ffa3; transform: scale(1.05); }
+.block.completed { opacity: 0.1; filter: grayscale(1); }
+
+.add-row { padding:12px; text-align:center; }
+.add-btn {
+  width:64px; height:64px; border-radius:50%;
+  background: #6e41ff; border:none; font-size:32px; color: white;
+  cursor:pointer; display:inline-flex; align-items:center; justify-content:center;
+}
+
+#countdowns { text-align:center; margin-top:24px; }
+.timer-label { font-size:12px; font-weight:600; text-transform: uppercase; color: #666; margin-bottom:4px; }
+.timer-value { font-size:54px; font-weight:700; margin-bottom: 8px; font-variant-numeric: tabular-nums; }
+#intervalTime { color: #00ffa3; }
+#activeExerciseLabel { font-size: 22px; font-weight: 600; color: #fff; height: 32px; margin-top: 8px; letter-spacing: 0.5px; }
+
+#playBtn {
+  position:absolute; bottom:60px; left:50%; transform:translateX(-50%);
+  width:88px; height:88px; border-radius:50%; border:none;
+  background: #fff; color: #000; font-size:32px; 
+  cursor:pointer; display: flex; align-items: center; justify-content: center;
+}
+#playBtn span { padding-left: 4px; }
+
+#saveLoadWrapper { position:absolute; bottom:170px; left:50%; transform:translateX(-50%); gap:15px; display:flex; }
+.text-btn { 
+    padding: 12px 24px; border-radius: 30px; border:none; font-size:14px; 
+    font-weight: 700; text-transform: uppercase; color:white; cursor:pointer; 
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1);
+}
+
+#pickerModal, #loadModal {
+  position:absolute; inset:0; display:none; background: rgba(0,0,0,0.85); 
+  z-index:1000; flex-direction:column; justify-content:flex-end; backdrop-filter: blur(10px);
+}
+.picker-content, .load-content {
+  background:#1a1a1e; border-top-left-radius:32px; border-top-right-radius:32px;
+  padding:24px 20px 44px; border-top: 1px solid #333;
+}
+#wheelWrapper { position:relative; height:220px; overflow:hidden; }
+#wheel { height:220px; overflow-y:scroll; scroll-snap-type:y mandatory; -webkit-overflow-scrolling: touch; }
+.wheel-item { height:55px; display:flex; align-items:center; justify-content:center; font-size:28px; font-weight:600; scroll-snap-align:center; color:#444; transition: 0.2s; }
+.selector { position:absolute; top:82.5px; left:0; right:0; height:55px; border-top:1px solid #444; border-bottom:1px solid #444; pointer-events:none; }
+
+.input-section { margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.05); }
+.label-input {
+    width: 100%; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px;
+    padding: 18px; color: white; font-size: 16px; outline: none; text-align: center; transition: border-color 0.2s;
+}
+.label-input:focus { border-color: #6e41ff; background: rgba(110, 65, 255, 0.05); }
+.label-input::placeholder { color: #555; }
+
+.circle-btn { width:54px; height:54px; border-radius:50%; border:none; font-size:22px; color:white; cursor:pointer; display: flex; align-items:center; justify-content: center; background: rgba(255,255,255,0.08); }
+.load-item-container { display: flex; align-items: center; gap: 10px; margin: 8px 0; }
+.load-item { flex-grow: 1; padding: 16px; background: rgba(255,255,255,0.05); border-radius: 16px; cursor: pointer; }
+.load-delete-btn { background: rgba(255,69,58,0.1); color: #ff453a; width: 50px; height: 50px; border-radius: 16px; border: none; }
+</style>
+</head>
+<body>
+
+<div class="phone">
+  <h1 id="routineHeader">My Workout</h1>
+  <div class="timeline-wrapper" id="wrapper"><div id="timeline"></div></div>
+  <div class="add-row"><div class="add-btn" onclick="openPicker(null)">+</div></div>
+  
+  <div id="countdowns">
+    <div class="timer-label">Total Progress</div>
+    <div id="totalTime" class="timer-value">00:00</div>
+    <div class="timer-label">Current Interval</div>
+    <div id="intervalTime" class="timer-value">00:00</div>
+    <div id="activeExerciseLabel"></div>
+  </div>
+
+  <div id="saveLoadWrapper">
+    <button class="text-btn" onclick="saveRoutine()">Save</button>
+    <button class="text-btn" onclick="openLoadModal()">Load</button>
+  </div>
+
+  <button id="playBtn" onclick="togglePlay()"><span>▶</span></button>
+
+  <div id="pickerModal">
+    <div class="picker-content">
+      <div id="wheelWrapper"><div id="wheel"></div><div class="selector"></div></div>
+      <div class="input-section"><input type="text" id="exerciseLabelInput" class="label-input" placeholder="Exercise Name (optional)"></div>
+      <div style="display:flex; justify-content:space-around; margin-top:28px;">
+        <button class="circle-btn" id="deleteBtn" onclick="deleteBlock()">🗑</button>
+        <button class="circle-btn" style="color:#ff453a" onclick="closePicker()">✕</button>
+        <button class="circle-btn" style="color:#00ffa3" onclick="confirmPicker()">✓</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="loadModal">
+    <div class="load-content">
+      <h2 style="text-align:center; font-size:18px; margin-bottom:15px; color: #6e41ff;">Routines</h2>
+      <div id="loadList"></div>
+      <div style="display:flex; justify-content:center; margin-top:28px;"><button class="circle-btn" style="color:#ff453a" onclick="closeLoadModal()">✕</button></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const intervals=[], labels=[];
+let editingIndex=null, timer=null, currentIndex=0, isPlaying=false;
+let intervalRemaining=0, totalRemaining=0;
+const timeline=document.getElementById("timeline"), wheel=document.getElementById("wheel");
+
+const ITEM_HEIGHT=55, PADDING_ITEMS=3, SELECTOR_CENTER=110;
+
+function playBrightRing(isFinal) {
+  const ctx = new (window.AudioContext || window.webkitAudioContext)();
+  function createRing(startTime, freq, duration) {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(freq, startTime);
+    gain.gain.setValueAtTime(0.3, startTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.start(startTime); osc.stop(startTime + duration);
+  }
+  if (!isFinal) { createRing(ctx.currentTime, 1200, 0.6); } 
+  else { createRing(ctx.currentTime, 800, 1.2); createRing(ctx.currentTime + 0.05, 1000, 1.0); }
+}
+
+function populateWheel(){
+  wheel.innerHTML="";
+  for(let i=0;i<PADDING_ITEMS;i++){wheel.appendChild(Object.assign(document.createElement("div"),{className:"wheel-item"}));}
+  for(let s=5;s<=3600;s+=5){ 
+    let d=document.createElement("div"); d.className="wheel-item"; d.textContent=`${s}s`; d.dataset.value=s; wheel.appendChild(d);
+  }
+  for(let i=0;i<PADDING_ITEMS;i++){wheel.appendChild(Object.assign(document.createElement("div"),{className:"wheel-item"}));}
+}
+
+function setWheelToIndex(idx){ wheel.scrollTop = idx*ITEM_HEIGHT+ITEM_HEIGHT/2-SELECTOR_CENTER; snapToNearest(); }
+
+function snapToNearest(){ 
+  const center=wheel.scrollTop+SELECTOR_CENTER; 
+  let idx=Math.floor(center/ITEM_HEIGHT); 
+  idx=Math.max(PADDING_ITEMS,Math.min(idx,wheel.children.length-1-PADDING_ITEMS)); 
+  wheel.scrollTo({top:idx*ITEM_HEIGHT+ITEM_HEIGHT/2-SELECTOR_CENTER,behavior:'smooth'}); 
+}
+
+wheel.onscroll=()=>{clearTimeout(wheel.snapTimer); wheel.snapTimer=setTimeout(snapToNearest,50);};
+
+function openPicker(index=null){
+  if(isPlaying) return; 
+  editingIndex=index;
+  document.getElementById("pickerModal").style.display="flex";
+  const startVal=index!==null?intervals[index]:5;
+  document.getElementById("exerciseLabelInput").value = index!==null?labels[index]:"";
+  setWheelToIndex((startVal/5)-1+PADDING_ITEMS);
+  document.getElementById("deleteBtn").style.display=index!==null?"flex":"none";
+}
+
+function closePicker(){ document.getElementById("pickerModal").style.display="none"; }
+
+function confirmPicker(){
+  const center=wheel.scrollTop+SELECTOR_CENTER;
+  const realIdx=Math.floor(center/ITEM_HEIGHT)-PADDING_ITEMS;
+  const val=Math.max(5,realIdx*5+5); 
+  const labelText = document.getElementById("exerciseLabelInput").value;
+  if(editingIndex===null){ intervals.push(val); labels.push(labelText); }
+  else{ intervals[editingIndex]=val; labels[editingIndex]=labelText; }
+  renderTimeline(); closePicker();
+}
+
+function deleteBlock(){ if(editingIndex!==null){intervals.splice(editingIndex,1); labels.splice(editingIndex,1); renderTimeline(); closePicker();} }
+
+function renderTimeline(){
+  timeline.innerHTML="";
+  const wrapper=document.getElementById("wrapper");
+  const blockWidth=((wrapper.offsetWidth-40)-(3*12))/4;
+  intervals.forEach((sec,i)=>{
+    const el=document.createElement("div"); el.className="block"; el.textContent=`${sec}s`;
+    el.style.width=`${blockWidth}px`; el.onclick=()=>openPicker(i);
+    timeline.appendChild(el);
+  });
+  if(intervals.length>4){ timeline.classList.add("scrollable"); setTimeout(()=>wrapper.scrollTo({left:wrapper.scrollWidth,behavior:'smooth'}), 50); } 
+  else { timeline.classList.remove("scrollable"); }
+  updateTotals();
+}
+
+function updateTotals(){
+  const total=intervals.reduce((a,b)=>a+b,0);
+  document.getElementById("totalTime").innerText=formatTime(total);
+  if(!isPlaying) { document.getElementById("intervalTime").innerText="00:00"; document.getElementById("activeExerciseLabel").innerText=""; }
+}
+
+function formatTime(s){ const m=Math.floor(s/60); return `${m.toString().padStart(2,"0")}:${(s%60).toString().padStart(2,"0")}`;}
+
+function togglePlay(){
+  if(!intervals.length) return;
+  const btn=document.getElementById("playBtn");
+  if(isPlaying){ clearInterval(timer); isPlaying=false; btn.innerHTML="<span>▶</span>"; }
+  else { 
+    isPlaying=true; btn.innerHTML="<span>⏸</span>"; 
+    if(!timer){
+        currentIndex=0; 
+        intervalRemaining=intervals[0]; 
+        totalRemaining=intervals.reduce((a,b)=>a+b,0);
+        document.getElementById("intervalTime").innerText=formatTime(intervalRemaining);
+        document.getElementById("totalTime").innerText=formatTime(totalRemaining);
+        playBrightRing(false);
+    } 
+    runTimer(); 
+  }
+}
+
+function runTimer(){
+  updateUI();
+  timer=setInterval(()=>{
+    intervalRemaining--; totalRemaining--;
+    document.getElementById("totalTime").innerText=formatTime(totalRemaining);
+    document.getElementById("intervalTime").innerText=formatTime(intervalRemaining);
+    if(intervalRemaining<=0){
+      currentIndex++;
+      if(currentIndex<intervals.length){ 
+        intervalRemaining=intervals[currentIndex]; 
+        document.getElementById("intervalTime").innerText=formatTime(intervalRemaining);
+        playBrightRing(false); 
+        updateUI(); 
+      }
+      else { resetSystem(); playBrightRing(true); }
+    }
+  },1000);
+}
+
+function updateUI(){
+  const blocks=timeline.querySelectorAll(".block");
+  blocks.forEach((b,i)=>{ b.classList.toggle("active",i===currentIndex); b.classList.toggle("completed",i<currentIndex); });
+  const active=blocks[currentIndex]; 
+  if(active) active.scrollIntoView({behavior:'smooth',inline:'start'});
+  document.getElementById("activeExerciseLabel").innerText = labels[currentIndex] || "";
+}
+
+function saveRoutine(){
+  const name=prompt("Name this routine:"); if(!name) return;
+  const saved=JSON.parse(localStorage.getItem('routines')||'{}');
+  saved[name] = { intervals: [...intervals], labels: [...labels] };
+  localStorage.setItem('routines', JSON.stringify(saved));
+  document.getElementById("routineHeader").innerText = name; // Update header immediately on save
+}
+
+function openLoadModal(){
+  const saved=JSON.parse(localStorage.getItem('routines')||'{}');
+  const list=document.getElementById("loadList"); list.innerHTML="";
+  const clearBtn=document.createElement("div"); clearBtn.className="load-item"; clearBtn.style.color="#6e41ff"; clearBtn.textContent="+ New Session";
+  clearBtn.onclick=()=>{
+      intervals.length=0; labels.length=0; 
+      document.getElementById("routineHeader").innerText = "My Workout"; // Reset header
+      renderTimeline(); closeLoadModal(); resetSystem();
+  };
+  list.appendChild(clearBtn);
+  Object.keys(saved).forEach(k=>{
+    const row=document.createElement("div"); row.className="load-item-container";
+    const item=document.createElement("div"); item.className="load-item"; item.textContent=k;
+    item.onclick=()=>{
+        const data = saved[k];
+        document.getElementById("routineHeader").innerText = k; // Set header to routine name
+        if (Array.isArray(data)) { intervals.length=0; labels.length=0; data.forEach(v=>{intervals.push(v); labels.push("");}); }
+        else { intervals.length=0; labels.length=0; data.intervals.forEach(v=>intervals.push(v)); data.labels.forEach(l=>labels.push(l)); }
+        renderTimeline(); closeLoadModal(); resetSystem();
+    };
+    const del=document.createElement("button"); del.className="load-delete-btn"; del.textContent="✕";
+    del.onclick=(e)=>{e.stopPropagation(); delete saved[k]; localStorage.setItem('routines',JSON.stringify(saved)); openLoadModal();};
+    row.append(item,del); list.appendChild(row);
+  });
+  document.getElementById("loadModal").style.display="flex";
+}
+
+function closeLoadModal(){document.getElementById("loadModal").style.display="none";}
+
+function resetSystem(){
+    clearInterval(timer); timer=null; isPlaying=false; currentIndex=0;
+    document.getElementById("playBtn").innerHTML="<span>▶</span>";
+    document.getElementById("activeExerciseLabel").innerText = "";
+    updateTotals();
+}
+
+populateWheel(); renderTimeline();
+</script>
+</body>
+</html>
