@@ -1,150 +1,395 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Thunder Child – Shows</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto+Slab&display=swap" rel="stylesheet">
+  <title>Thunder Child — Shows</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    .shows-list { display: flex; flex-direction: column; gap: 3px; }
 
- 
-   <!-- Favicon -->
-<link rel="icon" href="images/favicon/favicon.ico" type="image/x-icon">
-<link rel="icon" href="images/favicon/favicon-32x32.png" type="image/png" sizes="32x32">
-<link rel="apple-touch-icon" href="images/favicon/apple-touch-icon.png" sizes="180x180">
-<!-- Optional: for Android/Chrome high-res -->
-<link rel="icon" href="images/favicon/android-chrome-192x192.png" type="image/png" sizes="192x192">
+    .show-card {
+      background: var(--charcoal);
+      border: 1px solid var(--border);
+      border-left: 3px solid transparent;
+    }
+    .show-card:not(.past):hover { border-left-color: var(--gold-dk); }
+    .show-card.open { border-left-color: var(--gold); background: var(--deep); }
+
+    /* Header row — always visible, clickable */
+    .show-card-header {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      padding: 1.5rem 2rem;
+      cursor: pointer;
+      user-select: none;
+    }
+    .show-card.past .show-card-header { cursor: default; }
+
+    .show-date-block {
+      text-align: center;
+      flex-shrink: 0;
+      width: 70px;
+    }
+    .show-day {
+      font-family: var(--font-display);
+      font-size: 2.8rem; line-height: 1; color: var(--gold);
+    }
+    .show-month-year {
+      font-family: var(--font-mono); font-size: 0.58rem;
+      letter-spacing: 0.14em; text-transform: uppercase; color: var(--dim);
+    }
+
+    .show-divider {
+      width: 1px; height: 48px;
+      background: var(--border); flex-shrink: 0;
+    }
+
+    .show-info-col { flex: 1; min-width: 0; }
+    .show-venue {
+      font-family: var(--font-display);
+      font-size: 1.8rem; letter-spacing: 0.05em;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .show-location {
+      font-size: 0.88rem; color: var(--dim); font-style: italic;
+    }
+
+    .show-toggle-icon {
+      width: 30px; height: 30px; flex-shrink: 0;
+      border: 1px solid var(--border); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--dim); margin-left: auto;
+      transition: transform 0.3s ease, border-color 0.3s, color 0.3s;
+    }
+    .show-card.past .show-toggle-icon { visibility: hidden; }
+    .show-card.open .show-toggle-icon {
+      transform: rotate(180deg);
+      border-color: var(--gold); color: var(--gold);
+    }
+
+    /* Panel — hidden by default */
+    .show-panel { display: none; }
+    .show-card.open .show-panel { display: block; }
+
+    .show-panel-inner {
+      border-top: 1px solid var(--border);
+      padding: 2rem;
+      display: flex;
+      gap: 2.5rem;
+      align-items: flex-start;
+    }
+
+    .show-panel-flyer {
+      flex-shrink: 0; width: 160px;
+    }
+    .show-panel-flyer img {
+      width: 100%; display: block;
+      border: 1px solid var(--border); padding: 6px;
+      background: var(--charcoal);
+    }
+
+    .show-panel-details { flex: 1; }
+    .show-detail-row {
+      display: flex; gap: 1rem; margin-bottom: 0.7rem; align-items: baseline;
+    }
+    .show-detail-label {
+      font-family: var(--font-mono); font-size: 0.58rem;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--gold); white-space: nowrap; min-width: 55px; flex-shrink: 0;
+    }
+    .show-detail-value { font-size: 0.95rem; color: var(--white); }
+
+    .show-panel-actions {
+      flex-shrink: 0;
+      display: flex; flex-direction: column; gap: 0.75rem; align-items: flex-start;
+    }
+    .btn-rsvp {
+      display: inline-block;
+      font-family: var(--font-mono); font-size: 0.68rem;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      padding: 0.75rem 1.5rem;
+      background: var(--gold); color: var(--black);
+      border: 1px solid var(--gold); border-radius: 2px;
+      font-weight: 700; white-space: nowrap;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-rsvp:hover { background: var(--gold-lt); transform: translateY(-2px); }
+    .btn-directions {
+      font-family: var(--font-mono); font-size: 0.62rem;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--dim); text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    .btn-directions:hover { color: var(--gold); }
+
+    /* Past */
+    .past-shows-divider {
+      display: flex; align-items: center; gap: 1.5rem; margin: 3rem 0 1.5rem;
+    }
+    .past-shows-divider span {
+      font-family: var(--font-mono); font-size: 0.65rem;
+      letter-spacing: 0.2em; text-transform: uppercase; color: var(--dim); white-space: nowrap;
+    }
+    .past-shows-divider::before, .past-shows-divider::after {
+      content: ''; flex: 1; height: 1px; background: var(--border);
+    }
+    .show-card.past { opacity: 0.5; }
+
+    @media (max-width: 600px) {
+      .show-card-header { gap: 1rem; padding: 1.2rem; }
+      .show-venue { font-size: 1.3rem; }
+      .show-panel-inner { flex-direction: column; gap: 1.5rem; }
+      .show-panel-flyer { width: 120px; }
+    }
+  </style>
 </head>
-<body class="shows-page">
+<body>
 
-<header class="hero">
-  <div class="header-content">
-    <a href="index.html">
-    <img src="images/thunderchild2.png" alt="Thunder Child Band" class="logo">
-  </a>
-    <button class="menu-btn" aria-label="Open menu">
-      <span class="icon">☰</span>
-      <span class="text">Menu</span>
-    </button>
-  </div>
-  <nav class="mobile-nav">
-    <ul>
+  <div class="announcement-bar" id="announcement-bar"></div>
+
+  <nav class="site-nav" role="navigation">
+    <a href="index.html" class="nav-logo">
+      <img src="images/tc-new.svg" alt="Thunder Child logo">
+      <span class="nav-logo-text">THUNDER<span>CHILD</span></span>
+    </a>
+    <ul class="nav-links" role="list">
       <li><a href="shows.html">Shows</a></li>
       <li><a href="about.html">About</a></li>
-      <li><a href="contact.html">Contact</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
       <li><a href="archive.html">Archive</a></li>
-       <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="contact.html" class="cta-link">Contact</a></li>
     </ul>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
   </nav>
-</header>
+  <nav class="nav-mobile" id="nav-mobile">
+    <a href="shows.html">Shows</a>
+    <a href="about.html">About</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="archive.html">Archive</a>
+    <a href="contact.html">Contact</a>
+  </nav>
 
-<nav class="desktop-nav">
-  <ul>
-    <li><a href="shows.html">Shows</a></li>
-    <li><a href="about.html">About</a></li>
-    <li><a href="contact.html">Contact</a></li>
-    <li><a href="archive.html">Archive</a></li>
-     <li><a href="gallery.html">Gallery</a></li>
-  </ul>
-</nav>
-  
-<!-- ====== BAND IMAGE ====== 
-  <div class="about-band-image">
-    <img src="images/thunderchildlive.jpeg" alt="Thunder Child Band">
-  </div>
--->
-
-<main class="page-content archive-container">
-
- <!-- <div class="archive-show">
-    <div class="show-flyer">
-      <img src="images/frozensun221.jpg" alt="Frozen Sun Flyer">
-      <!-- remove img entirely if no flyer -->
-    </div>  
-   <!-- <div class="archive-details">
-      <h2>February 21, 2026</h2>
-      <p>Frozen Sun – Maurice, LA</p>
-       <a
-    href="https://www.facebook.com/share/1C8M51TxtJ/"
-    target="_blank"
-    class="rsvp-btn"
-  >
-    RSVP on Facebook
-  </a>
+  <header class="page-header">
+    <div class="page-header-inner">
+      <p class="page-header-subtitle">Live Performances</p>
+      <h1 class="page-header-title">SHOWS</h1>
     </div>
-  </div>-->   
+  </header>
 
+  <main>
+    <div class="section">
 
- <div class="archive-show">
-      <div class="show-flyer">
-      <img src="images/glorias.jpg" alt="Gloria's Logo">
-  <!--  <div class="show-flyer empty">-->
-    </div>
-    <div class="archive-details">
-      <h2>July 18, 2026</h2>
-      <p>Gloria's – Lafayette, LA</p>
-    </div>
-  </div> 
-  
- <div class="archive-show">
-      <div class="show-flyer">
-      <img src="images/legendspub.png" alt="Legends Flyer">
-  <!--  <div class="show-flyer empty">-->
-    </div>
-    <div class="archive-details">
-      <h2>August 29, 2026</h2>
-      <p>Legends Pub – Lafayette, LA</p>
-    </div>
-  </div>
+      <p class="section-subtitle">On the Horizon</p>
+      <h2 class="section-title">Upcoming <span>Shows</span></h2>
+      <span class="section-line"></span>
 
-  <div class="archive-show">
-      <div class="show-flyer">
-     <img src="images/19thhole.png" alt="Legends Flyer">
-  <!--  <div class="show-flyer empty">-->
-    </div>
-    <div class="archive-details">
-      <h2>November 13, 2026</h2>
-      <p>19th Hole Grill & Bar - Houston, TX</p>
-    </div>
-  </div>
-  
-</main><!-- CLOSE MAIN -->
+      <div class="shows-list">
 
-<!-- ====== CONTACT ====== -->
-<section id="contact" class="section">
-  <h2>Contact & Booking</h2>
-  <div class="social-links">
-    <!-- Instagram -->
-    <a href="https://instagram.com/thunderchildband" target="_blank">
-      <svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="24" cy="24" r="23" fill="white"/>
-        <circle cx="24" cy="24" r="20" fill="black"/>
-        <rect x="16" y="16" width="16" height="16" rx="4.5" stroke="white" stroke-width="2" fill="none"/>
-        <circle cx="24" cy="24" r="4.5" stroke="white" stroke-width="2" fill="none"/>
-        <circle cx="29" cy="19" r="1.8" fill="white"/>
-      </svg>
-    </a>
-    <!-- Facebook -->
-    <a href="https://facebook.com/thunderchildbandLA" target="_blank">
-      <svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="24" cy="24" r="23" fill="white"/>
-        <circle cx="24" cy="24" r="20" fill="black"/>
-        <path d="M25.2 17h3.2v-3.2h-3.2c-2.7 0-4.8 2.1-4.8 4.8v3.2H17v3.2h3.4v8.8h3.4v-8.8h3l0.8-3.2h-3.8v-3.2c0-0.9 0.7-1.6 1.6-1.6z" fill="white"/>
-      </svg>
-    </a>
-    <!-- Email -->
-    <a href="mailto:contact@thunderchildband.com" target="_blank">
-      <svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="24" cy="24" r="23" fill="white"/>
-        <circle cx="24" cy="24" r="20" fill="black"/>
-        <rect x="15" y="17" width="18" height="14" rx="2" stroke="white" stroke-width="2" fill="none"/>
-        <polyline points="15,17 24,26 33,17" fill="none" stroke="white" stroke-width="2"/>
-      </svg>
-    </a>
-  </div>
-</section>
-<footer>
-  <p>© <span id="year"></span> Thunder Child Band – All Rights Reserved</p>
-</footer>
+        <!-- Jul 18 -->
+        <div class="show-card">
+          <div class="show-card-header" onclick="toggleShow(this)">
+            <div class="show-date-block">
+              <div class="show-day">18</div>
+              <div class="show-month-year">Jul 2026</div>
+            </div>
+            <div class="show-divider"></div>
+            <div class="show-info-col">
+              <div class="show-venue">Gloria's</div>
+              <div class="show-location">Lafayette, Louisiana</div>
+            </div>
+            <div class="show-toggle-icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+          </div>
+          <div class="show-panel">
+            <div class="show-panel-inner">
+              <div class="show-panel-flyer">
+                <img src="https://www.thunderchildband.com/images/glorias.jpg" alt="Gloria's">
+              </div>
+              <div class="show-panel-details">
+                <div class="show-detail-row"><span class="show-detail-label">Address</span><span class="show-detail-value">106 Merchants Blvd, Lafayette, LA 70508</span></div>
+                <div class="show-detail-row"><span class="show-detail-label">Date</span><span class="show-detail-value">Saturday, July 18, 2026</span></div>
+                <div class="show-detail-row"><span class="show-detail-label">Time</span><span class="show-detail-value">9:00 PM</span></div>
+                <div class="show-detail-row"><span class="show-detail-label">Cover</span><span class="show-detail-value">No cover</span></div>
+              </div>
+              <div class="show-panel-actions">
+                <a href="https://www.facebook.com/share/183hf3w7bc/" class="btn-rsvp" target="_blank" rel="noopener">RSVP on Facebook</a>
+                <a href="https://maps.google.com/?q=Gloria's+Lounge,+106+Merchants+Blvd,+Lafayette,+LA+70508/" class="btn-directions" target="_blank" rel="noopener">Get Directions →</a>
+              </div>
+            </div>
+          </div>
+        </div>
 
-<script src="script.js"></script>
+        <!-- Aug 29 -->
+        <div class="show-card">
+          <div class="show-card-header" onclick="toggleShow(this)">
+            <div class="show-date-block">
+              <div class="show-day">29</div>
+              <div class="show-month-year">Aug 2026</div>
+            </div>
+            <div class="show-divider"></div>
+            <div class="show-info-col">
+              <div class="show-venue">Legends Pub</div>
+              <div class="show-location">Lafayette, Louisiana</div>
+            </div>
+            <div class="show-toggle-icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+          </div>
+          <div class="show-panel">
+            <div class="show-panel-inner">
+              <div class="show-panel-flyer">
+                <img src="https://www.thunderchildband.com/images/legendspub.png" alt="Legends Pub">
+              </div>
+              <div class="show-panel-details">
+                <div class="show-detail-row"><span class="show-detail-label">Address</span><span class="show-detail-value">104 Republic Ave, Lafayette, LA 70508</span></div>
+                <div class="show-detail-row"><span class="show-detail-label">Date</span><span class="show-detail-value">Saturday, August 29, 2026</span></div>
+                <div class="show-detail-row"><span class="show-detail-label">Time</span><span class="show-detail-value">9:00 PM</span></div>
+                <div class="show-detail-row"><span class="show-detail-label">Cover</span><span class="show-detail-value">$5</span></div>
+              </div>
+              <div class="show-panel-actions">
+              <!--   <a href="#" class="btn-rsvp" target="_blank" rel="noopener">RSVP on Facebook</a> -->
+                <a href="https://maps.google.com/?q=Legends+Pub,+104+Republic+Ave,+Lafayette,+LA+70508" class="btn-directions" target="_blank" rel="noopener">Get Directions →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Nov 13 -->
+        <div class="show-card">
+          <div class="show-card-header" onclick="toggleShow(this)">
+            <div class="show-date-block">
+              <div class="show-day">13</div>
+              <div class="show-month-year">Nov 2026</div>
+            </div>
+            <div class="show-divider"></div>
+            <div class="show-info-col">
+              <div class="show-venue">19th Hole Grill &amp; Bar</div>
+              <div class="show-location">Spring, Texas</div>
+            </div>
+            <div class="show-toggle-icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+          </div>
+          <div class="show-panel">
+            <div class="show-panel-inner">
+              <div class="show-panel-flyer">
+                <img src="https://www.thunderchildband.com/images/19thhole.png" alt="19th Hole">
+              </div>
+              <div class="show-panel-details">
+                <div class="show-detail-row"><span class="show-detail-label">Address</span><span class="show-detail-value">202 Sawdust Rd # 118, Spring, TX 77380</span></div>
+                <div class="show-detail-row"><span class="show-detail-label">Date</span><span class="show-detail-value">Friday, November 13, 2026</span></div>
+                <div class="show-detail-row"><span class="show-detail-label">Time</span><span class="show-detail-value">TBA</span></div>
+                <div class="show-detail-row"><span class="show-detail-label">Cover</span><span class="show-detail-value">TBA</span></div>
+              </div>
+              <div class="show-panel-actions">
+             <!--   <a href="#" class="btn-rsvp" target="_blank" rel="noopener">RSVP on Facebook</a> -->
+                <a href="https://maps.google.com/?q=19th+Hole+Grill+%26+Bar,+202+Sawdust+Rd+%23+118,+Spring,+TX+77380" class="btn-directions" target="_blank" rel="noopener">Get Directions →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="past-shows-divider"><span>Past Shows</span></div>
+
+      <div class="shows-list">
+        <div class="show-card past">
+          <div class="show-card-header">
+            <div class="show-date-block"><div class="show-day">02</div><div class="show-month-year">May 2026</div></div>
+            <div class="show-divider"></div>
+            <div class="show-info-col"><div class="show-venue">Legends Pub</div><div class="show-location">Lafayette, Louisiana</div></div>
+            <div class="show-toggle-icon"></div>
+          </div>
+        </div>
+        <div class="show-card past">
+          <div class="show-card-header">
+            <div class="show-date-block"><div class="show-day">21</div><div class="show-month-year">Feb 2026</div></div>
+            <div class="show-divider"></div>
+            <div class="show-info-col"><div class="show-venue">Frozen Sun</div><div class="show-location">Maurice, Louisiana</div></div>
+            <div class="show-toggle-icon"></div>
+          </div>
+        </div>
+        <div class="show-card past">
+          <div class="show-card-header">
+            <div class="show-date-block"><div class="show-day">17</div><div class="show-month-year">Jan 2026</div></div>
+            <div class="show-divider"></div>
+            <div class="show-info-col"><div class="show-venue">Gloria's</div><div class="show-location">Lafayette, Louisiana</div></div>
+            <div class="show-toggle-icon"></div>
+          </div>
+        </div>
+        <div class="show-card past">
+          <div class="show-card-header">
+            <div class="show-date-block"><div class="show-day">07</div><div class="show-month-year">Nov 2025</div></div>
+            <div class="show-divider"></div>
+            <div class="show-info-col"><div class="show-venue">Legends Pub</div><div class="show-location">Lafayette, Louisiana</div></div>
+            <div class="show-toggle-icon"></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:5rem;text-align:center;padding:4rem 2rem;background:var(--charcoal);border:1px solid var(--border);">
+        <p class="section-subtitle">Private Events &amp; Bookings</p>
+        <h2 class="section-title" style="margin-bottom:1rem;">Want Thunder Child <span>at your event?</span></h2>
+        <p style="color:var(--dim);max-width:500px;margin:0 auto 2rem;font-size:1.05rem;">We play private parties, corporate events, weddings, and festivals.</p>
+        <a href="contact.html" class="btn btn-gold">Get in Touch</a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <img src="images/tc-new.svg" alt="Thunder Child" class="footer-brand-logo">
+        
+      </div>
+      <div>
+        <h4 class="footer-col-title">Navigate</h4>
+        <ul class="footer-links">
+          <li><a href="shows.html">Shows</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="archive.html">Archive</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer-col-title">Contact</h4>
+        <ul class="footer-links">
+          <li><a href="mailto:contact@thunderchildband.com">contact@thunderchildband.com</a></li>
+          <li><a href="https://instagram.com/thunderchildband" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="https://facebook.com/thunderchildbandLA" target="_blank" rel="noopener">Facebook</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Thunder Child Band · Lafayette, Louisiana · All Rights Reserved</span>
+      <span>Rock Cover Band</span>
+    </div>
+  </footer>
+
+  <script src="shows-data.js"></script>
+  <script src="nav.js"></script>
+  <script>
+    function toggleShow(header) {
+      var panel = header.nextElementSibling;
+      var chevron = header.querySelector('.show-toggle-icon');
+      var isOpen = panel.style.display === 'block';
+      // Close all panels
+      document.querySelectorAll('.show-panel').forEach(function(p) { p.style.display = 'none'; });
+      document.querySelectorAll('.show-toggle-icon').forEach(function(i) { i.style.transform = ''; i.style.borderColor = ''; i.style.color = ''; });
+      // Open this one if it was closed
+      if (!isOpen) {
+        panel.style.display = 'block';
+        chevron.style.transform = 'rotate(180deg)';
+        chevron.style.borderColor = '#c4738a';
+        chevron.style.color = '#c4738a';
+      }
+    }
+  </script>
+</body>
+</html>
