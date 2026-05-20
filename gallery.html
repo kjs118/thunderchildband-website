@@ -3,97 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Thunder Child — Contact &amp; Booking</title>
-  <meta name="description" content="Contact Thunder Child to book them for your event or get in touch.">
+  <title>Thunder Child — Photo Gallery</title>
+  <meta name="description" content="Photos from Thunder Child live performances across Louisiana.">
   <link rel="stylesheet" href="style.css">
-  <style>
-    .contact-page {
-      max-width: 700px;
-      margin: 0 auto;
-      text-align: center;
-      padding: 4rem 2rem 6rem;
-    }
-    .contact-page p {
-      font-size: 1.15rem;
-      line-height: 1.85;
-      color: var(--dim);
-      margin-bottom: 1.5rem;
-    }
-    .contact-page p strong { color: var(--white); }
-
-    .contact-divider {
-      height: 1px;
-      background: linear-gradient(to right, transparent, var(--border), transparent);
-      margin: 3rem auto;
-      max-width: 400px;
-    }
-
-    .contact-details {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-      max-width: 420px;
-      margin: 0 auto;
-      text-align: left;
-    }
-    .contact-detail-row {
-      display: flex;
-      align-items: center;
-      gap: 1.25rem;
-      padding: 1.1rem 1.5rem;
-      border: 1px solid var(--border);
-      border-bottom: none;
-      color: var(--dim);
-      transition: background var(--transition), color var(--transition), border-color var(--transition);
-    }
-    .contact-detail-row:first-child { border-radius: 2px 2px 0 0; }
-    .contact-detail-row:last-child { border-bottom: 1px solid var(--border); border-radius: 0 0 2px 2px; }
-    .contact-detail-row:hover { background: var(--charcoal); color: var(--white); border-color: var(--gold-dk); }
-    .contact-detail-icon {
-      width: 36px; height: 36px; flex-shrink: 0;
-      border: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: center;
-      color: var(--gold);
-    }
-    .contact-detail-icon svg { width: 18px; height: 18px; }
-    .contact-detail-text { font-size: 0.9rem; line-height: 1.4; }
-    .contact-detail-text strong {
-      display: block;
-      font-family: var(--font-mono);
-      font-size: 0.6rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--white);
-      margin-bottom: 0.15rem;
-    }
-
-    .btn-email {
-      display: inline-block;
-      font-family: var(--font-mono);
-      font-size: 0.78rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      padding: 1.1rem 3rem;
-      background: var(--gold);
-      color: var(--black);
-      border: 1px solid var(--gold);
-      border-radius: 2px;
-      font-weight: 700;
-      transition: all var(--transition);
-      margin-top: 1rem;
-    }
-    .btn-email:hover {
-      background: var(--gold-lt);
-      border-color: var(--gold-lt);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(196,115,138,0.3);
-    }
-  </style>
 </head>
 <body>
 
+  <!-- Announcement Bar -->
   <div class="announcement-bar" id="announcement-bar"></div>
 
+  <!-- Navigation -->
   <nav class="site-nav" role="navigation">
     <a href="index.html" class="nav-logo" aria-label="Thunder Child Home">
       <img src="images/tc-new.svg" alt="Thunder Child logo">
@@ -118,66 +37,171 @@
     <a href="contact.html">Contact</a>
   </nav>
 
+  <!-- Page Header -->
   <header class="page-header">
     <div class="page-header-inner">
-      <p class="page-header-subtitle">Inquiries &amp; Bookings</p>
-      <h1 class="page-header-title">CONTACT</h1>
+      <p class="page-header-subtitle">Live Photography</p>
+      <h1 class="page-header-title">GALLERY</h1>
     </div>
   </header>
 
+  <!-- Gallery -->
   <main>
-    <div class="section contact-page">
+    <div class="section">
+      <p class="section-subtitle reveal">In the Pit</p>
+      <h2 class="section-title reveal">Photo <span>Gallery</span></h2>
+      <span class="section-line reveal"></span>
 
-      <p class="section-subtitle reveal">Get in Touch</p>
-      <span class="section-line reveal" style="margin: 0 auto 2.5rem;"></span>
+      <div class="gallery-masonry" id="gallery" role="list">
 
-      <p class="reveal">
-        <strong>Thunder Child</strong> is available for bars, clubs, festivals, private parties,
-        weddings, and corporate events. We'd love to hear about your event.
-      </p>
-      <p class="reveal">
-        Drop us an email and we'll get back to you within 48 hours.
-      </p>
+         <div class="gallery-item reveal" role="listitem">
+          <img src="https://www.thunderchildband.com/images/TC_Legends050226_1.JPG" alt="Thunder Child live" loading="lazy">
+          <div class="gallery-item-overlay"></div>
+        </div>
 
-      <a href="mailto:contact@thunderchildband.com" class="btn-email reveal">
-        Send Us a Message
-      </a>
+        <div class="gallery-item reveal" role="listitem">
+          <img src="https://www.thunderchildband.com/images/DSC6445.JPEG" alt="Thunder Child live" loading="lazy">
+          <div class="gallery-item-overlay"></div>
+        </div>
 
-      <div class="contact-divider reveal"></div>
+        <div class="gallery-item reveal" role="listitem">
+          <img src="https://www.thunderchildband.com/images/TC_Legends050226_11.JPG" alt="Thunder Child live" loading="lazy">
+          <div class="gallery-item-overlay"></div>
+        </div>
 
-      <div class="contact-details reveal">
-        <a href="mailto:contact@thunderchildband.com" class="contact-detail-row">
-          <div class="contact-detail-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
-          </div>
-          <div class="contact-detail-text">
-            <strong>Email</strong>
-            contact@thunderchildband.com
-          </div>
-        </a>
-        <a href="https://instagram.com/thunderchildband" class="contact-detail-row" target="_blank" rel="noopener">
-          <div class="contact-detail-icon">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-          </div>
-          <div class="contact-detail-text">
-            <strong>Instagram</strong>
-            @thunderchildband
-          </div>
-        </a>
-        <a href="https://facebook.com/thunderchildbandLA" class="contact-detail-row" target="_blank" rel="noopener">
-          <div class="contact-detail-icon">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-          </div>
-          <div class="contact-detail-text">
-            <strong>Facebook</strong>
-            Thunder Child Band LA
-          </div>
-        </a>
-      </div>
+        <div class="gallery-item reveal" role="listitem">
+          <img src="https://www.thunderchildband.com/images/DSC6569.JPEG" alt="Thunder Child performing" loading="lazy">
+          <div class="gallery-item-overlay"></div>
+        </div>
 
+        <div class="gallery-item reveal" role="listitem">
+          <img src="https://www.thunderchildband.com/images/DSC4469.JPEG" alt="On stage" loading="lazy">
+          <div class="gallery-item-overlay"></div>
+        </div>
+
+        <div class="gallery-item reveal" role="listitem">
+          <img src="https://www.thunderchildband.com/images/TC_Legends050226_12.JPG" alt="Thunder Child live" loading="lazy">
+          <div class="gallery-item-overlay"></div>
+        </div>
+        
+        <div class="gallery-item reveal" role="listitem">
+          <img src="https://www.thunderchildband.com/images/DSC6484.JPEG" alt="Thunder Child band photo" loading="lazy">
+          <div class="gallery-item-overlay"></div>
+        </div>
+
+        <div class="gallery-item reveal" role="listitem">
+          <img src="https://www.thunderchildband.com/images/DSC3582.JPG" alt="Live performance" loading="lazy">
+          <div class="gallery-item-overlay"></div>
+        </div>
+
+        <div class="gallery-item reveal" role="listitem">
+          <img src="https://www.thunderchildband.com/images/TC_Legends050226_14.JPG" alt="Thunder Child live" loading="lazy">
+          <div class="gallery-item-overlay"></div>
+        </div>
+
+        <div class="gallery-item reveal" role="listitem">
+          <img src="https://www.thunderchildband.com/images/DSC3224.JPG" alt="Thunder Child guitarist" loading="lazy">
+          <div class="gallery-item-overlay"></div>
+        </div>
+
+        <div class="gallery-item reveal" role="listitem">
+          <img src="https://www.thunderchildband.com/images/TC_Legends050226_15.JPG" alt="Thunder Child live" loading="lazy">
+          <div class="gallery-item-overlay"></div>
+        </div>
+        
+        <div class="gallery-item reveal" role="listitem">
+          <img src="https://www.thunderchildband.com/images/DSC3171.JPG" alt="Stage shot" loading="lazy">
+          <div class="gallery-item-overlay"></div>
+        </div>
+
+        <div class="gallery-item reveal" role="listitem">
+          <img src="https://www.thunderchildband.com/images/DSC2806.JPG" alt="Thunder Child live" loading="lazy">
+          <div class="gallery-item-overlay"></div>
+        </div>
+
+        <div class="gallery-item reveal" role="listitem">
+          <img src="https://www.thunderchildband.com/images/TC_Legends050226_16.JPG" alt="Thunder Child live" loading="lazy">
+          <div class="gallery-item-overlay"></div>
+        </div>
+        
+        <div class="gallery-item reveal" role="listitem">
+          <img src="https://www.thunderchildband.com/images/DSC2815.JPG" alt="Band performance" loading="lazy">
+          <div class="gallery-item-overlay"></div>
+        </div>
+
+        <div class="gallery-item reveal" role="listitem">
+          <img src="https://www.thunderchildband.com/images/TC_Legends050226_19.JPG" alt="Thunder Child live" loading="lazy">
+          <div class="gallery-item-overlay"></div>
+        </div>
+        
+        <div class="gallery-item reveal" role="listitem">
+          <img src="https://www.thunderchildband.com/images/abifrozn2.jpeg" alt="Frozen Sun show" loading="lazy">
+          <div class="gallery-item-overlay"></div>
+        </div>
+
+        <div class="gallery-item reveal" role="listitem">
+          <img src="https://www.thunderchildband.com/images/TC_Legends050226_22.JPG" alt="Thunder Child live" loading="lazy">
+          <div class="gallery-item-overlay"></div>
+        </div>
+
+        <div class="gallery-item reveal" role="listitem">
+          <img src="https://www.thunderchildband.com/images/abifrozen221.jpeg" alt="Frozen Sun 2" loading="lazy">
+          <div class="gallery-item-overlay"></div>
+        </div>
+
+        <div class="gallery-item reveal" role="listitem">
+          <img src="https://www.thunderchildband.com/images/DSC2821.JPG" alt="On stage close-up" loading="lazy">
+          <div class="gallery-item-overlay"></div>
+        </div>
+
+        <div class="gallery-item reveal" role="listitem">
+          <img src="https://www.thunderchildband.com/images/TC_Legends050226_6.JPG" alt="Thunder Child live" loading="lazy">
+          <div class="gallery-item-overlay"></div>
+        </div>
+
+        <div class="gallery-item reveal" role="listitem">
+          <img src="https://www.thunderchildband.com/images/DSC2965.JPG" alt="Thunder Child live" loading="lazy">
+          <div class="gallery-item-overlay"></div>
+        </div>
+
+        <div class="gallery-item reveal" role="listitem">
+          <img src="https://www.thunderchildband.com/images/TC_Legends050226_8.JPG" alt="Thunder Child live" loading="lazy">
+          <div class="gallery-item-overlay"></div>
+        </div>
+
+        <div class="gallery-item reveal" role="listitem">
+          <img src="https://www.thunderchildband.com/images/DSC2927.JPG" alt="Live show" loading="lazy">
+          <div class="gallery-item-overlay"></div>
+        </div>
+
+        <div class="gallery-item reveal" role="listitem">
+          <img src="https://www.thunderchildband.com/images/TC_Legends050226_9.JPG" alt="Thunder Child live" loading="lazy">
+          <div class="gallery-item-overlay"></div>
+        </div>
+
+        <div class="gallery-item reveal" role="listitem">
+          <img src="https://www.thunderchildband.com/images/thunderchildlive.jpeg" alt="Thunder Child full stage" loading="lazy">
+          <div class="gallery-item-overlay"></div>
+        </div>
+
+        <div class="gallery-item reveal" role="listitem">
+          <img src="https://www.thunderchildband.com/images/thunderchildlive2.jpg" alt="Thunder Child performing" loading="lazy">
+          <div class="gallery-item-overlay"></div>
+        </div>
+
+      </div><!-- /gallery-masonry -->
     </div>
   </main>
 
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-label="Photo lightbox" aria-modal="true">
+    <button class="lightbox-close" id="lightbox-close" aria-label="Close">✕</button>
+    <button class="lightbox-prev" id="lightbox-prev" aria-label="Previous photo">‹</button>
+    <img class="lightbox-img" id="lightbox-img" src="" alt="">
+    <button class="lightbox-next" id="lightbox-next" aria-label="Next photo">›</button>
+  </div>
+
+  <!-- Footer -->
   <footer class="site-footer">
     <div class="footer-inner">
       <div>
@@ -190,7 +214,7 @@
           <li><a href="about.html">About</a></li>
           <li><a href="gallery.html">Gallery</a></li>
           <li><a href="archive.html">Archive</a></li>
-          <li><a href="contact.html">Contact</a></li>
+          <li><a href="contact.html">Contact / Book</a></li>
         </ul>
       </div>
       <div>
@@ -210,5 +234,47 @@
 
   <script src="shows-data.js"></script>
   <script src="nav.js"></script>
+  <script>
+    // Gallery lightbox
+    (function () {
+      const items = Array.from(document.querySelectorAll('.gallery-item'));
+      const lightbox = document.getElementById('lightbox');
+      const lbImg = document.getElementById('lightbox-img');
+      let current = 0;
+
+      function open(idx) {
+        current = idx;
+        const img = items[idx].querySelector('img');
+        lbImg.src = img.src;
+        lbImg.alt = img.alt;
+        lightbox.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+      function close() {
+        lightbox.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+      function prev() { open((current - 1 + items.length) % items.length); }
+      function next() { open((current + 1) % items.length); }
+
+      items.forEach((item, i) => {
+        item.addEventListener('click', () => open(i));
+        item.setAttribute('tabindex', '0');
+        item.setAttribute('role', 'button');
+        item.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') open(i); });
+      });
+
+      document.getElementById('lightbox-close').addEventListener('click', close);
+      document.getElementById('lightbox-prev').addEventListener('click', prev);
+      document.getElementById('lightbox-next').addEventListener('click', next);
+      lightbox.addEventListener('click', e => { if (e.target === lightbox) close(); });
+      document.addEventListener('keydown', e => {
+        if (!lightbox.classList.contains('open')) return;
+        if (e.key === 'Escape') close();
+        if (e.key === 'ArrowLeft') prev();
+        if (e.key === 'ArrowRight') next();
+      });
+    })();
+  </script>
 </body>
 </html>
