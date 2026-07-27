@@ -2,12 +2,12 @@
 // Update this file to change show details everywhere on the site.
 window.SHOWS_DATA = [
   {
-    day: "18",
-    monthYear: "Jul 2026",
-    venue: "Gloria's",
+    day: "22",
+    monthYear: "Aug 2026",
+    venue: "Rock n Bowl",
     location: "Lafayette, Louisiana",
-    flyer: "https://www.thunderchildband.com/images/glorias.jpg",
-    flyerAlt: "Gloria's Logo"
+    flyer: "https://www.thunderchildband.com/images/rocknbowllogo.png",
+    flyerAlt: "Rock n Bowl Logo"
   },
   {
     day: "29",
@@ -15,6 +15,14 @@ window.SHOWS_DATA = [
     venue: "Legends Pub",
     location: "Lafayette, Louisiana",
     flyer: "https://www.thunderchildband.com/images/legendspub.png",
+    flyerAlt: "Legends Pub Flyer"
+  },
+    {
+    day: "19",
+    monthYear: "Sept 2026",
+    venue: "Frozen Sun",
+    location: "Maurice, Louisiana",
+    flyer: "https://www.thunderchildband.com/images/frozensunlogo.jpg",
     flyerAlt: "Legends Pub Flyer"
   },
   {
