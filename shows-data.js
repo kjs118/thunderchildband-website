@@ -1,14 +1,7 @@
 // shows-data.js — single source of truth for upcoming shows
 // Update this file to change show details everywhere on the site.
 window.SHOWS_DATA = [
-  {
-    day: "22",
-    monthYear: "Aug 2026",
-    venue: "Rock n Bowl",
-    location: "Lafayette, Louisiana",
-    flyer: "https://www.thunderchildband.com/images/rocknbowllogo.png",
-    flyerAlt: "Rock n Bowl Logo"
-  },
+ 
   {
     day: "29",
     monthYear: "Aug 2026",
