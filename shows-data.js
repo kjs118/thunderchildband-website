@@ -10,5 +10,29 @@ window.SHOWS_DATA = [
     location: "Houston, Texas",
     flyer: "https://www.thunderchildband.com/images/19thhole.png",
     flyerAlt: "19th Hole Grill & Bar Flyer"
+  },
+   {
+    day: "27",
+    monthYear: "Feb 2027",
+    venue: "Gloria's",
+    location: "Lafayette, LA",
+    flyer: "https://www.thunderchildband.com/images/glorias.jpg",
+    flyerAlt: "Gloria's"
+  },
+    {
+    day: "19",
+    monthYear: "June 2027",
+    venue: "Gloria's",
+    location: "Lafayette, LA",
+    flyer: "https://www.thunderchildband.com/images/glorias.jpg",
+    flyerAlt: "Gloria's"
+  },
+    {
+    day: "18",
+    monthYear: "Sept 2027",
+    venue: "Gloria's",
+    location: "Lafayette, LA",
+    flyer: "https://www.thunderchildband.com/images/glorias.jpg",
+    flyerAlt: "Gloria's"
   }
 ];
