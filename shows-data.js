@@ -16,6 +16,14 @@ window.SHOWS_DATA = [
     monthYear: "Feb 2027",
     venue: "Gloria's",
     location: "Lafayette, LA",
+    //flyer: "https://www.thunderchildband.com/images/glorias.jpg",
+    //flyerAlt: "Gloria's"
+  },
+    {
+    day: "3",
+    monthYear: "April 2027",
+    venue: "Pablito's Pit Stop",
+    location: "Abbeville, LA",
     flyer: "https://www.thunderchildband.com/images/glorias.jpg",
     flyerAlt: "Gloria's"
   },
