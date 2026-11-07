@@ -20,6 +20,14 @@ window.SHOWS_DATA = [
     //flyerAlt: "Gloria's"
   },
     {
+    day: "13",
+    monthYear: "March 2027",
+    venue: "Sam's Place",
+    location: "Crowley, LA",
+    //flyer: "https://www.thunderchildband.com/images/samsplace.jpg",
+    //flyerAlt: "Gloria's"
+  },
+    {
     day: "3",
     monthYear: "April 2027",
     venue: "Pablito's Pit Stop",
