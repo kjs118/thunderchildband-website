@@ -3,14 +3,6 @@
 window.SHOWS_DATA = [
  
 
-  {
-    day: "13",
-    monthYear: "Nov 2026",
-    venue: "19th Hole Grill & Bar",
-    location: "Houston, Texas",
-    flyer: "https://www.thunderchildband.com/images/19thhole.png",
-    flyerAlt: "19th Hole Grill & Bar Flyer"
-  },
    {
     day: "27",
     monthYear: "Feb 2027",
