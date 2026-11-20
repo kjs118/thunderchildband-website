@@ -27,6 +27,14 @@ window.SHOWS_DATA = [
     flyer: "https://www.thunderchildband.com/images/glorias.jpg",
     flyerAlt: "Gloria's"
   },
+     {
+    day: "8",
+    monthYear: "May 2027",
+    venue: "Legends Pub",
+    location: "Lafayette, LA",
+    flyer: "https://www.thunderchildband.com/images/legendspub.png",
+    flyerAlt: "Legends Pub"
+  },
     {
     day: "19",
     monthYear: "June 2027",
@@ -42,5 +50,13 @@ window.SHOWS_DATA = [
     location: "Lafayette, LA",
     flyer: "https://www.thunderchildband.com/images/glorias.jpg",
     flyerAlt: "Gloria's"
-  }
+  },
+    {
+    day: "31",
+    monthYear: "December 2027",
+    venue: "Legends Pub",
+    location: "Lafayette, LA",
+    flyer: "https://www.thunderchildband.com/images/legendspub.png",
+    flyerAlt: "Legends Pub"
+  },
 ];
