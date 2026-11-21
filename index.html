@@ -190,7 +190,7 @@
   <!-- PHOTO + ABOUT split -->
   <div class="photo-band">
     <div class="photo-band-img reveal">
-      <img src="https://www.thunderchildband.com/images/DSC6445.JPEG" alt="Thunder Child live" loading="lazy">
+      <img src="images/optimized/DSC6445-900.webp" alt="Thunder Child live" loading="lazy">
     </div>
     <div class="photo-band-content reveal">
       <p class="section-subtitle">About the Band</p>
@@ -293,81 +293,103 @@
       document.getElementById('teaser-location').textContent = next.location;
     })();
 
-    // Ken Burns hero slideshow
+    // Shared settings for optimized images
+    const IS_MOBILE = window.matchMedia('(max-width: 768px)').matches;
+
+    // ---------------------------------------------------------------
+    // HERO SLIDESHOW: only loads the current photo + the next one
+    // ---------------------------------------------------------------
     document.addEventListener('DOMContentLoaded', () => {
-      const galleryPhotos = [
-        "https://www.thunderchildband.com/images/DSC6445.JPEG",
-        "https://www.thunderchildband.com/images/DSC6569.JPEG",
-        "https://www.thunderchildband.com/images/TC_Legends050226_1.JPG",
-        "https://www.thunderchildband.com/images/TC_Legends050226_11.JPG",
-        "https://www.thunderchildband.com/images/TC_Legends050226_12.JPG",
-        "https://www.thunderchildband.com/images/TC_Legends050226_14.JPG",
-        "https://www.thunderchildband.com/images/TC_Legends050226_15.JPG",
-        "https://www.thunderchildband.com/images/TC_Legends050226_16.JPG",
-        "https://www.thunderchildband.com/images/TC_Legends050226_19.JPG",
-        "https://www.thunderchildband.com/images/TC_Legends050226_21.JPG",
-        "https://www.thunderchildband.com/images/DSC6484.JPEG",
-        "https://www.thunderchildband.com/images/DSC3582.JPG",
-        "https://www.thunderchildband.com/images/DSC3224.JPG",
-        "https://www.thunderchildband.com/images/DSC3171.JPG",
-        "https://www.thunderchildband.com/images/DSC2806.JPG",
-        "https://www.thunderchildband.com/images/DSC2815.JPG",
-        "https://www.thunderchildband.com/images/abifrozn2.jpeg",
-        "https://www.thunderchildband.com/images/DSC2965.JPG",
-        "https://www.thunderchildband.com/images/DSC2927.JPG"
+      const heroPhotos = [
+        "DSC6445",
+        "DSC6569",
+        "TC_Legends050226_1",
+        "TC_Legends050226_11",
+        "TC_Legends050226_12",
+        "TC_Legends050226_14",
+        "TC_Legends050226_15",
+        "TC_Legends050226_16",
+        "TC_Legends050226_19",
+        "TC_Legends050226_21",
+        "DSC6484",
+        "DSC3582",
+        "DSC3224",
+        "DSC3171",
+        "DSC2806",
+        "DSC2815",
+        "abifrozn2",
+        "DSC2965",
+        "DSC2927"
       ];
-      galleryPhotos.sort(() => Math.random() - 0.5);
+      heroPhotos.sort(() => Math.random() - 0.5);
+
+      const heroSize = IS_MOBILE ? 900 : 1600;
       const container = document.getElementById('hero-slideshow');
       let currentIndex = 0;
-      galleryPhotos.forEach(src => {
+
+      const slides = heroPhotos.map(name => {
         const slide = document.createElement('div');
         slide.className = 'kb-slide';
-        slide.style.backgroundImage = `url(${src})`;
+        slide.dataset.src = 'images/optimized/' + name + '-' + heroSize + '.webp';
         container.appendChild(slide);
+        return slide;
       });
-      const slides = document.querySelectorAll('.kb-slide');
+
+      function loadHero(slide) {
+        if (slide && slide.dataset.src) {
+          slide.style.backgroundImage = 'url(' + slide.dataset.src + ')';
+          delete slide.dataset.src;
+        }
+      }
+
       function showNextSlide() {
         if (!slides.length) return;
         slides.forEach(s => s.classList.remove('active'));
+        loadHero(slides[currentIndex]);
         slides[currentIndex].classList.add('active');
+        // buffer: preload only the next photo
+        loadHero(slides[(currentIndex + 1) % slides.length]);
         currentIndex = (currentIndex + 1) % slides.length;
       }
       showNextSlide();
       setInterval(showNextSlide, 8000);
     });
 
-    // Photo carousel
+    // ---------------------------------------------------------------
+    // PHOTO CAROUSEL: only loads photos near the current position,
+    // and doesn't start loading until the carousel is near the screen
+    // ---------------------------------------------------------------
     (function() {
       const photos = [
-        "https://www.thunderchildband.com/images/TC_glorias718_1137.JPG",
-         "https://www.thunderchildband.com/images/TC_glorias718_1290.JPG",
-         "https://www.thunderchildband.com/images/TC_glorias718_1546.JPG",
-         "https://www.thunderchildband.com/images/TC_glorias718_1638.JPG",
-        "https://www.thunderchildband.com/images/TC_glorias718_224.JPG",
-        "https://www.thunderchildband.com/images/TC_glorias718_332.JPG",
-        "https://www.thunderchildband.com/images/TC_glorias718_384.JPG",
-        "https://www.thunderchildband.com/images/TC_glorias718_414.JPG",
-        "https://www.thunderchildband.com/images/TC_glorias718_432.JPG",
-        "https://www.thunderchildband.com/images/TC_glorias718_957.JPG",
-        "https://www.thunderchildband.com/images/TC_Legends050226_1.JPG",
-        "https://www.thunderchildband.com/images/TC_Legends050226_6.JPG",
-        "https://www.thunderchildband.com/images/TC_Legends050226_8.JPG",
-        "https://www.thunderchildband.com/images/TC_Legends050226_9.JPG",
-        "https://www.thunderchildband.com/images/TC_Legends050226_11.JPG",
-        "https://www.thunderchildband.com/images/TC_Legends050226_14.JPG",
-        "https://www.thunderchildband.com/images/TC_Legends050226_15.JPG",
-        "https://www.thunderchildband.com/images/TC_Legends050226_16.JPG",
-        "https://www.thunderchildband.com/images/TC_Legends050226_19.JPG",
-        "https://www.thunderchildband.com/images/TC_Legends050226_21.JPG",
-        "https://www.thunderchildband.com/images/TC_Legends050226_22.JPG",
-        "https://www.thunderchildband.com/images/DSC6484.JPEG",
-        "https://www.thunderchildband.com/images/DSC3582.JPG",
-        "https://www.thunderchildband.com/images/DSC3171.JPG",
-        "https://www.thunderchildband.com/images/abifrozn2.jpeg",
-        "https://www.thunderchildband.com/images/abifrozen221.jpeg",
-        "https://www.thunderchildband.com/images/DSC2821.JPG",
-        "https://www.thunderchildband.com/images/DSC2965.JPG",
-        "https://www.thunderchildband.com/images/DSC2927.JPG"
+        "TC_glorias718_1137",
+        "TC_glorias718_1290",
+        "TC_glorias718_1546",
+        "TC_glorias718_1638",
+        "TC_glorias718_224",
+        "TC_glorias718_332",
+        "TC_glorias718_384",
+        "TC_glorias718_414",
+        "TC_glorias718_432",
+        "TC_glorias718_957",
+        "TC_Legends050226_1",
+        "TC_Legends050226_6",
+        "TC_Legends050226_8",
+        "TC_Legends050226_9",
+        "TC_Legends050226_11",
+        "TC_Legends050226_14",
+        "TC_Legends050226_15",
+        "TC_Legends050226_16",
+        "TC_Legends050226_19",
+        "TC_Legends050226_21",
+        "TC_Legends050226_22",
+        "DSC6484",
+        "DSC3582",
+        "DSC3171",
+        "abifrozn2",
+        "abifrozen221",
+        "DSC2821",
+        "DSC2965",
+        "DSC2927"
       ];
 
       const track = document.getElementById('carousel-track');
@@ -381,15 +403,16 @@
       // Shuffle photos randomly
       photos.sort(() => Math.random() - 0.5);
 
-      // Build slides — natural image width, fixed height
-      photos.forEach(src => {
+      const slideHeight = IS_MOBILE ? 240 : 380;
+      const slideSize = IS_MOBILE ? 480 : 900;
+
+      // Build empty placeholder slides (images load later, on demand)
+      photos.forEach(name => {
         const slide = document.createElement('div');
         slide.className = 'carousel-slide';
-        const img = document.createElement('img');
-        img.src = src;
-        img.alt = 'Thunder Child live photo';
-        img.loading = 'lazy';
-        slide.appendChild(img);
+        slide.style.width = Math.round(slideHeight * 1.5) + 'px'; // placeholder width
+        slide.style.height = slideHeight + 'px';
+        slide.dataset.src = 'images/optimized/' + name + '-' + slideSize + '.webp';
         track.appendChild(slide);
       });
 
@@ -397,13 +420,12 @@
       photos.forEach((_, i) => {
         const dot = document.createElement('button');
         dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
-        dot.setAttribute('aria-label', `Go to photo ${i + 1}`);
+        dot.setAttribute('aria-label', 'Go to photo ' + (i + 1));
         dot.addEventListener('click', () => goTo(i));
         dotsContainer.appendChild(dot);
       });
 
       function getOffset(index) {
-        // Sum widths of all slides before index (including gaps)
         const slides = track.querySelectorAll('.carousel-slide');
         let offset = 0;
         for (let i = 0; i < index && i < slides.length; i++) {
@@ -412,30 +434,70 @@
         return offset;
       }
 
+      function loadSlide(i) {
+        const slide = track.children[i];
+        if (!slide || !slide.dataset.src) return;
+        const src = slide.dataset.src;
+        delete slide.dataset.src;
+        const img = new Image();
+        img.alt = 'Thunder Child live photo';
+        img.decoding = 'async';
+        img.onload = () => {
+          slide.style.width = 'auto';
+          slide.style.height = 'auto';
+          slide.appendChild(img);
+          // image now has its real width, so re-measure the position
+          requestAnimationFrame(() => {
+            track.style.transform = 'translateX(-' + getOffset(pos) + 'px)';
+          });
+        };
+        img.src = src;
+      }
+
       function goTo(index) {
-        const slides = track.querySelectorAll('.carousel-slide');
-        const maxPos = total - 1;
-        pos = Math.min(Math.max(index, 0), maxPos);
-        // Wait for images to have natural width
+        pos = Math.min(Math.max(index, 0), total - 1);
+        // buffer: current photo, one behind, and a few ahead
+        for (let i = pos - 1; i <= pos + 4; i++) loadSlide(i);
         requestAnimationFrame(() => {
-          track.style.transform = `translateX(-${getOffset(pos)}px)`;
+          track.style.transform = 'translateX(-' + getOffset(pos) + 'px)';
         });
         document.querySelectorAll('.carousel-dot').forEach((d, i) => {
           d.classList.toggle('active', i === pos);
         });
       }
 
-      prevBtn.addEventListener('click', () => goTo(pos - 1));
-      nextBtn.addEventListener('click', () => goTo(pos + 1));
+      prevBtn.addEventListener('click', () => { goTo(pos - 1); restartAuto(); });
+      nextBtn.addEventListener('click', () => { goTo(pos + 1); restartAuto(); });
 
       // Auto-advance
-      let autoTimer = setInterval(() => goTo(pos + 1 >= total ? 0 : pos + 1), 4000);
-      [prevBtn, nextBtn].forEach(b => b.addEventListener('click', () => {
-        clearInterval(autoTimer);
+      let autoTimer = null;
+      function startAuto() {
         autoTimer = setInterval(() => goTo(pos + 1 >= total ? 0 : pos + 1), 4000);
-      }));
+      }
+      function restartAuto() {
+        if (autoTimer) clearInterval(autoTimer);
+        startAuto();
+      }
 
-      goTo(0);
+      // Don't start until the carousel is about to scroll into view
+      let started = false;
+      function startCarousel() {
+        if (started) return;
+        started = true;
+        goTo(0);
+        startAuto();
+      }
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver(entries => {
+          if (entries[0].isIntersecting) {
+            startCarousel();
+            io.disconnect();
+          }
+        }, { rootMargin: '400px' });
+        io.observe(document.getElementById('photo-carousel'));
+      } else {
+        startCarousel();
+      }
     })();
   </script>
 </body>
