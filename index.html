@@ -190,7 +190,7 @@
   <!-- PHOTO + ABOUT split -->
   <div class="photo-band">
     <div class="photo-band-img reveal">
-      <img src="images/optimized/DSC6445-900.webp" alt="Thunder Child live" loading="lazy">
+      <img src="images/DSC6445-900.webp" alt="Thunder Child live" loading="lazy">
     </div>
     <div class="photo-band-content reveal">
       <p class="section-subtitle">About the Band</p>
@@ -330,7 +330,7 @@
       const slides = heroPhotos.map(name => {
         const slide = document.createElement('div');
         slide.className = 'kb-slide';
-        slide.dataset.src = 'images/optimized/' + name + '-' + heroSize + '.webp';
+        slide.dataset.src = 'images/' + name + '-' + heroSize + '.webp';
         container.appendChild(slide);
         return slide;
       });
@@ -412,7 +412,7 @@
         slide.className = 'carousel-slide';
         slide.style.width = Math.round(slideHeight * 1.5) + 'px'; // placeholder width
         slide.style.height = slideHeight + 'px';
-        slide.dataset.src = 'images/optimized/' + name + '-' + slideSize + '.webp';
+        slide.dataset.src = 'images/' + name + '-' + slideSize + '.webp';
         track.appendChild(slide);
       });
 
