@@ -238,28 +238,45 @@
         items.forEach((item, i) => cols[i % n].appendChild(item));
       }
 
-      // Load images in list order, only when they are near the screen
-      function load(img) {
-        if (img.dataset.loaded) return;
-        img.dataset.loaded = '1';
+      // Load images ONE ROW AT A TIME, in list order, only when they are near the screen.
+      // A row must finish (or fail, or take over 4 seconds) before the next row starts.
+      const pending = new Set();
+      let busy = false;
+      function start(img, done) {
+        let finished = false;
+        const end = () => { if (finished) return; finished = true; done(); };
+        img.addEventListener('load', end, { once: true });
+        img.addEventListener('error', end, { once: true });
+        setTimeout(end, 4000);
         const n = img.dataset.name;
         img.sizes = '(max-width: 600px) 50vw, 33vw';
         img.srcset = 'images/' + n + '-480.webp 480w, images/' + n + '-900.webp 900w';
         img.src = 'images/' + n + '-900.webp';
+      }
+      function pump() {
+        if (busy || !pending.size) return;
+        const row = Array.from(pending).sort((a, b) => a._i - b._i).slice(0, Math.max(1, current));
+        busy = true;
+        let left = row.length;
+        row.forEach(img => {
+          pending.delete(img);
+          start(img, () => { if (--left === 0) { busy = false; pump(); } });
+        });
       }
 
       layout();
       const imgs = items.map(it => it.firstChild);
       if ('IntersectionObserver' in window) {
         const io = new IntersectionObserver(entries => {
-          entries.filter(e => e.isIntersecting)
-                 .map(e => e.target)
-                 .sort((a, b) => a._i - b._i)      // earlier photos first = row by row
-                 .forEach(img => { load(img); io.unobserve(img); });
+          entries.forEach(e => {
+            if (e.isIntersecting) { pending.add(e.target); io.unobserve(e.target); }
+          });
+          pump();
         }, { rootMargin: '600px 0px' });
         imgs.forEach(img => io.observe(img));
       } else {
-        imgs.forEach(load);
+        imgs.forEach(img => pending.add(img));
+        pump();
       }
 
       let t;
