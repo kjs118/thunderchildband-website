@@ -9,6 +9,10 @@
   <style>
     /* Keeps unloaded photos from collapsing to 0px, so lazy loading only fetches what is near the screen */
     .gallery-item img { min-height: 220px; background: #141014; }
+    /* Row-by-row layout (the page script fills these columns) */
+    .gallery-masonry.js-cols { display: flex; align-items: flex-start; columns: auto; column-count: auto; }
+    .gallery-col { flex: 1 1 0; min-width: 0; }
+    .gallery-col .gallery-item { display: block; }
   </style>
         <!-- Favicon -->
 <link rel="icon" href="images/favicon/favicon.ico" type="image/x-icon">
@@ -176,7 +180,9 @@
 
     (function () {
       const gallery = document.getElementById('gallery');
-      GALLERY_PHOTOS.forEach((entry, i) => {
+
+      // Build every photo box (in list order) without loading any image yet
+      const items = GALLERY_PHOTOS.map((entry, i) => {
         const parts = entry.split('|');
         const name = parts[0].trim();
         const alt = (parts[1] || 'Thunder Child live').trim();
@@ -184,19 +190,80 @@
         item.className = 'gallery-item reveal';
         item.setAttribute('role', 'listitem');
         const img = document.createElement('img');
-        img.src = 'images/' + name + '-900.webp';
-        img.srcset = 'images/' + name + '-480.webp 480w, images/' + name + '-900.webp 900w';
-        img.sizes = '(max-width: 600px) 50vw, 33vw';
+        img.dataset.name = name;
         img.dataset.full = 'images/' + name + '-1600.webp';
         img.alt = alt;
-        img.loading = i < 3 ? 'eager' : 'lazy';
         img.decoding = 'async';
+        img._i = i;
         const overlay = document.createElement('div');
         overlay.className = 'gallery-item-overlay';
         item.appendChild(img);
         item.appendChild(overlay);
-        gallery.appendChild(item);
+        return item;
       });
+      window.GALLERY_ITEMS = items;   // the lightbox uses this so Next/Previous follow list order
+
+      // Work out how many columns your stylesheet wants at this screen width
+      let gapPx = 0;
+      function getCols() {
+        gallery.classList.remove('js-cols');
+        gallery.style.gap = '';
+        const cs = getComputedStyle(gallery);
+        gapPx = cs.columnGap === 'normal' ? parseFloat(cs.fontSize) : (parseFloat(cs.columnGap) || 0);
+        let n = parseInt(cs.columnCount, 10);
+        if (!n) {
+          const colW = parseFloat(cs.columnWidth);
+          const inner = gallery.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+          n = colW ? Math.floor((inner + gapPx) / (colW + gapPx)) : 3;
+        }
+        return Math.max(1, n);
+      }
+
+      // Deal photos out like cards: 1st -> column 1, 2nd -> column 2, ... so rows fill left to right
+      let current = 0;
+      function layout() {
+        const n = getCols();
+        gallery.classList.add('js-cols');
+        gallery.style.gap = gapPx + 'px';
+        if (n === current) return;
+        current = n;
+        gallery.querySelectorAll('.gallery-col').forEach(c => c.remove());
+        const cols = [];
+        for (let c = 0; c < n; c++) {
+          const d = document.createElement('div');
+          d.className = 'gallery-col';
+          gallery.appendChild(d);
+          cols.push(d);
+        }
+        items.forEach((item, i) => cols[i % n].appendChild(item));
+      }
+
+      // Load images in list order, only when they are near the screen
+      function load(img) {
+        if (img.dataset.loaded) return;
+        img.dataset.loaded = '1';
+        const n = img.dataset.name;
+        img.sizes = '(max-width: 600px) 50vw, 33vw';
+        img.srcset = 'images/' + n + '-480.webp 480w, images/' + n + '-900.webp 900w';
+        img.src = 'images/' + n + '-900.webp';
+      }
+
+      layout();
+      const imgs = items.map(it => it.firstChild);
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver(entries => {
+          entries.filter(e => e.isIntersecting)
+                 .map(e => e.target)
+                 .sort((a, b) => a._i - b._i)      // earlier photos first = row by row
+                 .forEach(img => { load(img); io.unobserve(img); });
+        }, { rootMargin: '600px 0px' });
+        imgs.forEach(img => io.observe(img));
+      } else {
+        imgs.forEach(load);
+      }
+
+      let t;
+      window.addEventListener('resize', () => { clearTimeout(t); t = setTimeout(layout, 150); });
     })();
   </script>
 
@@ -205,7 +272,7 @@
   <script>
     // Gallery lightbox
     (function () {
-      const items = Array.from(document.querySelectorAll('.gallery-item'));
+      const items = window.GALLERY_ITEMS || Array.from(document.querySelectorAll('.gallery-item'));
       const lightbox = document.getElementById('lightbox');
       const lbImg = document.getElementById('lightbox-img');
       let current = 0;
