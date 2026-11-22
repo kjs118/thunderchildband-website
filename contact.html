@@ -88,6 +88,20 @@
       transform: translateY(-2px);
       box-shadow: 0 8px 24px rgba(196,115,138,0.3);
     }
+
+    /* Page header slideshow (Ken Burns styles come from style.css) */
+    .page-header.has-slideshow {
+      /* Height follows screen width so photos are cropped less: tune the 55s */
+      min-height: clamp(440px, max(55vw, 55vh), 80vh);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .page-header.has-slideshow .page-header-inner { z-index: 10; }
+    /* Keep the upper-middle of each photo (heads, stage) in view when it has to be cropped */
+    .page-header.has-slideshow .kb-slide { background-position: center 40%; }
+    .page-header.has-slideshow .page-header-title { text-shadow: 0 2px 30px rgba(0,0,0,0.6); }
+    @media (prefers-reduced-motion: reduce) {
+      .page-header .kb-slide.active { transform: none; }
+    }
   </style>
         <!-- Favicon -->
 <link rel="icon" href="images/favicon/favicon.ico" type="image/x-icon">
@@ -124,7 +138,9 @@
     <a href="contact.html">Contact</a>
   </nav>
 
-  <header class="page-header">
+  <header class="page-header has-slideshow">
+    <div class="hero-slideshow" id="header-slideshow"></div>
+    <div class="hero-overlay"></div>
     <div class="page-header-inner">
       <p class="page-header-subtitle">Inquiries &amp; Bookings</p>
       <h1 class="page-header-title">CONTACT</h1>
@@ -213,6 +229,83 @@
       <span>Rock Cover Band</span>
     </div>
   </footer>
+
+  <script>
+    // ================================================================
+    // PAGE HEADER SLIDESHOW (Ken Burns, shuffled each visit)
+    // To add a photo, add its name on a new line (no .JPG, no -1600).
+    // Every line ends with a comma. Wide (landscape) photos work best here.
+    // ================================================================
+    const HEADER_PHOTOS = [
+        "DSC6445",
+        "TC_19thHole_111326_189",
+        "TC_19thHole_111326_26",
+        "TC_19thHole_111326_267",
+        "TC_Legends050226_14",
+        "TC_19thHole_111326_35",
+        "TC_Legends050226_15",
+        "TC_19thHole_111326_314",
+        "TC_Legends050226_16",
+        "TC_Legends050226_19",
+        "TC_19thHole_111326_491",
+        "TC_Legends050226_21",
+        "TC_19thHole_111326_103",
+        "TC_19thHole_111326_179",
+        "DSC6484",
+        "DSC3582",
+        "TC_19thHole_111326_778",
+        "DSC3224",
+        "TC_19thHole_111326_675",
+        "DSC3171",
+        "DSC2806",
+        "TC_19thHole_111326_798",
+        "DSC2815",
+        "TC_19thHole_111326_912",
+        "abifrozn2",
+        "DSC2965",
+        "TC_19thHole_111326_950",
+        "DSC2927"
+    ];
+
+    (function () {
+      const container = document.getElementById('header-slideshow');
+      if (!container || !HEADER_PHOTOS.length) return;
+
+      // shuffle (Fisher-Yates)
+      const names = HEADER_PHOTOS.slice();
+      for (let i = names.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [names[i], names[j]] = [names[j], names[i]];
+      }
+
+      const size = window.matchMedia('(max-width: 768px)').matches ? 900 : 1600;
+      const slides = names.map(name => {
+        const s = document.createElement('div');
+        s.className = 'kb-slide';
+        s.dataset.src = 'images/' + name + '-' + size + '.webp';
+        container.appendChild(s);
+        return s;
+      });
+
+      function loadSlide(s) {
+        if (s && s.dataset.src) {
+          s.style.backgroundImage = 'url(' + s.dataset.src + ')';
+          delete s.dataset.src;
+        }
+      }
+
+      let index = 0;
+      function showNext() {
+        slides.forEach(s => s.classList.remove('active'));
+        loadSlide(slides[index]);
+        slides[index].classList.add('active');
+        loadSlide(slides[(index + 1) % slides.length]);   // buffer: only the next photo
+        index = (index + 1) % slides.length;
+      }
+      showNext();
+      if (slides.length > 1) setInterval(showNext, 8000);
+    })();
+  </script>
 
   <script src="shows-data.js"></script>
   <script src="nav.js"></script>
