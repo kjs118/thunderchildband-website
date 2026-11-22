@@ -84,6 +84,13 @@
       .archive-show { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
       .archive-video { width: 100%; }
       .short-video { width: 100%; max-width: 320px; }
+
+      /* Phone spacing: video centered, text lined up with the video's left edge, and
+         breathing room inside each show so nothing touches the divider lines */
+      .archive-container { padding: 0 1rem 5rem; }
+      .archive-show { align-items: center; padding: 2.5rem 1rem; }
+      .archive-details { flex: none; width: 100%; }
+      .archive-show.is-short .archive-details { max-width: 320px; }
     }
 
     /* Shows without a video get a photo instead */
@@ -299,7 +306,7 @@
 
       ARCHIVE_SHOWS.forEach(show => {
         const title = show.venue + ' ' + show.date;
-        const card = el('div', 'archive-show');
+        const card = el('div', 'archive-show' + (show.short ? ' is-short' : ''));
         const box = el('div', 'archive-video' + (show.short ? ' short-video' : ''));
 
         if (show.video) {
