@@ -85,6 +85,39 @@
       .archive-video { width: 100%; }
       .short-video { width: 100%; max-width: 320px; }
     }
+
+    /* Click-to-play video: a thumbnail loads first, the real YouTube player only loads when clicked */
+    .video-facade {
+      position: relative; display: block; width: 100%; height: 100%;
+      padding: 0; border: 0; background: #000; cursor: pointer;
+    }
+    .video-facade img { width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0.85; transition: opacity 0.2s; }
+    .video-facade:hover img, .video-facade:focus-visible img { opacity: 1; }
+    .video-facade .play {
+      position: absolute; inset: 0; margin: auto; width: 64px; height: 64px;
+      border-radius: 50%; background: rgba(8,6,9,0.7); border: 2px solid var(--gold);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .video-facade .play::after {
+      content: ''; margin-left: 4px;
+      border-style: solid; border-width: 10px 0 10px 17px;
+      border-color: transparent transparent transparent var(--white);
+    }
+    /* Shows without a video get a photo instead */
+    .archive-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 35%; display: block; }
+    /* Page header slideshow (Ken Burns styles come from style.css) */
+    .page-header.has-slideshow {
+      /* Height follows screen width so photos are cropped less: tune the 55s */
+      min-height: clamp(440px, max(55vw, 55vh), 80vh);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .page-header.has-slideshow .page-header-inner { z-index: 10; }
+    /* Keep the upper-middle of each photo (heads, stage) in view when it has to be cropped */
+    .page-header.has-slideshow .kb-slide { background-position: center 40%; }
+    .page-header.has-slideshow .page-header-title { text-shadow: 0 2px 30px rgba(0,0,0,0.6); }
+    @media (prefers-reduced-motion: reduce) {
+      .page-header .kb-slide.active { transform: none; }
+    }
   </style>
       <!-- Favicon -->
 <link rel="icon" href="images/favicon/favicon.ico" type="image/x-icon">
@@ -121,7 +154,9 @@
     <a href="contact.html">Contact</a>
   </nav>
 
-  <header class="page-header">
+  <header class="page-header has-slideshow">
+    <div class="hero-slideshow" id="header-slideshow"></div>
+    <div class="hero-overlay"></div>
     <div class="page-header-inner">
       <p class="page-header-subtitle">Live Footage</p>
       <h1 class="page-header-title">ARCHIVE</h1>
@@ -135,119 +170,8 @@
       <h2 class="section-title">The <span>Vault</span></h2>
       <span class="section-line"></span>
 
-      <div class="archive-show">
-        <div class="archive-video short-video">
-          <iframe src="https://www.youtube.com/embed/nt2JE8W6LeU"
-  title="19th Hole 11/13/26"
-  frameborder="0"
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-  allowfullscreen></iframe>
-        </div>
-        <div class="archive-details">
-          <h2>November 13, 2026</h2>
-          <p class="venue">19th Hole - Spring, TX</p>
-          <a href="https://youtube.com/shorts/nt2JE8W6LeU?si=sYJS7C7SvkzWu6zF" target="_blank" rel="noopener" class="watch-link">Watch on YouTube →</a>
-        </div>
-      </div>
-      
-      <div class="archive-show">
-        <div class="archive-video">
-         <!-- <iframe src="https://youtube.com/shorts/H2ZKi9tcVrU?si=3LugZK8t2hubwZPb" 
-            title="Rock N Bowl 8/22/26" frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen></iframe> -->
-        </div>
-        <div class="archive-details">
-          <h2>August 29, 2026</h2>
-          <p class="venue">Legends Pub— Lafayette, LA</p>
-      <!--    <a href="https://www.youtube.com/watch?v=-hg2nxXHioo" target="_blank" rel="noopener" class="watch-link">Watch on YouTube →</a> -->
-        </div>
-      </div>
-      
-      <div class="archive-show">
-        <div class="archive-video short-video">
-          <iframe src="https://www.youtube.com/embed/H2ZKi9tcVrU"
-            title="Frozen Sun 2/21/26" frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen></iframe>
-        </div>
-        <div class="archive-details">
-          <h2>August 22, 2026</h2>
-          <p class="venue">Rock n Bowl - Lafayette, LA</p>
-          <a href="https://www.youtube.com/shorts/H2ZKi9tcVrU" target="_blank" rel="noopener" class="watch-link">Watch on YouTube →</a>
-        </div>
-      </div>
-
-      
-       <div class="archive-show">
-        <div class="archive-video">
-          <!-- <iframe src="https://www.youtube.com/embed/-hg2nxXHioo" 
-            title="Gloria's 7/18/26" frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen></iframe> -->
-        </div>
-        <div class="archive-details">
-          <h2>July 18, 2026</h2>
-          <p class="venue">Gloria's — Lafayette, LA</p>
-      <!--    <a href="https://www.youtube.com/watch?v=-hg2nxXHioo" target="_blank" rel="noopener" class="watch-link">Watch on YouTube →</a> -->
-        </div>
-      </div>
-
-      <div class="archive-show">
-        <div class="archive-video short-video">
-          <iframe src="https://www.youtube.com/embed/ZOvPCTSVaPM"
-            title="Legends Pub 5/2/26" frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen></iframe>
-        </div>
-        <div class="archive-details">
-          <h2>May 2, 2026</h2>
-          <p class="venue">Legends Pub — Lafayette, LA</p>
-          <a href="https://www.youtube.com/watch?v=ZOvPCTSVaPM" target="_blank" rel="noopener" class="watch-link">Watch on YouTube →</a>
-        </div>
-      </div>
-
-      <div class="archive-show">
-        <div class="archive-video short-video">
-          <iframe src="https://www.youtube.com/embed/Nn9TwPXHtVw"
-            title="Frozen Sun 2/21/26" frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen></iframe>
-        </div>
-        <div class="archive-details">
-          <h2>February 21, 2026</h2>
-          <p class="venue">Frozen Sun — Maurice, LA</p>
-          <a href="https://www.youtube.com/watch?v=Nn9TwPXHtVw" target="_blank" rel="noopener" class="watch-link">Watch on YouTube →</a>
-        </div>
-      </div>
-
-      <div class="archive-show">
-        <div class="archive-video">
-          <iframe src="https://www.youtube.com/embed/-hg2nxXHioo"
-            title="Gloria's 1/17/26" frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen></iframe>
-        </div>
-        <div class="archive-details">
-          <h2>January 17, 2026</h2>
-          <p class="venue">Gloria's — Lafayette, LA</p>
-          <a href="https://www.youtube.com/watch?v=-hg2nxXHioo" target="_blank" rel="noopener" class="watch-link">Watch on YouTube →</a>
-        </div>
-      </div>
-
-      <div class="archive-show">
-        <div class="archive-video short-video">
-          <iframe src="https://www.youtube.com/embed/EGiMKe_sge0"
-            title="Legends Pub 11/7/25" frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen></iframe>
-        </div>
-        <div class="archive-details">
-          <h2>November 7, 2025</h2>
-          <p class="venue">Legends Pub — Lafayette, LA</p>
-          <a href="https://www.youtube.com/watch?v=EGiMKe_sge0" target="_blank" rel="noopener" class="watch-link">Watch on YouTube →</a>
-        </div>
-      </div>
+      <div id="archive-list"></div>
+      <noscript><p style="color:var(--dim);">Please turn on JavaScript to see the archive, or visit our YouTube channel.</p></noscript>
 
     </div>
   </main>
@@ -281,6 +205,170 @@
       <span>Rock Cover Band</span>
     </div>
   </footer>
+
+  <script>
+    // ================================================================
+    // PAGE HEADER SLIDESHOW (Ken Burns, shuffled each visit)
+    // To add a photo, add its name on a new line (no .JPG, no -1600).
+    // Every line ends with a comma. Wide (landscape) photos work best here.
+    // ================================================================
+    const HEADER_PHOTOS = [
+        "DSC6445",
+        "TC_19thHole_111326_189",
+        "TC_19thHole_111326_26",
+        "TC_19thHole_111326_267",
+        "TC_Legends050226_14",
+        "TC_19thHole_111326_35",
+        "TC_Legends050226_15",
+        "TC_19thHole_111326_314",
+        "TC_Legends050226_16",
+        "TC_Legends050226_19",
+        "TC_19thHole_111326_491",
+        "TC_Legends050226_21",
+        "TC_19thHole_111326_103",
+        "TC_19thHole_111326_179",
+        "DSC6484",
+        "DSC3582",
+        "TC_19thHole_111326_778",
+        "DSC3224",
+        "TC_19thHole_111326_675",
+        "DSC3171",
+        "DSC2806",
+        "TC_19thHole_111326_798",
+        "DSC2815",
+        "TC_19thHole_111326_912",
+        "abifrozn2",
+        "DSC2965",
+        "TC_19thHole_111326_950",
+        "DSC2927"
+    ];
+
+    (function () {
+      const container = document.getElementById('header-slideshow');
+      if (!container || !HEADER_PHOTOS.length) return;
+
+      // shuffle (Fisher-Yates)
+      const names = HEADER_PHOTOS.slice();
+      for (let i = names.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [names[i], names[j]] = [names[j], names[i]];
+      }
+
+      const size = window.matchMedia('(max-width: 768px)').matches ? 900 : 1600;
+      const slides = names.map(name => {
+        const s = document.createElement('div');
+        s.className = 'kb-slide';
+        s.dataset.src = 'images/' + name + '-' + size + '.webp';
+        container.appendChild(s);
+        return s;
+      });
+
+      function loadSlide(s) {
+        if (s && s.dataset.src) {
+          s.style.backgroundImage = 'url(' + s.dataset.src + ')';
+          delete s.dataset.src;
+        }
+      }
+
+      let index = 0;
+      function showNext() {
+        slides.forEach(s => s.classList.remove('active'));
+        loadSlide(slides[index]);
+        slides[index].classList.add('active');
+        loadSlide(slides[(index + 1) % slides.length]);   // buffer: only the next photo
+        index = (index + 1) % slides.length;
+      }
+      showNext();
+      if (slides.length > 1) setInterval(showNext, 8000);
+    })();
+  </script>
+
+  <script>
+    // ================================================================
+    // ARCHIVE LIST — one line per show, newest first.
+    //   date:   text shown as the heading
+    //   venue:  text shown under it
+    //   video:  the YouTube video ID (the part after v= or /shorts/). Leave it out if there is no video.
+    //   short:  true for vertical YouTube Shorts, leave out for normal wide videos
+    //   photo:  for shows WITHOUT a video, a photo name (no .JPG, no -900) shown instead
+    // Every line ends with a comma.
+    // ================================================================
+    const ARCHIVE_SHOWS = [
+      { date: "November 13, 2026", venue: "19th Hole — Spring, TX",        video: "nt2JE8W6LeU", short: true },
+      { date: "August 29, 2026",   venue: "Legends Pub — Lafayette, LA",   photo: "TC_Legends050226_14" },
+      { date: "August 22, 2026",   venue: "Rock n Bowl — Lafayette, LA",   video: "H2ZKi9tcVrU", short: true },
+      { date: "July 18, 2026",     venue: "Gloria's — Lafayette, LA",      photo: "TC_glorias718_957" },
+      { date: "May 2, 2026",       venue: "Legends Pub — Lafayette, LA",   video: "ZOvPCTSVaPM", short: true },
+      { date: "February 21, 2026", venue: "Frozen Sun — Maurice, LA",      video: "Nn9TwPXHtVw", short: true },
+      { date: "January 17, 2026",  venue: "Gloria's — Lafayette, LA",      video: "-hg2nxXHioo" },
+      { date: "November 7, 2025",  venue: "Legends Pub — Lafayette, LA",   video: "EGiMKe_sge0", short: true }
+    ];
+
+    (function () {
+      const list = document.getElementById('archive-list');
+
+      function el(tag, className, text) {
+        const e = document.createElement(tag);
+        if (className) e.className = className;
+        if (text) e.textContent = text;
+        return e;
+      }
+
+      ARCHIVE_SHOWS.forEach(show => {
+        const title = show.venue + ' ' + show.date;
+        const card = el('div', 'archive-show');
+        const box = el('div', 'archive-video' + (show.short ? ' short-video' : ''));
+
+        if (show.video) {
+          // thumbnail first; swap in the real player on click
+          const btn = el('button', 'video-facade');
+          btn.type = 'button';
+          btn.setAttribute('aria-label', 'Play video: ' + title);
+          const thumb = el('img');
+          thumb.src = 'https://i.ytimg.com/vi/' + show.video + '/hqdefault.jpg';
+          thumb.alt = '';
+          thumb.loading = 'lazy';
+          thumb.decoding = 'async';
+          btn.appendChild(thumb);
+          btn.appendChild(el('span', 'play'));
+          btn.addEventListener('click', () => {
+            const frame = document.createElement('iframe');
+            frame.src = 'https://www.youtube.com/embed/' + show.video + '?autoplay=1&rel=0';
+            frame.title = title;
+            frame.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+            frame.allowFullscreen = true;
+            box.replaceChildren(frame);
+          });
+          box.appendChild(btn);
+        } else if (show.photo) {
+          box.classList.add('archive-photo');
+          const img = el('img');
+          img.src = 'images/' + show.photo + '-900.webp';
+          img.srcset = 'images/' + show.photo + '-480.webp 480w, images/' + show.photo + '-900.webp 900w';
+          img.sizes = '(max-width: 768px) 100vw, 420px';
+          img.alt = title;
+          img.loading = 'lazy';
+          img.decoding = 'async';
+          box.appendChild(img);
+        }
+
+        const details = el('div', 'archive-details');
+        details.appendChild(el('h2', '', show.date));
+        details.appendChild(el('p', 'venue', show.venue));
+        if (show.video) {
+          const a = el('a', 'watch-link', 'Watch on YouTube →');
+          a.href = (show.short ? 'https://www.youtube.com/shorts/' : 'https://www.youtube.com/watch?v=') + show.video;
+          a.target = '_blank';
+          a.rel = 'noopener';
+          details.appendChild(a);
+        }
+
+        card.appendChild(box);
+        card.appendChild(details);
+        list.appendChild(card);
+      });
+    })();
+  </script>
 
   <script src="shows-data.js"></script>
   <script src="nav.js"></script>
