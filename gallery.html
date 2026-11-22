@@ -13,6 +13,9 @@
     .gallery-masonry.js-cols { display: flex; align-items: flex-start; columns: auto; column-count: auto; }
     .gallery-col { flex: 1 1 0; min-width: 0; }
     .gallery-col .gallery-item { display: block; }
+    /* Each photo stays hidden until its whole row has downloaded, then the row fades in together */
+    .gallery-item img { opacity: 0; transition: opacity 0.6s ease, transform 0.4s ease, filter 0.4s ease; }
+    .gallery-item img.shown { opacity: 1; }
   </style>
         <!-- Favicon -->
 <link rel="icon" href="images/favicon/favicon.ico" type="image/x-icon">
@@ -187,7 +190,7 @@
         const name = parts[0].trim();
         const alt = (parts[1] || 'Thunder Child live').trim();
         const item = document.createElement('div');
-        item.className = 'gallery-item reveal';
+        item.className = 'gallery-item';
         item.setAttribute('role', 'listitem');
         const img = document.createElement('img');
         img.dataset.name = name;
@@ -242,10 +245,13 @@
       // A row must finish (or fail, or take over 4 seconds) before the next row starts.
       const pending = new Set();
       let busy = false;
+      function showIfReady(img) {
+        if (img._rowDone && img.complete && img.naturalWidth > 0) img.classList.add('shown');
+      }
       function start(img, done) {
         let finished = false;
         const end = () => { if (finished) return; finished = true; done(); };
-        img.addEventListener('load', end, { once: true });
+        img.addEventListener('load', () => { showIfReady(img); end(); });   // late arrivals still appear
         img.addEventListener('error', end, { once: true });
         setTimeout(end, 4000);
         const n = img.dataset.name;
@@ -260,7 +266,13 @@
         let left = row.length;
         row.forEach(img => {
           pending.delete(img);
-          start(img, () => { if (--left === 0) { busy = false; pump(); } });
+          start(img, () => {
+            if (--left === 0) {
+              row.forEach(r => { r._rowDone = true; showIfReady(r); });   // show the whole row at once
+              busy = false;
+              pump();
+            }
+          });
         });
       }
 
