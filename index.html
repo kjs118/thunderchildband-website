@@ -14,6 +14,7 @@
     .photo-carousel {
       position: relative;
       overflow: hidden;
+      overflow: clip;   /* clip can never be scrolled, so the photo strip can't get nudged sideways */
       background: var(--black);
       margin-top: 4px;
       border-top: 3px solid var(--gold);
@@ -28,9 +29,7 @@
     .carousel-slide {
       border-right: 3px solid var(--gold-dk);
     }
-    .carousel-slide:last-child {
-      border-right: none;
-    }
+    /* (no special case for the last slide: the loop puts it right next to the first one) */
     .carousel-slide {
       flex-shrink: 0;
     }
@@ -297,7 +296,7 @@
     // ---------------------------------------------------------------
     document.addEventListener('DOMContentLoaded', () => {
       const heroPhotos = [
-        "DSC6445",
+         	"DSC6445",
         "TC_19thHole_111326_189",
         "TC_19thHole_111326_26",
         "TC_19thHole_111326_267",
@@ -324,13 +323,7 @@
         "abifrozn2",
         "DSC2965",
         "TC_19thHole_111326_950",
-        "DSC2927",
-		"TC_rocknbowl_82210",
-		"TC_rocknbowl_8223",
-		"TC_rocknbowl_8225",
-		"TC_rocknbowl_8227",
-		"TC_rocknbowl_8228",
-		"TC_rocknbowl_8229",
+        "DSC2927"
       ];
       heroPhotos.sort(() => Math.random() - 0.5);
 
@@ -367,8 +360,9 @@
     });
 
     // ---------------------------------------------------------------
-    // PHOTO CAROUSEL: only loads photos near the current position,
-    // and doesn't start loading until the carousel is near the screen
+    // PHOTO CAROUSEL: endless loop. Slides that slide off the left are moved to the
+    // back of the line, so there is never an end or a rewind. Only photos near the
+    // current position load, and nothing starts until the carousel is near the screen.
     // ---------------------------------------------------------------
     (function() {
       const photos = [
@@ -400,7 +394,7 @@
         "TC_19thHole_111326_189",
         "TC_19thHole_111326_26",
         "TC_19thHole_111326_267",        
-	    "TC_19thHole_111326_35",
+	      "TC_19thHole_111326_35",
         "TC_19thHole_111326_314",
         "TC_19thHole_111326_491",
         "TC_19thHole_111326_103",
@@ -408,20 +402,12 @@
         "TC_19thHole_111326_778",
         "TC_19thHole_111326_912",
         "TC_19thHole_111326_950",
-		"TC_rocknbowl_82210",
-		"TC_rocknbowl_8223",
-		"TC_rocknbowl_8225",
-		"TC_rocknbowl_8227",
-		"TC_rocknbowl_8228",
-		"TC_rocknbowl_8229"
       ];
 
       const track = document.getElementById('carousel-track');
       const dotsContainer = document.getElementById('carousel-dots');
       const prevBtn = document.getElementById('carousel-prev');
       const nextBtn = document.getElementById('carousel-next');
-
-      let pos = 0;
       const total = photos.length;
 
       // Shuffle photos randomly
@@ -431,36 +417,34 @@
       const slideSize = IS_MOBILE ? 480 : 900;
 
       // Build empty placeholder slides (images load later, on demand)
-      photos.forEach(name => {
+      const slides = photos.map(name => {
         const slide = document.createElement('div');
         slide.className = 'carousel-slide';
         slide.style.width = Math.round(slideHeight * 1.5) + 'px'; // placeholder width
         slide.style.height = slideHeight + 'px';
         slide.dataset.src = 'images/' + name + '-' + slideSize + '.webp';
         track.appendChild(slide);
+        return slide;
       });
 
       // Build dots
-      photos.forEach((_, i) => {
+      const dots = photos.map((_, i) => {
         const dot = document.createElement('button');
         dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
         dot.setAttribute('aria-label', 'Go to photo ' + (i + 1));
-        dot.addEventListener('click', () => goTo(i));
+        dot.addEventListener('click', () => { goToPhoto(i); restartAuto(); });
         dotsContainer.appendChild(dot);
+        return dot;
       });
 
-      function getOffset(index) {
-        const slides = track.querySelectorAll('.carousel-slide');
-        let offset = 0;
-        for (let i = 0; i < index && i < slides.length; i++) {
-          offset += slides[i].offsetWidth + 3; // 3px border
-        }
-        return offset;
-      }
+      let current = 0;     // which photo is at the left edge
+      let busy = false;    // true while a slide animation is running
+      const wrap = i => ((i % total) + total) % total;
+      const widthOf = el => el.getBoundingClientRect().width;
 
       function loadSlide(i) {
-        const slide = track.children[i];
-        if (!slide || !slide.dataset.src) return;
+        const slide = slides[wrap(i)];
+        if (!slide.dataset.src) return;
         const src = slide.dataset.src;
         delete slide.dataset.src;
         const img = new Image();
@@ -470,33 +454,97 @@
           slide.style.width = 'auto';
           slide.style.height = 'auto';
           slide.appendChild(img);
-          // image now has its real width, so re-measure the position
-          requestAnimationFrame(() => {
-            track.style.transform = 'translateX(-' + getOffset(pos) + 'px)';
-          });
         };
         img.src = src;
       }
-
-      function goTo(index) {
-        pos = Math.min(Math.max(index, 0), total - 1);
-        // buffer: current photo, one behind, and a few ahead
-        for (let i = pos - 1; i <= pos + 4; i++) loadSlide(i);
-        requestAnimationFrame(() => {
-          track.style.transform = 'translateX(-' + getOffset(pos) + 'px)';
-        });
-        document.querySelectorAll('.carousel-dot').forEach((d, i) => {
-          d.classList.toggle('active', i === pos);
-        });
+      function loadNearby() {
+        for (let i = current - 1; i <= current + 5; i++) loadSlide(i);   // buffer: one behind, a few ahead
+      }
+      function updateDots() {
+        dots.forEach((d, i) => d.classList.toggle('active', i === current));
       }
 
-      prevBtn.addEventListener('click', () => { goTo(pos - 1); restartAuto(); });
-      nextBtn.addEventListener('click', () => { goTo(pos + 1); restartAuto(); });
+      // Run a slide, then call finish() when it is over
+      function animateTo(transform, finish) {
+        let ended = false;
+        const end = () => {
+          if (ended) return;
+          ended = true;
+          track.removeEventListener('transitionend', onEnd);
+          finish();
+        };
+        const onEnd = e => { if (e.target === track && e.propertyName === 'transform') end(); };
+        track.addEventListener('transitionend', onEnd);
+        setTimeout(end, 1000);   // safety net
+        track.style.transform = transform;
+      }
+      function resetTrack() {
+        track.style.transition = 'none';
+        track.style.transform = 'translateX(0)';
+        void track.offsetWidth;
+        track.style.transition = '';
+      }
+
+      // Move k photos forward (k > 0) or backward (k < 0)
+      function slideBy(k, animate) {
+        if (!k || busy) return;
+        busy = true;
+        const n = Math.abs(k);
+        const finish = () => {
+          current = wrap(current + k);
+          updateDots();
+          loadNearby();
+          busy = false;
+        };
+
+        if (k > 0) {
+          let dist = 0;
+          for (let i = 0; i < n; i++) dist += widthOf(track.children[i]);
+          const afterSlide = () => {
+            track.style.transition = 'none';
+            for (let i = 0; i < n; i++) track.appendChild(track.firstElementChild);   // first ones go to the back
+            resetTrack();
+            finish();
+          };
+          if (animate) animateTo('translateX(-' + dist + 'px)', afterSlide);
+          else afterSlide();
+        } else {
+          // bring the last n photos to the front (out of view on the left), then slide them in
+          track.style.transition = 'none';
+          const moved = Array.from(track.children).slice(-n);
+          const frag = document.createDocumentFragment();
+          moved.forEach(el => frag.appendChild(el));
+          track.insertBefore(frag, track.firstChild);
+          if (animate) {
+            let dist = 0;
+            for (let i = 0; i < n; i++) dist += widthOf(track.children[i]);
+            track.style.transform = 'translateX(-' + dist + 'px)';
+            void track.offsetWidth;
+            track.style.transition = '';
+            animateTo('translateX(0)', finish);
+          } else {
+            resetTrack();
+            finish();
+          }
+        }
+      }
+
+      // Dots: take the shortest way around; long jumps just snap
+      function goToPhoto(i) {
+        const delta = wrap(i - current);
+        if (!delta) return;
+        const k = delta <= total / 2 ? delta : delta - total;
+        for (let j = i - 1; j <= i + 5; j++) loadSlide(j);
+        slideBy(k, Math.abs(k) <= 3);
+      }
+
+      prevBtn.addEventListener('click', () => { slideBy(-1, true); restartAuto(); });
+      nextBtn.addEventListener('click', () => { slideBy(1, true); restartAuto(); });
 
       // Auto-advance
       let autoTimer = null;
       function startAuto() {
-        autoTimer = setInterval(() => goTo(pos + 1 >= total ? 0 : pos + 1), 4000);
+        autoTimer = setInterval(() => slideBy(1, true), 4000);
       }
       function restartAuto() {
         if (autoTimer) clearInterval(autoTimer);
@@ -508,7 +556,9 @@
       function startCarousel() {
         if (started) return;
         started = true;
-        goTo(0);
+        track.style.transform = 'translateX(0)';
+        loadNearby();
+        updateDots();
         startAuto();
       }
       if ('IntersectionObserver' in window) {
